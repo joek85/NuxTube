@@ -1,0 +1,27 @@
+{
+  "name": "Trooveo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.13.6",
+    "core-js": "^3.9.1",
+    "express": "^4.17.1",
+    "moment": "^2.29.1",
+    "nuxt": "^2.15.3",
+    "yt-channel-info": "^2.2.0",
+    "ytdl-core": "^4.8.2",
+    "ytsr": "^3.5.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/vuetify": "^1.11.3",
+    "eslint": "^7.28.0",
+    "yt-trending-scraper": "^2.0.1"
+  }
+}
