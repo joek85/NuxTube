@@ -1,7 +1,9 @@
 export const state = () => ({
   AudioPlayerData: {},
   showBottomSheet: false,
-  SearchResults: []
+  SearchResults: [],
+  showVideoDialog: false,
+  videoFullScreen: false
 });
 
 export const mutations = {
@@ -13,6 +15,12 @@ export const mutations = {
   },
   setSearchResults (state, results){
     state.SearchResults = results
+  },
+  showVideoDialog (state, show) {
+    state.showVideoDialog = show
+  },
+  setVideoFullScreen (state, fullscreen) {
+    state.videoFullScreen = fullscreen
   }
 };
 
@@ -25,6 +33,12 @@ export const getters = {
   },
   getSearchResults (state) {
     return state.SearchResults
+  },
+  getVideoDialog (state) {
+    return state.showVideoDialog
+  },
+  getVideoFullScreen (state) {
+    return state.videoFullScreen
   }
 };
 

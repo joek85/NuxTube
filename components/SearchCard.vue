@@ -45,13 +45,13 @@
                 </h5>
             </v-card-title>
             <v-col class="pl-0">
-              <v-chip v-if="data.duration" class="grey--text" small color="accent">{{data.duration}}</v-chip>
-              <v-chip v-if="data.isLive == true" small outlined color="red">LIVE</v-chip>
-              <v-chip class="grey--text" small color="accent">
+              <v-chip v-if="data.duration" class="grey--text" outlined small color="accent">{{data.duration}}</v-chip>
+              <v-chip v-if="data.isLive === true" small outlined color="red">LIVE</v-chip>
+              <v-chip class="grey--text" outlined small color="accent">
                 <v-icon>mdi-play</v-icon>
                 <span>{{getPlayCounts(data.views)}}</span>
               </v-chip>
-              <v-chip v-if="data.uploadedAt" class="grey--text" small color="accent">{{data.uploadedAt}}</v-chip>
+              <v-chip v-if="data.uploadedAt" class="grey--text" outlined small color="accent">{{data.uploadedAt}}</v-chip>
               <h3 class="subheading pt-2">
                 {{ data.description }}
               </h3>

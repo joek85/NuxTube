@@ -24,14 +24,14 @@
         {{ data.author.name }}
       </v-toolbar-title>
     </v-card-title>
-    <v-card-title class="pa-1 d-flex justify-space-around">
-      <v-chip v-if="data.duration" class="grey--text" small color="accent">{{data.duration}}</v-chip>
+    <v-card-title class="pa-1 d-flex ">
+      <v-chip v-if="data.duration" class="grey--text" outlined small color="accent">{{data.duration}}</v-chip>
       <v-chip v-if="data.isLive == true" small outlined color="red">LIVE</v-chip>
-      <v-chip class="grey--text" small color="accent">
+      <v-chip class="grey--text" outlined small color="accent">
         <v-icon>mdi-play</v-icon>
         <span>{{getPlayCounts(data.views)}}</span>
       </v-chip>
-      <v-chip v-if="data.uploadedAt" class="grey--text" small color="accent">{{data.uploadedAt}}</v-chip>
+      <v-chip v-if="data.uploadedAt" class="grey--text" outlined small color="accent">{{data.uploadedAt}}</v-chip>
     </v-card-title>
   </v-card>
 </template>

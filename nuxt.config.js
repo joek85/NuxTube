@@ -24,10 +24,12 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/vue-youtube.js',
+    {src:'~/plugins/vue-plyr.js', mode: 'client'}
   ],
   loading: {
     color: '#673ab7',
-    height: '5px',
+    height: '2px',
     continuous: false
   },
   // Auto import components: https://go.nuxtjs.dev/config-components

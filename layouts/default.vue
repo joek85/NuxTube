@@ -55,11 +55,36 @@
         </v-row>
     </v-app-bar>
     <v-main>
-      <v-container>
+      <v-container fluid>
         <nuxt />
+        <div style="">
+          <transition name="slide">
+            <div v-if="getShowVideoDialog" v-show="getShowVideoDialog" :class="{'fullscreen': getFullscreen, 'miniscreen': !getFullscreen}" >
+              <!--<v-col style="">-->
+                <v-sheet
+                  dark
+                  rounded="t-xl"
+                  class="primary text-right">
+                  <v-btn icon dark @click="toggleFullScreen">
+                    <v-icon>{{`mdi-${iconText}`}}</v-icon>
+                  </v-btn>
+                  <v-btn fab icon dark @click="hideVideoDialog">
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </v-sheet>
+                <v-card rounded="xl" class="" style=" height: 90%">
+
+                  <VideoPlayer :videoId="getVideoId"/>
+                </v-card>
+              <!--</v-col>-->
+
+            </div>
+          </transition>
+        </div>
+
       </v-container>
     </v-main>
-      <v-footer app color="transparent" class="pa-0" v-if="showBottomSheet">
+      <v-footer app color="transparent" class="pa-0" v-if="getBottomSheet" fixed>
         <transition name="bottom-sheet-transition">
           <div class="v-dialog v-bottom-sheet v-dialog--active v-dialog--persistent">
             <AudioPlayer></AudioPlayer>
@@ -71,16 +96,21 @@
 
 <script>
   import AudioPlayer from '../components/AudioPlayer.vue'
+  import VideoPlayer from '../components/VideoPlayer.vue'
+
   import { mapState, mapGetters } from 'vuex'
 export default {
   components: {
     AudioPlayer,
+    VideoPlayer
   },
   data () {
     return {
       clipped: true,
       drawer: false,
       fixed: false,
+      fullscreen: false,
+      iconText: 'fullscreen',
       items: [
         {
           icon: 'mdi-apps',
@@ -104,11 +134,80 @@ export default {
       if (this.searchQuery.length > 0){
         this.$router.push({name: 'search', query: {q: this.searchQuery}});
       }
-    }
+    },
+    toggleFullScreen (event) {
+      event.preventDefault();
+      this.fullscreen =! this.fullscreen;
+      if (this.fullscreen) {
+        this.iconText = 'fullscreen-exit';
+        document.documentElement.classList.add('overflow-y-hidden')
+      }else{
+        this.iconText = 'fullscreen';
+        document.documentElement.classList.remove('overflow-y-hidden')
+      }
+      this.$store.commit('setVideoFullScreen', this.fullscreen)
+    },
+    hideVideoDialog () {
+      document.documentElement.classList.remove('overflow-y-hidden')
+      this.$store.commit('showVideoDialog', false)
+    },
   },
-  computed: mapGetters({
-    showBottomSheet: 'getBottomSheet'
-  }),
+  computed: {
+    getBottomSheet () {
+      return this.$store.getters.getBottomSheet
+    },
+    getFullscreen () {
+      return this.fullscreen
+    },
+    getShowVideoDialog () {
+      return this.$store.getters.getVideoDialog
+    },
+    getVideoId () {
+      return this.$store.getters.getAudioPlayerData.id
+    },
+  },
 
 }
 </script>
+
+<style scoped>
+  /*>>>.v-dialog:not(.v-dialog--fullscreen){*/
+    /*width: 25%;*/
+    /*height: 25%;*/
+    /*bottom: 0 !important;*/
+    /*right: 0 !important;*/
+    /*position: absolute !important;*/
+  /*}*/
+  .slide-enter-active,
+  .fslide-leave-active {
+    transition: transform 0.5s;
+  }
+
+  .slide-enter,
+  .slide-leave-to {
+    transform: translateY(100vh);
+  }
+
+  .slide-enter-to,
+  .slide-leave {
+    transform: translateY(0);
+  }
+  .miniscreen {
+    width: 25%;
+    height: 30%;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    transition: all .5s ease;
+    z-index: 999;
+  }
+  .fullscreen {
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    transition: all .5s ease;
+    z-index: 999;
+  }
+</style>

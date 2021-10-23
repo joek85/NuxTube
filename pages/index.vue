@@ -14,15 +14,15 @@
 
 export default {
   components: {},
-  async asyncData({params, $axios, store}) {
-    const results = await $axios.$get('/api/trending', {
-      params: {
-//        id: params.id
-      }
-    });
-//    console.log(results);
-
-    return { results }
-  },
+//   async asyncData({params, $axios, store}) {
+// //     const results = await $axios.$get('/api/trending', {
+// //       params: {
+// // //        id: params.id
+// //       }
+// //     });
+// //    console.log(results);
+//
+//     return { results }
+//   },
 }
 </script>

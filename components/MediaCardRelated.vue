@@ -26,24 +26,24 @@
         </v-list>
       </v-menu>
     </h3>
-    <v-card-title class="pa-1">
+    <v-card-title class="ma-0">
       <NuxtLink class="nuxt-link-exact-active pa-0" :to="{name: 'channel-id', params: {id: data.channel_id } }">
-        <v-avatar size="36">
+        <v-avatar size="24">
           <img :src="data.author.thumbnails[0].url">
         </v-avatar>
       </NuxtLink>
-      <v-card-title class="pa-1 grey--text">
+      <v-card-subtitle class="pa-1 grey--text">
         {{ data.subtitle }}
-      </v-card-title>
+      </v-card-subtitle>
     </v-card-title>
-    <v-card-title class="pa-2 d-flex justify-space-around">
-        <v-chip v-if="data.duration" class="grey--text" small color="accent">{{convertTime(data.duration)}}</v-chip>
-        <v-chip v-if="data.isLive == true" small outlined color="red">LIVE</v-chip>
-        <v-chip class="grey--text" small color="accent">
+    <v-card-title class="pa-2 d-flex">
+        <v-chip v-if="data.duration" class="grey--text ma-1" small outlined color="accent">{{data.duration}}</v-chip>
+        <v-chip v-if="data.isLive == true" small outlined color="red" class="ma-1">LIVE</v-chip>
+        <v-chip class="grey--text ma-1" small outlined color="accent">
           <v-icon>mdi-play</v-icon>
           <span>{{data.playcounts}}</span>
         </v-chip>
-        <v-chip v-if="data.published" class="grey--text" small color="accent">{{data.published}}</v-chip>
+        <v-chip v-if="data.published" class="grey--text ma-1" small outlined color="accent">{{data.published}}</v-chip>
       </v-card-title>
 
   </v-card>

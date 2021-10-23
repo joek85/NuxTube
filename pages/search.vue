@@ -2,10 +2,10 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <h2 class="card-title">{{SearchResults.originalQuery}}</h2>
+        <v-card-title class="pa-0">Searching for {{SearchResults.originalQuery}}</v-card-title>
       </v-col>
       <v-col cols="12">
-        <h3 class="title">{{'Showing ' + SearchResults.results + ' results'}}</h3>
+        <v-card-title class="pa-0">{{'Showing ' + SearchResults.results + ' results'}}</v-card-title>
       </v-col>
       <v-col cols="12">
         <v-card class="elevation-0 transparent">
@@ -15,7 +15,7 @@
               :key="item.q" v-slot="{ active, toggle }">
               <v-card @click="toggle" class="rounded-card " width="180">
                 <router-link :to="{name: 'search', query: {q: item.q } }">
-                  <v-img :src="item.bestThumbnail.url" contain height="120px">
+                  <v-img :src="item.bestThumbnail.url" contain height="">
                     <template v-slot:placeholder>
                       <v-row class="fill-height pa-0">
                         <v-col cols="12">

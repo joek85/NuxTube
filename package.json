@@ -14,8 +14,12 @@
     "express": "^4.17.1",
     "moment": "^2.29.1",
     "nuxt": "^2.15.3",
+    "vue-linkify": "^1.0.1",
+    "vue-plyr": "^7.0.0",
+    "vue-youtube": "^1.4.0",
+    "yt-audio": "file:../../yt-audio",
     "yt-channel-info": "^2.2.0",
-    "ytdl-core": "^4.8.2",
+    "ytdl-core": "latest",
     "ytsr": "^3.5.0"
   },
   "devDependencies": {
