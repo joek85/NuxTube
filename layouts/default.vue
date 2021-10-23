@@ -72,7 +72,7 @@
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
                 </v-sheet>
-                <v-card rounded="xl" class="" style=" height: 90%">
+                <v-card class="" style=" height: 90%">
 
                   <VideoPlayer :videoId="getVideoId"/>
                 </v-card>
