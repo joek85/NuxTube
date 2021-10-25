@@ -55,33 +55,28 @@
         </v-row>
     </v-app-bar>
     <v-main>
-      <v-container fluid>
+      <v-container fluid ref="container">
         <nuxt />
-        <div style="">
-          <transition name="slide">
-            <div v-if="getShowVideoDialog" v-show="getShowVideoDialog" :class="{'fullscreen': getFullscreen, 'miniscreen': !getFullscreen}" >
-              <!--<v-col style="">-->
-                <v-sheet
-                  dark
-                  rounded="t-xl"
-                  class="primary text-right">
-                  <v-btn icon dark @click="toggleFullScreen">
-                    <v-icon>{{`mdi-${iconText}`}}</v-icon>
-                  </v-btn>
-                  <v-btn fab icon dark @click="hideVideoDialog">
-                    <v-icon>mdi-close</v-icon>
-                  </v-btn>
-                </v-sheet>
-                <v-card class="" style=" height: 90%">
+        <div class="wrapper__content">
+          <div v-if="getShowVideoDialog" v-show="getShowVideoDialog" :class="{'fullscreen': getFullscreen, 'video__content': !getFullscreen}">
+            <v-card style="height: inherit">
+              <v-toolbar
+                dark
+                dense
+                class="primary ">
+                <v-spacer></v-spacer>
+                <v-btn icon dark @click="toggleFullScreen">
+                  <v-icon>{{`mdi-${iconText}`}}</v-icon>
+                </v-btn>
+                <v-btn fab icon dark @click="hideVideoDialog">
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+              </v-toolbar>
+              <video-player :videoId="getVideoId"></video-player>
 
-                  <VideoPlayer :videoId="getVideoId"/>
-                </v-card>
-              <!--</v-col>-->
-
-            </div>
-          </transition>
+            </v-card>
+          </div>
         </div>
-
       </v-container>
     </v-main>
       <v-footer app color="transparent" class="pa-0" v-if="getBottomSheet" fixed>
@@ -103,6 +98,10 @@ export default {
   components: {
     AudioPlayer,
     VideoPlayer
+  },
+  mounted () {
+    window.addEventListener("resize", this.resizeEventHandler);
+    this.setWindowSize()
   },
   data () {
     return {
@@ -148,9 +147,23 @@ export default {
       this.$store.commit('setVideoFullScreen', this.fullscreen)
     },
     hideVideoDialog () {
-      document.documentElement.classList.remove('overflow-y-hidden')
+      document.documentElement.classList.remove('overflow-y-hidden');
       this.$store.commit('showVideoDialog', false)
+      // console.log(this.$refs.hi.$el)
+      // console.log(this.$refs.videocard.$el.clientHeight)
+
     },
+    resizeEventHandler() {
+      console.log(window.innerHeight)
+    },
+    setWindowSize () {
+      this.$store.commit('setWindowSize', window.innerHeight)
+    }
+  },
+  created() {
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.resizeEventHandler);
   },
   computed: {
     getBottomSheet () {
@@ -165,12 +178,15 @@ export default {
     getVideoId () {
       return this.$store.getters.getAudioPlayerData.id
     },
+    // getHeight () {
+    //   return this.$refs.videocard.$el.clientHeight
+    // }
   },
 
 }
 </script>
 
-<style scoped>
+<style lang="css" scoped>
   /*>>>.v-dialog:not(.v-dialog--fullscreen){*/
     /*width: 25%;*/
     /*height: 25%;*/
@@ -193,21 +209,53 @@ export default {
     transform: translateY(0);
   }
   .miniscreen {
-    width: 25%;
-    height: 30%;
+    /*background-color: #673ab7;*/
+    position: absolute;
     right: 0;
-    bottom: 0;
-    position: fixed;
+    /*background-color: #673ab7;*/
+    margin: 24px;
+    width: 20%;
+    height: 30%;
     transition: all .5s ease;
     z-index: 999;
   }
   .fullscreen {
-    width: 100%;
+    border-radius: 0;
+    margin: 0;
     height: 100%;
-    bottom: 0;
-    right: 0;
     position: fixed;
-    transition: all .5s ease;
-    z-index: 999;
+    pointer-events: auto;
+    top: 0;
+    left: 0;
+    transition: .3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    width: 100%;
+    z-index: inherit;
+    box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
+    transform-origin: center center 0;
+  }
+  .wrapper__content {
+    align-items: end;
+    display: flex;
+    height: 100%;
+    justify-content: end;
+    left: 0;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    transition: 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), z-index 1ms;
+    width: 100%;
+    z-index: 202;
+    outline: none;
+  }
+  .video__content {
+    border-radius: 4px;
+    margin: 24px;
+    overflow-y: auto;
+    pointer-events: auto;
+    transition: .3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    width: 25%;
+    z-index: inherit;
+    box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
+    transform-origin: center center;
   }
 </style>

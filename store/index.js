@@ -2,8 +2,9 @@ export const state = () => ({
   AudioPlayerData: {},
   showBottomSheet: false,
   SearchResults: [],
-  showVideoDialog: false,
-  videoFullScreen: false
+  showVideoDialog: true,
+  videoFullScreen: false,
+  windowSize: 0
 });
 
 export const mutations = {
@@ -21,6 +22,9 @@ export const mutations = {
   },
   setVideoFullScreen (state, fullscreen) {
     state.videoFullScreen = fullscreen
+  },
+  setWindowSize (state, size) {
+    state.windowSize = size
   }
 };
 
@@ -39,6 +43,9 @@ export const getters = {
   },
   getVideoFullScreen (state) {
     return state.videoFullScreen
+  },
+  getWindowSize (state) {
+    return state.windowSize
   }
 };
 

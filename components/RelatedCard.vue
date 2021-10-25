@@ -62,11 +62,11 @@
         }
       },
       handleScroll() {
-        let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
-
-        if (bottomOfWindow && this.fetched) {
-          setTimeout(this.loadMore(this.posts.continuation), 1000)
-        }
+        // let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
+        //
+        // if (bottomOfWindow && this.fetched) {
+        //   setTimeout(this.loadMore(this.posts.continuation), 1000)
+        // }
       }
     },
     mounted() {

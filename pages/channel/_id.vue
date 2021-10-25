@@ -29,7 +29,7 @@
         </v-card>
       </v-col>
       <v-col cols="12">
-        <v-tabs fixed-tabs show-arrows background-color="secondary" dark  v-model="tab">
+        <v-tabs centered show-arrows background-color="primary" dark  v-model="tab">
           <v-tabs-slider></v-tabs-slider>
           <v-tab
             v-for="item in items"
