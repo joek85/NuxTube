@@ -2,7 +2,7 @@
   <v-card class="rounded-card mb-1">
     <v-row >
       <v-col sm="12" xl="4">
-        <NuxtLink class="subheading " :to="{name: 'player-id', params: {id: data.id}}">
+        <NuxtLink :to="{name: 'player-id', params: {id: data.id}}">
           <v-img class="pa-0 ma-1"
             aspect-ratio="1.7"
             :src="data.thumbnail[0].url.split('?')[0]">
@@ -18,8 +18,8 @@
       </v-col>
       <v-col sm="12" xl="8" class="pa-0">
         <v-card-title>
-          <div class="d-flex justify-space-between">
-            <NuxtLink :to="{name: 'player-id', params: {id: data.id}}"> {{ data.title }}</NuxtLink>
+          <div class="d-flex justify-space-around">
+            <NuxtLink  class="" :to="{name: 'player-id', params: {id: data.id}}"> {{ data.title }}</NuxtLink>
             <v-menu bottom left>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn dark icon v-bind="attrs" v-on="on">

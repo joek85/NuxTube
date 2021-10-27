@@ -1,52 +1,54 @@
 <template>
-  <v-container>
-    <v-row justify="space-between">
-      <v-col cols="12">
-        <v-card>
-          <v-img max-height="200" :src="results.authorBanners[results.authorBanners.length - 1].url">
-            <template v-slot:placeholder>
-              <v-row class="fill-height pa-0">
-                <v-col cols="12">
-                  <v-skeleton-loader type="image"></v-skeleton-loader>
-                </v-col>
-              </v-row>
-            </template>
-          </v-img>
-        </v-card>
-      </v-col>
-      <v-col cols="12">
-        <v-card>
-          <v-card-title>
-            <v-avatar size="96">
-              <img :src="results.authorThumbnails[results.authorThumbnails.length - 1].url">
-            </v-avatar>
-            <v-list-item-content class="ml-2">
-              <v-toolbar-title>{{results.author}}</v-toolbar-title>
-              <v-toolbar-title class="grey--text text-h6">{{results.subscriberText}}</v-toolbar-title>
-              <v-toolbar-title class="grey--text">{{results.description}}</v-toolbar-title>
-            </v-list-item-content>
-          </v-card-title>
-        </v-card>
-      </v-col>
-      <v-col cols="12">
-        <v-tabs centered show-arrows background-color="primary" dark  v-model="tab">
-          <v-tabs-slider></v-tabs-slider>
-          <v-tab
-            v-for="item in items"
-            :key="item"
-          >
-            {{ item }}
-          </v-tab>
-        </v-tabs>
-        <v-tabs-items v-model="tab">
-          <v-tab-item>
-            <channel-videos :channelId="results.authorId"></channel-videos>
-          </v-tab-item>
-        </v-tabs-items>
-      </v-col>
-    </v-row>
+  <v-card>
+    <v-card v-if="results.header.banner.length">
+      <v-img class="imgStyle" :src="results.header.banner[results.header.banner.length - 1].url">
 
-  </v-container>
+      </v-img>
+    </v-card>
+    <v-container>
+      <v-card class="mb-2">
+        <v-card-title>
+          <v-avatar size="88">
+            <img :src="results.header.avatar[results.header.avatar.length - 1].url">
+          </v-avatar>
+          <v-list-item-content class="ml-2">
+            <v-toolbar-title>{{results.header.title}}</v-toolbar-title>
+            <v-toolbar-title class="grey--text subtitle-1">{{results.header.subscribers}}</v-toolbar-title>
+            <v-toolbar-title class="grey--text subtitle-2">{{results.header.descriptions}}</v-toolbar-title>
+          </v-list-item-content>
+        </v-card-title>
+      </v-card>
+      <!--</v-col>-->
+      <!--<v-col cols="12">-->
+      <v-tabs show-arrows background-color="primary" dark v-model="tab" class="mb-2">
+        <v-tabs-slider></v-tabs-slider>
+        <v-tab
+          v-for="item in results.items"
+          :key="item.tabs.title"
+        >
+          {{ item.tabs.title }}
+        </v-tab>
+      </v-tabs>
+      <v-tabs-items v-model="tab">
+        <v-tab-item v-for="item in results.items"
+                    :key="item.tabs.title">
+          <component :is="getCardType(item.tabs.title)" :data="item.tabs.items"/>
+        </v-tab-item>
+      </v-tabs-items>
+
+      <!--</v-col>-->
+      <!--</v-row>-->
+
+    </v-container>
+  </v-card>
+  <!--<v-container fluid>-->
+    <!--<v-row >-->
+      <!--<v-col cols="12">-->
+
+  <!--</v-container>-->
+      <!--</v-col>-->
+      <!--<v-col cols="12">-->
+
 </template>
 <script>
   import ChannelVideos from '../../components/ChannelVideos.vue'
@@ -62,6 +64,11 @@
         ],
       }
     },
+    head() {
+      return {
+        title: this.results.header.title
+      };
+    },
     async asyncData({params, $axios, store}) {
       const results = await $axios.$get('/api/channel', {
         params: {
@@ -71,5 +78,19 @@
       console.log(results);
       return { results }
     },
+    methods: {
+      getCardType (type) {
+        switch (type){
+          case 'Home':
+            return 'ChannelVideos';
+        }
+      },
+    },
+
   }
 </script>
+<style scoped>
+  .imgStyle {
+    height: calc((100vw - 240px) / 6.2 - 1px);
+  }
+</style>

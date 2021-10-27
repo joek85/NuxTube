@@ -4,6 +4,6 @@ import 'vue-plyr/dist/vue-plyr.css'
 
 Vue.use(VuePlyr, {
   plyr: {
-    volume: '0'
+    ratio: '16:9'
   }
-})
+});

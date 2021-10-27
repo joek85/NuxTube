@@ -7,9 +7,6 @@
                :key="related.id">
           <MediaCardRelatedHorizontal :data="related"></MediaCardRelatedHorizontal>
         </v-col>
-        <!--<v-col cols="12" class="d-flex justify-center">-->
-        <!--<v-btn rounded color="primary" dark @click="loadMore(posts.continuation)">loadmore</v-btn>-->
-        <!--</v-col>-->
         <v-col cols="12">
           <div class="text-center pa-1" v-if="$fetchState.pending">
             <v-progress-circular

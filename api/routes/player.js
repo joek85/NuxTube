@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
   // });
   ytaudio.getPlayerdata(id).then(videodetails => {
     let out = [];
-    out = [{id: id, title: videodetails.title, subtitle: videodetails.author, thumbnail: videodetails.thumbnails[videodetails.thumbnails.length-1],
+    out = [{id: id, title: videodetails.title, authorThumbnail: videodetails.authorThumbnail , subtitle: videodetails.author, thumbnail: videodetails.thumbnails[videodetails.thumbnails.length-1],
       duration: videodetails.lengthSeconds, play_counts: videodetails.viewCount, published_at: videodetails.publishDate,
       tags: videodetails.tags, channel_id: videodetails.channelId, description: videodetails.description,
       formats: {url: videodetails.audioFormats}, related: [], isLive: videodetails.isLive, author: videodetails.author}];
@@ -44,10 +44,12 @@ async function getinfos(id) {
 function parseRelated(related) {
   let items = [];
   for ( let i = 0; i < related.length; i++ ) {
-    if (related[i].author.id !== 'UCzKaBQDTjmqL1GLwJfxtqXg' && related[i].author.id !== 'UCX4sShAQf01LYjYQhG2ZgKg' && related[i].author.id !== 'UCjQFgnpxDY2b86b0sKp36dg'){
-      items.push({id: related[i].id, title : related[i].title, subtitle: related[i].author.name, duration: related[i].length_seconds, playcounts: related[i].short_view_count_text, thumbnail: related[i].thumbnails,
-        isLive: related[i].isLive, channel_id: related[i].author.id, published: related[i].published, author: related[i].author
-      })
+    if (related[i].type === 'video') {
+      if (related[i].author.id !== 'UCzKaBQDTjmqL1GLwJfxtqXg' && related[i].author.id !== 'UCX4sShAQf01LYjYQhG2ZgKg' && related[i].author.id !== 'UCjQFgnpxDY2b86b0sKp36dg'){
+        items.push({id: related[i].id, title : related[i].title, subtitle: related[i].author.name, duration: related[i].length_seconds, playcounts: related[i].short_view_count_text, thumbnail: related[i].thumbnails,
+          isLive: related[i].isLive, channel_id: related[i].author.id, published: related[i].published, author: related[i].author
+        })
+      }
     }
   }
   return items

@@ -29,7 +29,7 @@ export default {
   ],
   loading: {
     color: '#673ab7',
-    height: '2px',
+    height: '4px',
     continuous: false
   },
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -111,6 +111,16 @@ export default {
             path: ':id',
             component: 'pages/channel/_id.vue',
             name: 'channel-id'
+          },
+          {
+            path: '',
+            component: 'pages/playlist/index.vue',
+            name: 'channel',
+          },
+          {
+            path: ':id',
+            component: 'pages/playlist/_id.vue',
+            name: 'playlist-id'
           }
         ]
       },

@@ -1,10 +1,10 @@
 <template >
   <v-card flat >
     <v-col class="d-flex justify-center flex-column">
-      <vue-plyr :key="videoId"  :style="{'height': getHeight}">
+      <vue-plyr :key="videoId" :style="{'height': getHeight}">
         <div class="plyr__video-embed">
           <iframe
-            style="width: inherit; border: transparent"
+            style="border: transparent"
             :src="`https://www.youtube.com/embed/${videoId + params}`"
             allowfullscreen
             allowtransparency
@@ -50,6 +50,9 @@
       },
       getHeight () {
         return this.getFullScreen ? this.$store.getters.getWindowSize - 64 + 'px' : '100%';
+      },
+      getIframeHeight () {
+        return this.getFullScreen ? this.$store.getters.getWindowSize + 'px' : ''
       }
     }
   }
@@ -57,13 +60,8 @@
 <style scoped>
   .plyr {
     height: inherit;
+    --plyr-color-main: red;
   }
 
-  .plyr__video-embed {
-    height: inherit;
-  }
-  .plyr__video-wrapper {
-    height: inherit;
-  }
 </style>
 

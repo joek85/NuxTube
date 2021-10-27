@@ -25,7 +25,7 @@
                           dark
                           color="primary"
                           x-large>
-                          <v-icon x-large color="white">mdi-fullscreen</v-icon>
+                          <v-icon x-large color="white">mdi-video-outline</v-icon>
                         </v-btn>
                       </v-overlay>
                     </v-fade-transition>
@@ -37,19 +37,19 @@
               <v-card-title class="text-h4 font-weight-bold">
                 {{ results[0].title }}
               </v-card-title>
-              <v-card-subtitle class="">
+              <v-card-title class="d-flex justify-space-around pt-0">
                 <NuxtLink class="nuxt-link-exact-active" :to="{name: 'channel-id', params: {id: results[0].channel_id } }">
                   <!--<v-avatar size="36">-->
-                  <!--<img :src="results[0].thumbnail.url">-->
+                  <!--<img :src="results[0].authorThumbnail">-->
                   <!--</v-avatar>-->
                 </NuxtLink>
-                <v-list-item-content class="">
+                <v-list-item-content class="pl-2">
                   <NuxtLink class="nuxt-link-exact-active" :to="{name: 'channel-id', params: {id: results[0].channel_id } }">
                     <v-toolbar-title>{{results[0].author}}</v-toolbar-title>
                   </NuxtLink>
                   <!--<v-toolbar-title v-if="results[0].author" class="grey&#45;&#45;text">{{getPlayCounts(results[0].author) + ' Subscribers'}}</v-toolbar-title>-->
                 </v-list-item-content>
-              </v-card-subtitle>
+              </v-card-title>
               <v-card-title class="pt-0 d-flex">
                 <v-chip v-if="results[0].duration !== `0`" class="grey--text mr-2" outlined color="accent">{{convertTime(results[0].duration)}}</v-chip>
                 <v-chip v-if="results[0].isLive == true" outlined color="red" class="mr-2">LIVE</v-chip>
@@ -127,7 +127,7 @@
           url: results[0].formats.url,
           id: params.id
         });
-        store.commit('showBottomSheet', true);
+        // store.commit('showBottomSheet', true);
 
       return { results }
     },

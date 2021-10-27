@@ -2,7 +2,7 @@ export const state = () => ({
   AudioPlayerData: {},
   showBottomSheet: false,
   SearchResults: [],
-  showVideoDialog: true,
+  showVideoDialog: false,
   videoFullScreen: false,
   windowSize: 0
 });

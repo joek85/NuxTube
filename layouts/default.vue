@@ -55,7 +55,7 @@
         </v-row>
     </v-app-bar>
     <v-main>
-      <v-container fluid ref="container">
+      <!--<v-container ref="container">-->
         <nuxt />
         <div class="wrapper__content">
           <div v-if="getShowVideoDialog" v-show="getShowVideoDialog" :class="{'fullscreen': getFullscreen, 'video__content': !getFullscreen}">
@@ -77,7 +77,7 @@
             </v-card>
           </div>
         </div>
-      </v-container>
+      <!--</v-container>-->
     </v-main>
       <v-footer app color="transparent" class="pa-0" v-if="getBottomSheet" fixed>
         <transition name="bottom-sheet-transition">
@@ -149,12 +149,10 @@ export default {
     hideVideoDialog () {
       document.documentElement.classList.remove('overflow-y-hidden');
       this.$store.commit('showVideoDialog', false)
-      // console.log(this.$refs.hi.$el)
-      // console.log(this.$refs.videocard.$el.clientHeight)
 
     },
     resizeEventHandler() {
-      console.log(window.innerHeight)
+      // console.log(window.innerHeight)
     },
     setWindowSize () {
       this.$store.commit('setWindowSize', window.innerHeight)
@@ -178,9 +176,6 @@ export default {
     getVideoId () {
       return this.$store.getters.getAudioPlayerData.id
     },
-    // getHeight () {
-    //   return this.$refs.videocard.$el.clientHeight
-    // }
   },
 
 }
@@ -234,10 +229,10 @@ export default {
     transform-origin: center center 0;
   }
   .wrapper__content {
-    align-items: end;
+    align-items: flex-end;
     display: flex;
     height: 100%;
-    justify-content: end;
+    justify-content: flex-end;
     left: 0;
     pointer-events: none;
     position: fixed;

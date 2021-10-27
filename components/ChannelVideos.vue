@@ -1,36 +1,41 @@
 <template>
-  <v-row>
-    <v-col sm="6"
-           md="4"
-           lg="4"
-           xl="2"
-           v-for="item in results.items"
-           :key="item.videoId">
-      <!--<MediaCardRelated :data="item"></MediaCardRelated>-->
+
+  <v-row >
+
+    <v-col cols="12" class=""
+           v-for="item in data"
+           :key="item.title">
+    <component :is="getCardType(item.type)" :type="(item.videos ? item.videos.type : '')" :data="item"/>
     </v-col>
   </v-row>
+
 </template>
 <script>
-  import MediaCard from '../components/MediaCardRelated.vue'
+
+  import ShelfCard from '../components/ShelfCard'
   export default {
     components: {
-      MediaCard
+      ShelfCard
     },
     props: {
-      channelId: '',
+      data: [],
     },
     data() {
       return {
-        results: []
+
       }
     },
-    async fetch() {
-      this.results = await this.$axios.$get('/api/channel/videos', {
-        params: {
-          channelId: this.channelId
+    mounted() {
+      console.log(this.$props.data)
+    },
+    methods: {
+      getCardType (type) {
+        console.log(type)
+        switch (type){
+          case 'shelf':
+            return 'ShelfCard';
         }
-      });
-      console.log(this.results)
+      },
     }
   }
 </script>
