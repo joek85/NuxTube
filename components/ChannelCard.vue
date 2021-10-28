@@ -1,53 +1,49 @@
 <template>
-  <v-row justify="space-around">
-    <v-col cols="12">
-      <v-card class="elevation-0 pa-2">
-        <v-row>
-          <v-col cols="12" sm="2">
-            <v-card-title class="pa-2 align-center justify-center align-content-center">
-              <NuxtLink :to="{name: 'channel-id', params: {id: data.channelID } }">
-                <v-avatar size="96"
-                          class="">
-                  <v-img :src="data.bestAvatar.url"></v-img>
-                </v-avatar>
-              </NuxtLink>
-            </v-card-title>
+  <v-card class="elevation-4">
+    <v-row>
+      <v-col md="3" sm="12">
+        <v-col class="d-flex justify-center flex-column">
+          <vue-plyr :key="data.videoId">
+            <div class="plyr__video-embed">
+              <iframe
+                style="border: transparent"
+                :src="`https://www.youtube.com/embed/${data.videoId + params}`"
+                allowfullscreen
+                allowtransparency
+              ></iframe>
+            </div>
+          </vue-plyr>
+        </v-col>
+      </v-col>
+      <v-col md="9" sm="12">
+        <v-card-title class="font-weight-bold">{{ data.title }}</v-card-title>
+        <v-card-title class="subtitle-1 pt-0">{{ data.description }}</v-card-title>
+        <v-card-actions class="pt-0">
+          <v-chip class="grey--text mr-2" outlined color="accent">{{data.views}}</v-chip>
+          <v-chip v-if="data.published" class="grey--text" outlined color="accent">{{data.published}}</v-chip>
+        </v-card-actions>
+      </v-col>
+    </v-row>
 
-          </v-col>
-          <v-col cols="12" sm="10" class="pa-0">
-            <NuxtLink :to="{name: 'channel-id', params: {id: data.channelID } }">
-                <v-card-title class="headline pa-1">{{data.name}}</v-card-title>
-            </NuxtLink>
-            <v-toolbar-title class="grey--text pa-1">{{data.subscribers + ' - ' + data.videos + ' videos'}}</v-toolbar-title>
-            <v-toolbar-title class="pa-1">{{data.descriptionShort}}</v-toolbar-title>
-          </v-col>
-        </v-row>
-      </v-card>
-    </v-col>
-  </v-row>
+  </v-card>
 
 </template>
 
 <script>
-    export default {
-        props: {
-            data: Object
-        },
-        data () {
-            return {}
-        },
-        watch: {
-        },
-        created () {
-
-        },
-        mounted () {
-        },
-        methods: {
-
-        },
-        computed: {
-
+  export default {
+    props: {
+        data: {}
+    },
+    data () {
+        return {
+          params: '?amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1'
         }
+    },
+    methods: {
+
+    },
+    computed: {
+
     }
+  }
 </script>

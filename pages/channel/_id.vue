@@ -18,8 +18,6 @@
           </v-list-item-content>
         </v-card-title>
       </v-card>
-      <!--</v-col>-->
-      <!--<v-col cols="12">-->
       <v-tabs show-arrows background-color="primary" dark v-model="tab" class="mb-2">
         <v-tabs-slider></v-tabs-slider>
         <v-tab
@@ -35,26 +33,16 @@
           <component :is="getCardType(item.tabs.title)" :data="item.tabs.items"/>
         </v-tab-item>
       </v-tabs-items>
-
-      <!--</v-col>-->
-      <!--</v-row>-->
-
     </v-container>
   </v-card>
-  <!--<v-container fluid>-->
-    <!--<v-row >-->
-      <!--<v-col cols="12">-->
-
-  <!--</v-container>-->
-      <!--</v-col>-->
-      <!--<v-col cols="12">-->
-
 </template>
 <script>
-  import ChannelVideos from '../../components/ChannelVideos.vue'
+  import ChannelHome from '../../components/ChannelHome.vue'
+  import ChannelPlaylists from '../../components/ChannelPlaylists.vue'
   export default {
     components: {
-      ChannelVideos
+      ChannelHome,
+      ChannelPlaylists
     },
     data () {
       return {
@@ -82,7 +70,9 @@
       getCardType (type) {
         switch (type){
           case 'Home':
-            return 'ChannelVideos';
+            return 'ChannelHome';
+          case 'Playlists':
+            return 'ChannelPlaylists';
         }
       },
     },

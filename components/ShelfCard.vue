@@ -1,17 +1,15 @@
 <template>
-
-    <v-card flat>
-      <v-card-title class="pb-0"> {{ data.title }}</v-card-title>
-      <v-toolbar-title class="grey--text ml-4 mt-0 subtitle-2"> {{ data.subtitle }}</v-toolbar-title>
-      <v-slide-group show-arrows @change="cardClick">
-        <v-slide-item class="ma-2"
-                      v-for="item in data.videos.items"
-                      :key="item.videoId">
-          <component :is="getCardType(type)" :data="item"/>
-        </v-slide-item>
-      </v-slide-group>
-    </v-card>
-
+  <v-card flat>
+    <v-card-title class="pb-0"> {{ data.title }}</v-card-title>
+    <v-toolbar-title class="grey--text ml-4 mt-0 subtitle-2"> {{ data.subtitle }}</v-toolbar-title>
+    <v-slide-group show-arrows @change="cardClick">
+      <v-slide-item class="ma-2"
+                    v-for="item in data.videos.items"
+                    :key="item.videoId">
+        <component :is="getCardType(type)" :data="item"/>
+      </v-slide-item>
+    </v-slide-group>
+  </v-card>
 </template>
 
 <script>

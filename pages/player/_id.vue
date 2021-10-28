@@ -34,10 +34,8 @@
               </v-hover>
             </v-col>
             <v-col cols="12" md="9" sm="9">
-              <v-card-title class="text-h4 font-weight-bold">
-                {{ results[0].title }}
-              </v-card-title>
-              <v-card-title class="d-flex justify-space-around pt-0">
+              <v-card-title class="text-h4 font-weight-bold pb-0">{{ results[0].title }}</v-card-title>
+              <v-card-title class=" pt-0">
                 <NuxtLink class="nuxt-link-exact-active" :to="{name: 'channel-id', params: {id: results[0].channel_id } }">
                   <!--<v-avatar size="36">-->
                   <!--<img :src="results[0].authorThumbnail">-->
