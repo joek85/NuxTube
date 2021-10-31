@@ -6,7 +6,7 @@
         <NuxtLink :to="{name: 'player-id', params: {id: video.videoId}}">
           <v-img class="pa-0 ma-1"
                  aspect-ratio="1.7"
-                 :src="video.thumbnails[video.thumbnails.length -1].url">
+                 :src="video.thumbnails.url">
             <template v-slot:placeholder>
               <v-row class="fill-height">
                 <v-col cols="12">

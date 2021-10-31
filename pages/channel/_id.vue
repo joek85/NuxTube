@@ -1,15 +1,15 @@
 <template>
   <v-card>
-    <v-card v-if="results.header.banner.length">
-      <v-img class="imgStyle" :src="results.header.banner[results.header.banner.length - 1].url">
+    <v-card v-if="results.header.banner">
+      <v-img class="imgStyle" :src="results.header.banner.url">
 
       </v-img>
     </v-card>
     <v-container>
-      <v-card class="mb-2">
+      <v-card class="mb-2" flat>
         <v-card-title>
           <v-avatar size="88">
-            <img :src="results.header.avatar[results.header.avatar.length - 1].url">
+            <img :src="results.header.avatar.url">
           </v-avatar>
           <v-list-item-content class="ml-2">
             <v-toolbar-title>{{results.header.title}}</v-toolbar-title>

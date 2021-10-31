@@ -3,19 +3,19 @@
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
-      :clipped="clipped"
+      clipped
       temporary
       app
     >
-      <v-card color="red" tile class=" pa-2" height="140">
-        <v-card-title class="justify-center pa-0 pt-4">
-          <v-avatar
-            color="secondary"
-            size="68"
-          ></v-avatar>
-        </v-card-title>
-          <v-card-title class=" justify-center pa-1">NUXTUBE</v-card-title>
-      </v-card>
+      <!--<v-card color="red" tile class=" pa-2" height="140">-->
+        <!--<v-card-title class="justify-center pa-0 pt-4">-->
+          <!--<v-avatar-->
+            <!--color="secondary"-->
+            <!--size="68"-->
+          <!--&gt;</v-avatar>-->
+        <!--</v-card-title>-->
+          <!--<v-card-title class=" justify-center pa-1">NUXTUBE</v-card-title>-->
+      <!--</v-card>-->
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
@@ -34,6 +34,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar
+      clipped-left
       app
       dark
       color="primary">

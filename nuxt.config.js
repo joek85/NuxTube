@@ -25,7 +25,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/vue-youtube.js',
-    {src:'~/plugins/vue-plyr.js', mode: 'client'}
+    {src:'~/plugins/vue-plyr.js', mode: 'client'},
+    '~/plugins/vue-linkify.js'
   ],
   loading: {
     color: '#673ab7',

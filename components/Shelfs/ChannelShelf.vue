@@ -2,7 +2,7 @@
   <v-card class="rounded-card d-flex align-center flex-column pt-2 elevation-4" width="180">
     <NuxtLink class="subheading" :to="{name: 'channel-id', params: {id: data.channelId}}">
       <v-avatar size="88">
-        <v-img :src="data.thumbnails[data.thumbnails.length -1].url">
+        <v-img :src="data.thumbnails.url">
         </v-img>
       </v-avatar>
     </NuxtLink>

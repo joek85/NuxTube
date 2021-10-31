@@ -20,6 +20,7 @@
     "yt-audio": "file:../../yt-audio",
     "yt-channel-info": "^2.2.0",
     "ytdl-core": "latest",
+    "ytpl": "^2.2.3",
     "ytsr": "^3.5.0"
   },
   "devDependencies": {

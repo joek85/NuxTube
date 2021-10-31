@@ -4,12 +4,12 @@ const app = express();
 
 const search = require('./routes/search');
 const player = require('./routes/player');
-const trending = require('./routes/trending');
+const playlist = require('./routes/playlist');
 const channel = require('./routes/channel');
 
-app.use('/search', search);
+app.use('/Search', search);
 app.use('/player', player);
-app.use('/trending', trending);
+app.use('/playlist', playlist);
 app.use('/channel', channel);
 
 module.exports = app;

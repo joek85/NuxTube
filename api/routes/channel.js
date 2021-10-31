@@ -28,12 +28,12 @@ router.get('/playlists', async (req, res) => {
   let channelId = req.query['channelId'];
   let clickTrackingParams = req.query['clickTrackingParams'];
   let params = req.query['params'];
-  console.log(channelId)
-  console.log(clickTrackingParams)
-  console.log(params)
+  // console.log(channelId)
+  // console.log(clickTrackingParams)
+  // console.log(params)
   try {
     let response = await ytaudio.getChannelPlaylists(channelId, clickTrackingParams, params);
-    console.log(response)
+    // console.log(response)
     res.json(response)
   }catch (err){
     console.log(err)

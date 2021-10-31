@@ -5,7 +5,7 @@
         <NuxtLink :to="{name: 'player-id', params: {id: data.id}}">
           <v-img class="pa-0 ma-1"
             aspect-ratio="1.7"
-            :src="data.thumbnail[0].url.split('?')[0]">
+            :src="data.thumbnail.url.split('?')[0]">
             <template v-slot:placeholder>
               <v-row class="fill-height">
                 <v-col cols="12">
@@ -37,7 +37,7 @@
         <v-card-title class="pt-0">
           <NuxtLink class="nuxt-link-exact-active" :to="{name: 'channel-id', params: {id: data.channel_id } }">
             <v-avatar size="36">
-              <img :src="data.author.thumbnails[0].url">
+              <img :src="data.author.thumbnails.url">
             </v-avatar>
           </NuxtLink>
           <h5 class="ml-2">

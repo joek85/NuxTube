@@ -1,15 +1,11 @@
 const express = require('express');
 const router = express.Router();
-let ytsr = require('ytsr');
+let ytaudio = require('yt-audio');
 
 router.get('/', async (req, res) => {
-  let q = req.query['q']
+  let q = req.query['q'];
 
-  const options = {
-    limit: 25,
-    pages: 1
-  };
-  let results = await ytsr(q, options);
+  let results = await ytaudio.getSearchResults(q);
 
   res.json(results)
 });
