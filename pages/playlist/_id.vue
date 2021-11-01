@@ -25,10 +25,10 @@
       <v-col cols="9">
         <v-card>
           <v-row>
-            <v-col cols="12" v-for="video in results.items">
+            <v-col cols="12" v-for="video in results.items" :key="video.id">
               <v-card class="rounded-card mb-1">
                 <v-row >
-                  <v-col sm="12" md="2">
+                  <v-col sm="12" md="3">
                     <NuxtLink :to="{name: 'player-id', params: {id: video.id}}">
                       <v-img class="pa-0 ma-1"
                              aspect-ratio="1.7"
@@ -86,7 +86,7 @@
 
 <script>
   import utils from '../../utils/utils'
-  import MediaCard from '../../components/MediaCardRelatedHorizontal.vue'
+  import MediaCard from '../../components/Player/MediaCardRelatedHorizontal.vue'
   export default {
     components: {
       MediaCard

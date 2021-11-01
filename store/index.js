@@ -1,7 +1,7 @@
 export const state = () => ({
   AudioPlayerData: {},
   showBottomSheet: false,
-  SearchResults: [],
+  SearchQuery: '',
   showVideoDialog: false,
   videoFullScreen: false,
   windowSize: 0
@@ -14,8 +14,8 @@ export const mutations = {
   showBottomSheet (state, show) {
     state.showBottomSheet = show
   },
-  setSearchResults (state, results){
-    state.SearchResults = results
+  setSearchQuery (state, query){
+    state.SearchQuery = query
   },
   showVideoDialog (state, show) {
     state.showVideoDialog = show
@@ -35,8 +35,8 @@ export const getters = {
   getBottomSheet (state) {
     return state.showBottomSheet
   },
-  getSearchResults (state) {
-    return state.SearchResults
+  getSearchQuery (state) {
+    return state.SearchQuery
   },
   getVideoDialog (state) {
     return state.showVideoDialog
@@ -50,7 +50,7 @@ export const getters = {
 };
 
 export const actions = {
-  storeSearchResults ({commit}, s) {
-    commit('setSearchResults', s)
+  storeSearchQuery ({commit}, query) {
+    commit('setSearchQuery', query)
   }
 };

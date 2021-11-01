@@ -1,7 +1,7 @@
 <template>
-  <v-card class="pa-2">
+  <v-card class="pa-2" width="220">
     <v-row>
-      <v-col sm="3" md="4">
+      <v-col cols="12">
         <NuxtLink class="subheading " :to="{name: 'player-id', params: {id: data.videoId}}">
           <v-img
             aspect-ratio="1.7"
@@ -16,8 +16,8 @@
           </v-img>
         </NuxtLink>
       </v-col>
-      <v-col sm="9" md="8" class="d-flex flex-column justify-space-between d-sm-inline">
-        <v-card-title class="pa-0">{{data.title}}</v-card-title>
+      <v-col cols="12" class="d-flex flex-column justify-space-between">
+        <v-card-text class="pa-0 text-truncate">{{data.title}}</v-card-text>
         <v-card-title class="pa-0 subtitle-2 grey--text">{{data.views}} - {{data.published}} - {{data.duration}}</v-card-title>
         <v-card-title class="pa-0">
           <NuxtLink class="nuxt-link-exact-active" :to="{name: 'channel-id', params: {id: data.author.channelId } }">
@@ -27,8 +27,6 @@
           </NuxtLink>
           <v-card-title class=" subtitle-2 grey--text">{{ data.author.name }}</v-card-title>
         </v-card-title>
-        <v-card-title class="pa-0 subtitle-2 grey--text">{{data.description}}</v-card-title>
-        <v-chip v-if="data.badges === 'LIVE NOW'" small color="primary mt-2" outlined>{{data.badges}}</v-chip>
       </v-col>
     </v-row>
   </v-card>

@@ -1,11 +1,11 @@
 <template>
-  <v-container>
+  <v-container >
     <v-row>
       <v-col cols="12">
-        <v-sheet elevation="10" rounded="sm">
+        <v-sheet elevation="10" rounded="xl">
           <v-sheet class="pa-2 primary" dark rounded="t-xl">
-              <v-card-title class="pa-0">Searching for {{SearchResults.originalQuery}}</v-card-title>
-              <v-card-title class="pa-0 subtitle-1">{{'Showing ' + results.estimatedResults + ' results'}}</v-card-title>
+              <v-card-title class="pa-0 pl-2">Searching for: {{SearchQuery}}</v-card-title>
+              <v-card-title class="pa-0 pl-2 subtitle-1">{{'Showing ' + results.estimatedResults + ' results'}}</v-card-title>
           </v-sheet>
           <div class="pa-4">
             <v-chip-group active-class="primary--text" column>
@@ -14,7 +14,7 @@
                 color="primary"
                 v-for="refinement in results.refinements"
                 :key="refinement"
-              >
+                :to="{name: 'search-query', query: {q: refinement}}">
                 {{ refinement }}
               </v-chip>
             </v-chip-group>
@@ -25,7 +25,7 @@
         <artist-card :data="results.secondaryResults"/>
       </v-col>
       <v-col order="1" md="8">
-        <v-card class="elevation-10 transparent">
+        <v-card flat class="transparent">
           <!--<v-slide-group show-arrows v-model="refines" @change="cardClick">-->
             <!--<v-slide-item class="ma-2"-->
               <!--v-for="item in SearchResults.refinements"-->
@@ -50,7 +50,7 @@
           <!--</v-slide-group>-->
           <v-col cols="12">
             <template v-for="result in results.primaryResults">
-              <component :is="getCardType(result.type)" :data="result.items" ></component>
+              <component :is="getCardType(result.type)" :data="result.items" class="mb-3"/>
             </template>
           </v-col>
         </v-card>
@@ -64,16 +64,19 @@
 </template>
 
 <script>
-  import SearchCard from '~/components/SearchCard.vue'
-  import ShelfCard from '~/components/ShelfCard.vue'
-  import ChannelCard from '../components/Search/ChannelCard.vue'
-  import ArtistCard from '../components/Search/ArtistCard.vue'
+  import VideoCard from '../../components/Search/VideoCard.vue'
+  import ShelfCard from '../../components/Search/ShelfCard.vue'
+  import ChannelCard from '../../components/Search/ChannelCard.vue'
+  import ArtistCard from '../../components/Search/ArtistCard.vue'
+  import QueryCard from '../../components/Search/QueryCard.vue'
   import { mapGetters } from 'vuex'
   export default {
     components: {
-      SearchCard,
+      VideoCard,
       ArtistCard,
-      ChannelCard
+      ChannelCard,
+      ShelfCard,
+      QueryCard
     },
     data () {
       return {
@@ -82,16 +85,15 @@
       }
     },
     mounted () {
-
     },
     head() {
       return {
-        title: this.SearchResults.originalQuery
+        title: this.$route.query.q
       };
     },
     computed: {
       ...mapGetters({
-        SearchResults: 'getSearchResults'
+        SearchQuery: 'getSearchQuery'
       }),
     },
     watchQuery: true,
@@ -102,19 +104,21 @@
         }
       });
      console.log(results);
-      // store.dispatch('storeSearchResults', results);
+     store.dispatch('storeSearchQuery', query.q);
       return { results }
     },
     methods: {
       getCardType (type) {
         switch (type){
+          case 'video':
+            return 'VideoCard';
           case 'channel':
             return 'ChannelCard';
+          case 'shelf':
+            return 'ShelfCard';
+          case 'cards':
+            return 'QueryCard'
         }
-      },
-      cardClick () {
-//        console.log(this.refines)
-        //this.$router.push({name: 'Search', query: {q: this.SearchResults.refinements[this.refines].q}});
       }
     }
 

@@ -84,6 +84,7 @@
           btnRepeat: 'repeat',
           btnMute: 'volume_up'
         }],
+        videoId: '',
         loading: true,
         sliderMax: 0,
         sliderUpdate: true,
@@ -93,12 +94,15 @@
     mounted () {
       this.setupAudio();
       this.audio.src = this.AudioPlayerData.url;
-      console.log('mounted')
+      this.videoId = this.AudioPlayerData.id;
     },
     watch: {
       AudioPlayerData (val) {
-        this.audio.src = val.url;
-        this.loading = true
+        if (val.id !== this.videoId) {
+          this.audio.src = val.url;
+          this.loading = true;
+          this.videoId = val.id;
+        }
       }
     },
     methods: {
@@ -233,5 +237,9 @@
 </script>
 <style scoped >
 
-
+  .v-slider__thumb{
+    cursor:grabbing;
+    height:42px;
+    width:42px;
+  }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <v-card flat color="transparent">
+    <v-card flat color="transparent" v-if="data">
       <v-card flat class="d-flex align-center">
         <v-card-title>
           <v-avatar size="88">
@@ -11,7 +11,7 @@
           <v-card-title class="subtitle-1 ml-2 pa-0">{{data.header.subtitle}}</v-card-title>
         </div>
       </v-card>
-      <v-card flat class="mt-2">
+      <v-card flat class="mt-2" v-if="data.action.title">
         <NuxtLink :to="{name: 'player-id', params: {id: data.action.videoId}}">
           <v-img class=""
                  aspect-ratio="1.7"
@@ -31,7 +31,7 @@
           <v-card-title class="subtitle-1 pt-0">{{data.action.duration}}</v-card-title>
         </div>
       </v-card>
-      <v-card flat class="mt-2">
+      <v-card flat class="mt-2" v-if="data.sections[0]">
         <v-list two-line>
           <v-list-item-group
             active-class="primary">
@@ -50,8 +50,8 @@
           </v-list-item-group>
         </v-list>
       </v-card>
-      <v-card flat class="mt-2">
-        <v-card-title class=""> {{ data.sections[1].items.title }}</v-card-title>
+      <v-card flat class="mt-2" v-if="data.sections[1]">
+        <v-card-title> {{ data.sections[1].items.title }}</v-card-title>
         <v-slide-group show-arrows>
           <v-slide-item class="ma-1"
                         v-for="item in data.sections[1].items.items"
@@ -68,7 +68,7 @@
                   </template>
                 </v-img>
               </NuxtLink>
-              <v-toolbar-title class="">{{ item.query }}</v-toolbar-title>
+              <v-toolbar-title class="subtitle-1">{{ item.query }}</v-toolbar-title>
             </v-card>
           </v-slide-item>
         </v-slide-group>

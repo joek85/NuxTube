@@ -5,7 +5,7 @@
         <v-col cols="12"
                v-for="related in posts.relatedVideos"
                :key="related.id">
-          <MediaCardRelatedHorizontal :data="related"></MediaCardRelatedHorizontal>
+          <media-card :data="related"/>
         </v-col>
         <v-col cols="12">
           <div class="text-center pa-1" v-if="$fetchState.pending">
@@ -18,12 +18,14 @@
 
       </v-row>
     </v-container>
-
-
   </v-card>
 </template>
 <script>
+  import MediaCard from '../../components/Player/MediaCardRelatedHorizontal.vue'
   export default {
+    components: {
+      MediaCard
+    },
     props: {
       id: ''
     },
@@ -59,11 +61,10 @@
         }
       },
       handleScroll() {
-        // let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
-        //
-        // if (bottomOfWindow && this.fetched) {
-        //   setTimeout(this.loadMore(this.posts.continuation), 1000)
-        // }
+        let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight;
+        if (bottomOfWindow && this.fetched) {
+          setTimeout(this.loadMore(this.posts.continuation), 1000)
+        }
       }
     },
     mounted() {

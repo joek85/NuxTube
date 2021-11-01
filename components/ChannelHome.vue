@@ -27,7 +27,7 @@
       }
     },
     mounted() {
-      console.log(this.$props.data)
+      // console.log(this.$props.data)
     },
     methods: {
       getCardType (type) {

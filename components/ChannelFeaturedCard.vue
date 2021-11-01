@@ -21,7 +21,7 @@
         <v-card-title class="font-weight-bold">{{ video.title }}</v-card-title>
         <v-card-title class="subtitle-1 pt-0">{{ video.description }}</v-card-title>
         <v-card-actions class="pt-0">
-          <v-chip class="grey--text mr-2" outlined color="accent">{{video.views}}</v-chip>
+          <v-chip class=" mr-2" outlined color="primary">{{video.views}}</v-chip>
         </v-card-actions>
       </v-col>
     </v-row>

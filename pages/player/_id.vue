@@ -1,8 +1,8 @@
 <template>
-  <v-container fluid>
+  <v-container>
     <v-row>
       <v-col order="1" cols="8">
-        <v-card class="mb-4">
+        <v-card class="mb-4 pa-2">
           <v-row >
             <v-col xl="3" sm="12">
               <v-hover>
@@ -33,65 +33,47 @@
                 </template>
               </v-hover>
             </v-col>
-            <v-col cols="12" md="9" sm="9">
-              <v-card-title class="text-h4 font-weight-bold pb-0">{{ results[0].title }}</v-card-title>
-              <v-card-title class=" pt-0">
+            <v-col sm="12" xl="9"class="d-flex flex-column justify-space-between d-sm-inline">
+              <v-card-title class="text-h4 font-weight-bold pa-0">{{ results[0].title }}</v-card-title>
+              <v-card-title class="pa-0">
                 <NuxtLink class="nuxt-link-exact-active" :to="{name: 'channel-id', params: {id: results[0].channel_id } }">
-                  <!--<v-avatar size="36">-->
-                  <!--<img :src="results[0].authorThumbnail">-->
-                  <!--</v-avatar>-->
+                  {{results[0].author}}
                 </NuxtLink>
-                <v-list-item-content class="pl-2">
-                  <NuxtLink class="nuxt-link-exact-active" :to="{name: 'channel-id', params: {id: results[0].channel_id } }">
-                    <v-toolbar-title>{{results[0].author}}</v-toolbar-title>
-                  </NuxtLink>
-                  <!--<v-toolbar-title v-if="results[0].author" class="grey&#45;&#45;text">{{getPlayCounts(results[0].author) + ' Subscribers'}}</v-toolbar-title>-->
-                </v-list-item-content>
               </v-card-title>
-              <v-card-title class="pt-0 d-flex">
-                <v-chip v-if="results[0].duration !== `0`" class="grey--text mr-2" outlined color="accent">{{convertTime(results[0].duration)}}</v-chip>
-                <v-chip v-if="results[0].isLive == true" outlined color="red" class="mr-2">LIVE</v-chip>
-                <v-chip class="grey--text mr-2" outlined color="accent">
-                  <v-icon>mdi-play</v-icon>
-                  <span>{{getPlayCounts(results[0].play_counts)}}</span>
-                </v-chip>
-                <v-chip v-if="results[0].published_at" class="grey--text" outlined color="accent">{{formatDate(results[0].published_at)}}</v-chip>
-                <v-col cols="12" class="pa-0 ma-0">
-                  <v-chip-group
-                    active-class="primary--text"
-                    column
-                  >
-                    <v-chip outlined
-
-                            v-for="tag in results[0].tags"
-                            :key="tag"
-                    >
-                      {{ tag }}
-                    </v-chip>
-                  </v-chip-group>
-                </v-col>
-
-              </v-card-title>
+              <v-card-title v-if="!results[0].isLive" class="pa-0 subtitle-2 grey--text">{{getPlayCounts(results[0].play_counts)}} - {{formatDate(results[0].published_at)}} - {{convertTime(results[0].duration)}}</v-card-title>
+              <v-chip v-if="results[0].isLive" color="red" small>LIVE</v-chip>
+              <v-col cols="12" class="pa-0">
+                <v-chip-group class="pa-0" active-class="primary--text" column>
+                  <v-chip outlined color="primary"
+                          v-for="tag in results[0].tags"
+                          :key="tag"
+                          :to="{name: 'search-query', query: {q: tag}}">
+                    {{ tag }}
+                  </v-chip>
+                </v-chip-group>
+              </v-col>
             </v-col>
           </v-row>
         </v-card>
-        <DescriptionCard :descriptions="results[0].description"></DescriptionCard>
+        <description-card :descriptions="results[0].description"/>
       </v-col>
       <v-col order="2" cols="4">
-        <RelatedCard :id="results[0].id"></RelatedCard>
+        <related-card :id="results[0].id"></related-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script>
   import utils from '../../utils/utils'
-  import MediaCardRelated from '../../components/MediaCardRelated.vue'
-  import RelatedCard from '../../components/RelatedCard.vue'
+  import MediaCardRelated from '../../components/Player/MediaCardRelated.vue'
+  import RelatedCard from '../../components/Player/RelatedCard.vue'
+  import DescriptionCard from '../../components/Player/DescriptionCard.vue'
   import { mapGetters } from 'vuex'
   export default {
     components: {
       MediaCardRelated,
-      RelatedCard
+      RelatedCard,
+      DescriptionCard
     },
     computed: {
       ...mapGetters({
@@ -125,7 +107,7 @@
           url: results[0].formats.url,
           id: params.id
         });
-        // store.commit('showBottomSheet', true);
+        store.commit('showBottomSheet', true);
 
       return { results }
     },

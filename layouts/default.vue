@@ -43,14 +43,24 @@
       <h3 class="pa-2">{{title}}</h3>
         <v-row class="d-flex justify-center">
           <v-col cols="6" class="">
-            <v-form @submit="doSearch" class="mt-5">
-                <v-text-field
-                  class=""
-                  label="Search..."
-                  append-icon="mdi-magnify"
-                  color="secondary"
-                  v-model="searchQuery"
-                ></v-text-field>
+            <v-form @submit="doSearch">
+              <v-autocomplete
+                v-model="model"
+                :items="searchItems"
+                :loading="isLoading"
+                :search-input.sync="search"
+                @change="searchlistClick"
+                color="white"
+                label="Search..."
+                class="mx-4"
+                flat
+                no-filter
+                hide-no-data
+                hide-details
+                solo-inverted
+                return-object
+                :menu-props="{closeOnContentClick:true}"
+              ></v-autocomplete>
             </v-form>
           </v-col>
         </v-row>
@@ -93,7 +103,7 @@
 <script>
   import AudioPlayer from '../components/AudioPlayer.vue'
   import VideoPlayer from '../components/VideoPlayer.vue'
-
+  import SuggestionService from '../services/search'
   import { mapState, mapGetters } from 'vuex'
 export default {
   components: {
@@ -104,6 +114,7 @@ export default {
     window.addEventListener("resize", this.resizeEventHandler);
     this.setWindowSize()
   },
+  fetchOnServer: false,
   data () {
     return {
       clipped: true,
@@ -126,13 +137,40 @@ export default {
       miniVariant: false,
       title: 'NuxTube',
       searchQuery: '',
+      isOpen: true,
+      listS: [],
+      isLoading: false,
+      model: null,
+      search: null,
     }
+  },
+  watch: {
+    search (val) {
+      if (!val) return;
+
+      this.searchQuery = val;
+
+      if (this.isLoading) return;
+
+      this.isLoading = true;
+
+      SuggestionService.searchsuggestion(val)
+        .then(res => {
+          this.listS = res.data;
+        })
+        .catch(err => {
+          console.log(err)
+        })
+        .finally(() => (this.isLoading = false))
+    },
   },
   methods: {
     doSearch (event) {
       event.preventDefault();
+
       if (this.searchQuery.length > 0){
-        this.$router.push({name: 'search', query: {q: this.searchQuery}});
+        this.listS = [];
+        this.$router.push({name: 'search-query', query: {q: this.searchQuery}});
       }
     },
     toggleFullScreen (event) {
@@ -157,6 +195,11 @@ export default {
     },
     setWindowSize () {
       this.$store.commit('setWindowSize', window.innerHeight)
+    },
+    searchlistClick (val) {
+      if (val){
+        this.$router.push({name: 'search-query', query: {q: val.text}});
+      }
     }
   },
   created() {
@@ -176,6 +219,12 @@ export default {
     },
     getVideoId () {
       return this.$store.getters.getAudioPlayerData.id
+    },
+    searchItems () {
+      return this.listS.map(entry => {
+        const text = entry.text;
+        return Object.assign({}, entry, { text })
+      })
     },
   },
 
