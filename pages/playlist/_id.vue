@@ -86,7 +86,7 @@
 
 <script>
   import utils from '../../utils/utils'
-  import MediaCard from '../../components/Player/MediaCardRelatedHorizontal.vue'
+  import MediaCard from '../../components/Player/MediaCardRelated.vue'
   export default {
     components: {
       MediaCard

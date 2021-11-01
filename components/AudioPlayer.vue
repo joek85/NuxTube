@@ -1,10 +1,5 @@
 <template>
   <v-card tile>
-    <!--<v-progress-linear-->
-      <!--:value="50"-->
-      <!--class="my-0"-->
-      <!--height="3"-->
-    <!--&gt;</v-progress-linear>-->
     <v-slider class="pb-0 ml-3 mr-3"
        v-model="sliderValue" hide-details dense thumb-label :max="getSliderMax" @change="SliderChange" @mousedown="SliderMouseDown" @mouseup="SliderMouseUp">
       <template v-slot:thumb-label="item">

@@ -1,28 +1,48 @@
 <template>
   <v-app dark>
+    <v-app-bar
+      app
+      dark
+      clipped-left
+      color="primary">
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title @click="$router.push('/')" style="cursor: pointer">{{title}}</v-toolbar-title>
+      <v-row class="d-flex justify-center">
+        <v-col cols="6" class="">
+          <v-form @submit="doSearch">
+            <v-autocomplete
+              v-model="model"
+              :items="searchItems"
+              :loading="isLoading"
+              :search-input.sync="search"
+              @change="searchlistClick"
+              append-icon=""
+              color="white"
+              label="Search..."
+              class="mx-4"
+              flat
+              no-filter
+              hide-no-data
+              hide-details
+              solo-inverted
+              return-object
+              :menu-props="{closeOnContentClick:true}"
+            ></v-autocomplete>
+          </v-form>
+        </v-col>
+      </v-row>
+    </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"
-      :mini-variant="miniVariant"
+      app
       clipped
       temporary
-      app
-    >
-      <!--<v-card color="red" tile class=" pa-2" height="140">-->
-        <!--<v-card-title class="justify-center pa-0 pt-4">-->
-          <!--<v-avatar-->
-            <!--color="secondary"-->
-            <!--size="68"-->
-          <!--&gt;</v-avatar>-->
-        <!--</v-card-title>-->
-          <!--<v-card-title class=" justify-center pa-1">NUXTUBE</v-card-title>-->
-      <!--</v-card>-->
+      hide-overlay>
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
           :key="i"
           :to="item.to"
-          router
-          exact
         >
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
@@ -33,70 +53,35 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar
-      clipped-left
-      app
-      dark
-      color="primary">
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-
-      <h3 class="pa-2">{{title}}</h3>
-        <v-row class="d-flex justify-center">
-          <v-col cols="6" class="">
-            <v-form @submit="doSearch">
-              <v-autocomplete
-                v-model="model"
-                :items="searchItems"
-                :loading="isLoading"
-                :search-input.sync="search"
-                @change="searchlistClick"
-                color="white"
-                label="Search..."
-                class="mx-4"
-                flat
-                no-filter
-                hide-no-data
-                hide-details
-                solo-inverted
-                return-object
-                :menu-props="{closeOnContentClick:true}"
-              ></v-autocomplete>
-            </v-form>
-          </v-col>
-        </v-row>
-    </v-app-bar>
     <v-main>
-      <!--<v-container ref="container">-->
-        <nuxt />
-        <div class="wrapper__content">
-          <div v-if="getShowVideoDialog" v-show="getShowVideoDialog" :class="{'fullscreen': getFullscreen, 'video__content': !getFullscreen}">
-            <v-card style="height: inherit">
-              <v-toolbar
-                dark
-                dense
-                class="primary ">
-                <v-spacer></v-spacer>
-                <v-btn icon dark @click="toggleFullScreen">
-                  <v-icon>{{`mdi-${iconText}`}}</v-icon>
-                </v-btn>
-                <v-btn fab icon dark @click="hideVideoDialog">
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-              </v-toolbar>
-              <video-player :videoId="getVideoId"></video-player>
-
-            </v-card>
-          </div>
+      <nuxt />
+      <div class="wrapper__content">
+        <div v-if="getShowVideoDialog" v-show="getShowVideoDialog" :class="{'fullscreen': getFullscreen, 'video__content': !getFullscreen}">
+          <v-card style="height: inherit">
+            <v-toolbar
+              dark
+              dense
+              class="primary ">
+              <v-spacer></v-spacer>
+              <v-btn icon dark @click="toggleFullScreen">
+                <v-icon>{{`mdi-${iconText}`}}</v-icon>
+              </v-btn>
+              <v-btn fab icon dark @click="hideVideoDialog">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </v-toolbar>
+            <video-player :videoId="getVideoId"></video-player>
+          </v-card>
         </div>
-      <!--</v-container>-->
+      </div>
     </v-main>
-      <v-footer app color="transparent" class="pa-0" v-if="getBottomSheet" fixed>
-        <transition name="bottom-sheet-transition">
-          <div class="v-dialog v-bottom-sheet v-dialog--active v-dialog--persistent">
-            <AudioPlayer></AudioPlayer>
-          </div>
-        </transition>
-      </v-footer>
+    <v-footer app color="transparent" class="pa-0" v-if="getBottomSheet" fixed>
+      <transition name="bottom-sheet-transition">
+        <div class="v-dialog v-bottom-sheet v-dialog--active v-dialog--persistent">
+          <AudioPlayer></AudioPlayer>
+        </div>
+      </transition>
+    </v-footer>
   </v-app>
 </template>
 

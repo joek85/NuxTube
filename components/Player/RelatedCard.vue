@@ -21,7 +21,7 @@
   </v-card>
 </template>
 <script>
-  import MediaCard from '../../components/Player/MediaCardRelatedHorizontal.vue'
+  import MediaCard from './MediaCardRelated.vue'
   export default {
     components: {
       MediaCard

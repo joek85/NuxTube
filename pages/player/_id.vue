@@ -65,13 +65,11 @@
 </template>
 <script>
   import utils from '../../utils/utils'
-  import MediaCardRelated from '../../components/Player/MediaCardRelated.vue'
   import RelatedCard from '../../components/Player/RelatedCard.vue'
   import DescriptionCard from '../../components/Player/DescriptionCard.vue'
   import { mapGetters } from 'vuex'
   export default {
     components: {
-      MediaCardRelated,
       RelatedCard,
       DescriptionCard
     },
@@ -92,9 +90,8 @@
         title: this.results[0].title
       };
     },
-    async asyncData({params, $axios, store, getters}) {
-      let results;
-        results = await $axios.$get('/api/player', {
+    async asyncData({params, $axios, store}) {
+        let results = await $axios.$get('/api/player', {
           params: {
             id: params.id
           }
