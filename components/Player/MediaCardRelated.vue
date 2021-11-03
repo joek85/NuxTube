@@ -31,7 +31,9 @@
                 </template>
                 <v-list>
                   <v-list-item v-for="(item, i) in items" :key="i" link>
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    <v-list-item-title>
+                      <v-icon small >{{item.icon}}</v-icon>
+                      {{ item.title }}</v-list-item-title>
                   </v-list-item>
                 </v-list>
               </v-menu>
@@ -64,10 +66,9 @@
     data () {
       return {
         items: [
-          { title: 'Click Me' },
-          { title: 'Click Me' },
-          { title: 'Click Me' },
-          { title: 'Click Me' },
+          { title: 'Download', icon: 'mdi-cloud-download' },
+          { title: 'Hide', icon: 'mdi-eye-off' },
+          { title: 'Block', icon: 'mdi-cancel'},
         ],
       }
     },

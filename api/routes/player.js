@@ -1,46 +1,36 @@
 const express = require('express');
 const router = express.Router();
-let ytdl = require('ytdl-core');
 let ytaudio = require('yt-audio');
+
+let dateOptions = { year: 'numeric',
+  month: 'long', day: 'numeric' };
+
 router.get('/', async (req, res) => {
   let id = req.query['id'];
 
-  // getinfos(id).then(async function (info) {
-  //   let videodetails = info.player_response.videoDetails;
-  //   let audioformats = ytdl.filterFormats(info.formats, 'audioonly');
-  //   let af = ytdl.chooseFormat(audioformats, 'highestaudio');
-  //   let related = info.related_videos;
-  //   let out;
-  //   out = [{id: id, title: videodetails.title, subtitle: videodetails.author, thumbnail: videodetails.thumbnail.thumbnails[videodetails.thumbnail.thumbnails.length-1],
-  //     duration: videodetails.lengthSeconds, play_counts: videodetails.viewCount, published_at: info.videoDetails.publishDate,
-  //     tags: videodetails.keywords, channel_id: videodetails.channelId, description: videodetails.shortDescription,
-  //     formats: {url: af.url}, related: parseRelated(related), isLive: videodetails.isLiveContent, author: info.videoDetails.author}];
-  //   // await database_insert_item_history(id,d,videodetails.channelId,videodetails.title,videodetails.author,videodetails.thumbnail.thumbnails[videodetails.thumbnail.thumbnails.length-1].url,videodetails.lengthSeconds
-  //   //   ,videodetails.viewCount,info.videoDetails.publishDate);
-  //   console.log(info);
-  //   res.json(out)
-  //
-  // }).catch(err=>{
-  //   console.log(err);
-  //   res.status(400).json(err)
-  // });
   ytaudio.getPlayerdata(id).then(videodetails => {
-    let out = [];
-    out = [{id: id, title: videodetails.title, authorThumbnail: videodetails.authorThumbnail , subtitle: videodetails.author, thumbnail: videodetails.thumbnails[videodetails.thumbnails.length-1],
+    let out = [{id: id, title: videodetails.title, authorThumbnail: videodetails.authorThumbnail , subtitle: videodetails.author, thumbnail: videodetails.thumbnails[videodetails.thumbnails.length-1],
       duration: videodetails.lengthSeconds, play_counts: videodetails.viewCount, published_at: videodetails.publishDate,
       tags: videodetails.tags, channel_id: videodetails.channelId, description: videodetails.description,
       formats: {url: videodetails.audioFormats}, related: [], isLive: videodetails.isLive, author: videodetails.author}];
-    // console.log(out)
+    database_insert_item_history(id, out[0].title, out[0].author, out[0].channel_id, out[0].thumbnail.url, out[0].duration, out[0].play_counts, out[0].published_at)
     res.json(out)
   }).catch(err => {
-    console.log(err)
     res.json(err)
   })
-
 });
-async function getinfos(id) {
-  return await ytdl.getInfo(id);
-}
+
+router.get('/related', async (req, res) => {
+  let id = req.query['id'];
+  let continuation = req.query['continuation'];
+  let tracking = req.query['ctp'];
+  ytaudio.getRelatedVideos(id, continuation, tracking).then(response => {
+    res.json({relatedVideos: parseRelated(response.videos), continuation: response.continuation})
+  }).catch(err => {
+    res.json(err)
+  })
+});
+
 function parseRelated(related) {
   let items = [];
   for ( let i = 0; i < related.length; i++ ) {
@@ -54,17 +44,23 @@ function parseRelated(related) {
   }
   return items
 }
-router.get('/related', async (req, res) => {
-  let id = req.query['id'];
-  let continuation = req.query['continuation'];
-  let tracking = req.query['ctp'];
-  // console.log(tracking)
-  ytaudio.getRelatedVideos(id, continuation, tracking).then(response => {
-    // console.log(response.videos)
-    res.json({relatedVideos: parseRelated(response.videos), continuation: response.continuation})
-  }).catch(err => {
-    console.log(err)
-    res.json(err)
-  })
-});
+
+async function database_insert_item_history(videoId, title, author_name, author_id, thumbnail, duration, views, published) {
+  let data = {videoId: videoId, title: title, author_name: author_name, author_id: author_id, thumbnail: thumbnail, duration: duration, views: views, published: published, date: new Date().toISOString().replace('T', ' ').substring(0, 19)};
+  let sql = 'INSERT INTO history SET ?';
+  await query(sql,[data])
+}
+function query(sql, data) {
+  return new Promise(function(resolve, reject){
+    pool.query(sql,data, function (error, results, fields) {
+      if (error) {
+        reject(error);
+      }
+      else {
+        resolve(results);
+      }
+    });
+  });
+}
+
 module.exports = router;

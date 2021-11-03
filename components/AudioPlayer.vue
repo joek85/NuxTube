@@ -1,5 +1,5 @@
 <template>
-  <v-card tile>
+  <v-card tabindex="0" tile @keydown.left="rewind" @keydown.right="forward">
     <v-slider class="pb-0 ml-3 mr-3"
        v-model="sliderValue" hide-details dense thumb-label :max="getSliderMax" @change="SliderChange" @mousedown="SliderMouseDown" @mouseup="SliderMouseUp">
       <template v-slot:thumb-label="item">
@@ -23,9 +23,9 @@
         </v-list-item-content>
 
         <v-spacer></v-spacer>
-
+        <v-card-title class="subtitle-1">{{getAudioDuration}}</v-card-title>
         <v-list-item-icon>
-          <v-btn icon>
+          <v-btn icon @click="rewind">
             <v-icon>mdi-rewind</v-icon>
           </v-btn>
         </v-list-item-icon>
@@ -40,7 +40,7 @@
           class="ml-0"
           :class="{ 'mr-3': $vuetify.breakpoint.mdAndUp }"
         >
-          <v-btn icon>
+          <v-btn icon @click="forward">
             <v-icon>mdi-fast-forward</v-icon>
           </v-btn>
         </v-list-item-icon>
@@ -69,6 +69,11 @@
       },
       getSliderValue () {
         return this.sliderValue
+      },
+      getAudioDuration () {
+        return this.audio ?
+          this.convertTimeHHMMSS(this.Audioduration) + ' / ' + this.convertTimeHHMMSS(this.audio.duration) :
+          '-- / --'
       }
     },
     data () {
@@ -83,13 +88,19 @@
         loading: true,
         sliderMax: 0,
         sliderUpdate: true,
-        sliderValue: 0
+        sliderValue: 0,
+        Audioduration: 0
       }
     },
     mounted () {
       this.setupAudio();
       this.audio.src = this.AudioPlayerData.url;
       this.videoId = this.AudioPlayerData.id;
+    },
+    destroyed () {
+      this.removeAudioEventListinners();
+      this.audio.src = null;
+      this.audio = null;
     },
     watch: {
       AudioPlayerData (val) {
@@ -121,6 +132,21 @@
         this.audio.addEventListener('loadeddata', this.onloadeddata);
         this.audio.addEventListener('waiting', this.onwaitingdata);
         this.audio.addEventListener('playing', this.onPlaying);
+      },
+      removeAudioEventListinners () {
+        this.audio.removeEventListener('error', this.onAudioError);
+        this.audio.removeEventListener('play', this.onAudioPlay);
+        this.audio.removeEventListener('pause', this.onAudioPause);
+        this.audio.removeEventListener('abort', this.onAudioPause);
+        this.audio.removeEventListener('progress', this.onAudioProgress);
+        this.audio.removeEventListener('durationchange', this.onAudioDurationChange);
+        this.audio.removeEventListener('timeupdate', this.onAudioTimeUpdate);
+        this.audio.removeEventListener('volumechange', this.onAudioVolumeChange);
+        this.audio.removeEventListener('ended', this.onAudioEnded);
+        this.audio.removeEventListener('loadstart', this.onloadstart);
+        this.audio.removeEventListener('loadeddata', this.onloadeddata);
+        this.audio.removeEventListener('waiting', this.onwaitingdata);
+        this.audio.removeEventListener('playing', this.onPlaying);
       },
       onPlaying () {
         this.loading = false
@@ -172,6 +198,7 @@
 //        this.audios.Audioduration = this.convertTimeHHMMSS(this.audios.audioB[this.audios.activeAudio].currentTime);
 ////        if (this.audios.audioB[this.audios.activeAudio].currentTime === (this.audios.audioB[this.audios.activeAudio].duration -10.0)){
 ////        }
+        this.Audioduration = this.audio.currentTime;
         if (this.sliderUpdate) {
           this.sliderValue = this.audio.currentTime
         }
@@ -197,6 +224,12 @@
       onwaitingdata () {
         this.loading = true
       },
+      rewind () {
+        this.audio.currentTime -= 5
+      },
+      forward () {
+        this.audio.currentTime += 5
+      },
       togglePlaying () {
         if (!this.audio.paused) {
           this.pause()
@@ -211,8 +244,13 @@
         this.audio.pause()
       },
       convertTimeHHMMSS (val) {
-        let hhmmss = new Date(val * 1000).toISOString().substr(11, 8);
-        return (hhmmss.indexOf('00:') === 0) ? hhmmss.substr(3) : hhmmss
+
+        if (!isNaN(val)) {
+          let hhmmss = new Date(val * 1000).toISOString().substr(11, 8);
+          return (hhmmss.indexOf('00:') === 0) ? hhmmss.substr(3) : hhmmss
+        }
+        console.log(val)
+        return ''
       },
       SliderMouseDown () {
         this.sliderUpdate = false
@@ -232,9 +270,4 @@
 </script>
 <style scoped >
 
-  .v-slider__thumb{
-    cursor:grabbing;
-    height:42px;
-    width:42px;
-  }
 </style>

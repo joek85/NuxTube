@@ -11,12 +11,12 @@
                     class="mx-auto">
                     <v-img
                       aspect-ratio="1.7"
-                      :src="results[0].thumbnail.url.split('?')[0]">
+                      :src="results[0].thumbnail.url">
                     </v-img>
                     <v-fade-transition>
-                      <v-overlay
+                      <v-overlay class="imgOverlay"
                         absolute
-                        v-if="hover"
+                                 v-if="hover"
                         color="#121212">
                         <v-btn
                           @click.stop="showVideoDialog"
@@ -26,6 +26,14 @@
                           color="primary"
                           x-large>
                           <v-icon x-large color="white">mdi-video-outline</v-icon>
+                        </v-btn>
+                        <v-btn
+                          icon
+                          fab
+                          dark
+                          color="primary"
+                          x-large>
+                          <v-icon x-large color="white">mdi-cloud-download-outline</v-icon>
                         </v-btn>
                       </v-overlay>
                     </v-fade-transition>
@@ -75,13 +83,15 @@
     },
     computed: {
       ...mapGetters({
-        AudioPlayerData: 'getAudioPlayerData'
+        AudioPlayerData: 'getAudioPlayerData',
+        VideoDialog: 'getVideoDialog'
       }),
     },
     watchQuery: true,
+    mounted () {
+    },
     data() {
       return {
-
         overlay: false
       }
     },
@@ -90,13 +100,19 @@
         title: this.results[0].title
       };
     },
+    watch: {
+      VideoDialog (val) {
+        if (!val) {
+          this.$store.commit('showBottomSheet', true);
+        }
+      }
+    },
     async asyncData({params, $axios, store}) {
         let results = await $axios.$get('/api/player', {
           params: {
             id: params.id
           }
         });
-
         store.commit('setAudioPlayerData', {
           title: results[0].title,
           subtitle: results[0].author,
@@ -104,8 +120,9 @@
           url: results[0].formats.url,
           id: params.id
         });
-        store.commit('showBottomSheet', true);
-
+        if (!store.getters.getVideoDialog){
+          store.commit('showBottomSheet', true);
+        }
       return { results }
     },
     methods: {
@@ -119,8 +136,14 @@
         return utils.formatDate(date)
       },
       showVideoDialog() {
-        this.$store.commit('showVideoDialog', true)
+        this.$store.commit('showVideoDialog', true);
+        this.$store.commit('showBottomSheet', false);
       }
     }
   }
 </script>
+<style scoped>
+  .imgOverlay {
+    overflow-y: unset;
+  }
+</style>

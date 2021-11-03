@@ -127,7 +127,12 @@ export default {
             path: ':id',
             component: 'pages/search/_query.vue',
             name: 'search-query'
-          }
+          },
+          {
+            path: '',
+            component: 'pages/trending/index.vue',
+            name: 'trending',
+          },
         ]
       },
 

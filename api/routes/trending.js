@@ -9,13 +9,12 @@ router.get('/', (req, res) => {
     parseCreatorOnRise: false,
     page: 'default'
   };
-
   ytrend.scrape_trending_page(parameters).then((data) =>{
     //console.log('hi')
-    //console.log(data)
+    // console.log(data)
     res.json(data)
   }).catch((error)=>{
-    //console.log(error)
+    console.log(error)
     res.json(error)
   });
 });
