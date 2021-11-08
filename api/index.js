@@ -1,14 +1,15 @@
-const express = require('express');
-const mysql = require('mysql');
+import express from 'express';
+import { createPool } from 'mysql';
 const app = express();
 
-const search = require('./routes/search');
-const player = require('./routes/player');
-const playlist = require('./routes/playlist');
-const channel = require('./routes/channel');
-const trending = require('./routes/trending');
+import search from './routes/search';
+import player from './routes/player';
+import playlist from './routes/playlist';
+import channel from './routes/channel';
+import trending from './routes/trending';
+import history from './routes/history.js';
 
-global.pool  = mysql.createPool({
+global.pool  = createPool({
   connectionLimit : 10,
   host            : 'localhost',
   user            : 'root',
@@ -21,8 +22,8 @@ app.use('/player', player);
 app.use('/playlist', playlist);
 app.use('/channel', channel);
 app.use('/trending', trending);
-
-module.exports = app;
+app.use('/history', history);
+export default app;
 
 if (require.main === module) {
   const port = process.env.PORT || 3001;

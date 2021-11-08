@@ -47,3 +47,9 @@
     }
   }
 </script>
+<style scoped>
+  .plyr {
+    height: inherit;
+    --plyr-color-main: red;
+  }
+</style>

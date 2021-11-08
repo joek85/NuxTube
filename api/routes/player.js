@@ -1,22 +1,38 @@
-const express = require('express');
-const router = express.Router();
-let ytaudio = require('yt-audio');
+import { Router } from 'express';
+const router = Router();
+import { getRelatedVideos } from 'yt-audio';
+import { getInfo, filterFormats, chooseFormat } from 'ytdl-core';
 
 let dateOptions = { year: 'numeric',
   month: 'long', day: 'numeric' };
 
 router.get('/', async (req, res) => {
   let id = req.query['id'];
+  let date = req.query['date'];
+  // ytaudio.getPlayerdata(id).then(videodetails => {
+  //   let out = [{id: id, title: videodetails.title, authorThumbnail: videodetails.authorThumbnail , subtitle: videodetails.author, thumbnail: videodetails.thumbnails[videodetails.thumbnails.length-1],
+  //     duration: videodetails.lengthSeconds, play_counts: videodetails.viewCount, published_at: videodetails.publishDate,
+  //     tags: videodetails.tags, channel_id: videodetails.channelId, description: videodetails.description,
+  //     formats: {url: videodetails.audioFormats}, related: [], isLive: videodetails.isLive, author: videodetails.author}];
+  //   database_insert_item_history(id, out[0].title, out[0].author, out[0].channel_id, out[0].thumbnail.url, out[0].duration, out[0].play_counts, out[0].published_at, date);
+  //   res.json(out)
+  // }).catch(err => {
+  //   res.json(err)
+  // })
+  getInfo(id).then(info => {
+    let audioformats = filterFormats(info.formats, 'audioonly');
+    let af = chooseFormat(audioformats, 'highestaudio');
 
-  ytaudio.getPlayerdata(id).then(videodetails => {
-    let out = [{id: id, title: videodetails.title, authorThumbnail: videodetails.authorThumbnail , subtitle: videodetails.author, thumbnail: videodetails.thumbnails[videodetails.thumbnails.length-1],
-      duration: videodetails.lengthSeconds, play_counts: videodetails.viewCount, published_at: videodetails.publishDate,
-      tags: videodetails.tags, channel_id: videodetails.channelId, description: videodetails.description,
-      formats: {url: videodetails.audioFormats}, related: [], isLive: videodetails.isLive, author: videodetails.author}];
-    database_insert_item_history(id, out[0].title, out[0].author, out[0].channel_id, out[0].thumbnail.url, out[0].duration, out[0].play_counts, out[0].published_at)
+    let out = [{id: id, title: info.videoDetails.title, authorThumbnail: info.videoDetails.author.thumbnails[0].url , subtitle: info.videoDetails.author, thumbnail: info.videoDetails.thumbnails[info.videoDetails.thumbnails.length-1],
+      duration: info.videoDetails.lengthSeconds, play_counts: info.videoDetails.viewCount, published_at: info.videoDetails.publishDate,
+      tags: info.videoDetails.keywords, channel_id: info.videoDetails.channelId, description: info.videoDetails.description,
+      formats: {url: af.url}, related: [], isLive: info.videoDetails.isLive, author: info.videoDetails.author.name}];
+
+    database_insert_item_history(id, out[0].title, out[0].author, out[0].channel_id, out[0].thumbnail.url, out[0].duration, out[0].play_counts, out[0].published_at, out[0].authorThumbnail, date);
+
     res.json(out)
   }).catch(err => {
-    res.json(err)
+    console.log(err)
   })
 });
 
@@ -24,7 +40,7 @@ router.get('/related', async (req, res) => {
   let id = req.query['id'];
   let continuation = req.query['continuation'];
   let tracking = req.query['ctp'];
-  ytaudio.getRelatedVideos(id, continuation, tracking).then(response => {
+  getRelatedVideos(id, continuation, tracking).then(response => {
     res.json({relatedVideos: parseRelated(response.videos), continuation: response.continuation})
   }).catch(err => {
     res.json(err)
@@ -45,8 +61,8 @@ function parseRelated(related) {
   return items
 }
 
-async function database_insert_item_history(videoId, title, author_name, author_id, thumbnail, duration, views, published) {
-  let data = {videoId: videoId, title: title, author_name: author_name, author_id: author_id, thumbnail: thumbnail, duration: duration, views: views, published: published, date: new Date().toISOString().replace('T', ' ').substring(0, 19)};
+async function database_insert_item_history(videoId, title, author_name, author_id, thumbnail, duration, views, published, author_thumbnail, date) {
+  let data = {videoId: videoId, title: title, author_name: author_name, author_id: author_id, thumbnail: thumbnail, duration: duration, views: views, published: published, author_thumbnail: author_thumbnail, date: date};
   let sql = 'INSERT INTO history SET ?';
   await query(sql,[data])
 }
@@ -63,4 +79,4 @@ function query(sql, data) {
   });
 }
 
-module.exports = router;
+export default router;

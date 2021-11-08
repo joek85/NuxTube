@@ -4,7 +4,8 @@ export const state = () => ({
   SearchQuery: '',
   showVideoDialog: false,
   videoFullScreen: false,
-  windowSize: 0
+  windowSize: 0,
+  toggle_view: 0
 });
 
 export const mutations = {
@@ -25,6 +26,9 @@ export const mutations = {
   },
   setWindowSize (state, size) {
     state.windowSize = size
+  },
+  setToggle_view (state, toggle) {
+    state.toggle_view = toggle
   }
 };
 
@@ -46,11 +50,17 @@ export const getters = {
   },
   getWindowSize (state) {
     return state.windowSize
+  },
+  getToggle_view (state) {
+    return state.toggle_view
   }
 };
 
 export const actions = {
   storeSearchQuery ({commit}, query) {
     commit('setSearchQuery', query)
+  },
+  storeToggle_view ({commit}, toggle) {
+    commit('setToggle_view', toggle)
   }
 };

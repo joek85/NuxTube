@@ -1,9 +1,7 @@
 <template>
   <v-card>
     <v-card v-if="results.header.banner">
-      <v-img class="imgStyle" :src="results.header.banner.url">
-
-      </v-img>
+      <v-img class="imgStyle" :src="results.header.banner.url"></v-img>
     </v-card>
     <v-container>
       <v-card class="mb-2" flat>

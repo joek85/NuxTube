@@ -133,6 +133,11 @@ export default {
             component: 'pages/trending/index.vue',
             name: 'trending',
           },
+          {
+            path: '',
+            component: 'pages/history/index.vue',
+            name: 'history',
+          },
         ]
       },
 

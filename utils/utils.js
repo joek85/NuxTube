@@ -7,7 +7,7 @@ export default {
     return converttime(time)
   },
   formatDate (time) {
-    return timemoment(time)
+    return moment(time).fromNow()
   },
 }
 
@@ -44,5 +44,12 @@ function converttime (duration) {
 }
 function timemoment (t) {
   // console.log(t)
-  return moment((moment(t).format('YYYYMMDD'))).fromNow()
+  return moment(t).utcOffset("+02:00").calendar(null, {
+    sameDay: '[Today]',
+    nextDay: '[Tomorrow]',
+    nextWeek: 'dddd',
+    lastDay: '[Yesterday]',
+    lastWeek: '[Last] dddd',
+    sameElse: 'DD/MM/YYYY'
+  });
 }

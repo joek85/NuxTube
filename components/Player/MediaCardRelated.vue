@@ -1,7 +1,7 @@
 <template>
   <v-card class="rounded-card pa-2">
     <v-row >
-      <v-col sm="12" xl="4">
+      <v-col cols="12" xl="4">
         <NuxtLink :to="{name: 'player-id', params: {id: data.id}}">
           <v-img class=""
             aspect-ratio="1.7"
@@ -16,13 +16,13 @@
           </v-img>
         </NuxtLink>
       </v-col>
-      <v-col sm="12" xl="8" class="d-flex flex-column justify-space-between d-sm-inline">
+      <v-col cols="12" xl="8" class="d-flex flex-column justify-space-between d-sm-inline">
         <v-card-title class="pa-0 subtitle-1">
           <v-row>
-            <v-col sm="10">
-              <NuxtLink  class="" :to="{name: 'player-id', params: {id: data.id}}">{{data.title}}</NuxtLink>
+            <v-col cols="10">
+              <NuxtLink :to="{name: 'player-id', params: {id: data.id}}">{{data.title}}</NuxtLink>
             </v-col>
-            <v-col sm="1">
+            <v-col cols="1">
               <v-menu bottom left>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn dark icon v-bind="attrs" v-on="on">

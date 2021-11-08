@@ -1,13 +1,13 @@
-const express = require('express');
-const router = express.Router();
-const ytch = require('yt-channel-info');
-let ytaudio = require('yt-audio');
+import { Router } from 'express';
+const router = Router();
+import { getChannelVideos } from 'yt-channel-info';
+import { getChannelInfos, getChannelPlaylists } from 'yt-audio';
 
 router.get('/', async (req, res) => {
   let channelId = req.query['channelId'];
 
   try {
-    let response = await ytaudio.getChannelInfos(channelId);
+    let response = await getChannelInfos(channelId);
     // console.log(response)
     res.json(response)
   }catch (err){
@@ -18,7 +18,7 @@ router.get('/videos', async (req, res) => {
   let channelId = req.query['channelId'];
 
   try {
-    let response = await ytch.getChannelVideos(channelId);
+    let response = await getChannelVideos(channelId);
     res.json(response)
   }catch (err){
     res.json(err)
@@ -32,7 +32,7 @@ router.get('/playlists', async (req, res) => {
   // console.log(clickTrackingParams)
   // console.log(params)
   try {
-    let response = await ytaudio.getChannelPlaylists(channelId, clickTrackingParams, params);
+    let response = await getChannelPlaylists(channelId, clickTrackingParams, params);
     // console.log(response)
     res.json(response)
   }catch (err){
@@ -40,4 +40,4 @@ router.get('/playlists', async (req, res) => {
     res.json(err)
   }
 });
-module.exports = router;
+export default router;

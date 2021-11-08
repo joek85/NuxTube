@@ -74,6 +74,17 @@
           </v-card>
         </div>
       </div>
+      <v-snackbar
+        :timeout="snackbarTimeout"
+        :value="snackbar"
+        :color="snackbarColor"
+        absolute
+        right
+        rounded="pill"
+        top
+      >
+        {{snackbarText}}
+      </v-snackbar>
     </v-main>
     <v-footer app color="transparent" class="pa-0" v-if="getBottomSheet" fixed>
       <transition name="bottom-sheet-transition">
@@ -88,7 +99,7 @@
 <script>
   import AudioPlayer from '../components/AudioPlayer.vue'
   import VideoPlayer from '../components/VideoPlayer.vue'
-  import SuggestionService from '../services/search'
+  import SuggestionService from '../services/service'
   import { mapState, mapGetters } from 'vuex'
 export default {
   components: {
@@ -97,7 +108,12 @@ export default {
   },
   mounted () {
     window.addEventListener("resize", this.resizeEventHandler);
-    this.setWindowSize()
+    this.setWindowSize();
+    this.$root.$on('SnackBar', (param) => {
+      this.snackbarColor = param.color;
+      this.snackbarText = param.text;
+      this.snackbar = true
+    })
   },
   fetchOnServer: false,
   data () {
@@ -127,6 +143,11 @@ export default {
       isLoading: false,
       model: null,
       search: null,
+      snackbar: false,
+      snackbarMode: 'vertical',
+      snackbarColor: 'success',
+      snackbarTimeout: 8000,
+      snackbarText: '',
     }
   },
   watch: {
@@ -139,7 +160,7 @@ export default {
 
       this.isLoading = true;
 
-      SuggestionService.searchsuggestion(val)
+      SuggestionService.searchSuggestion(val)
         .then(res => {
           this.listS = res.data;
         })

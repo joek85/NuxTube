@@ -1,17 +1,29 @@
 <template>
   <v-container>
+    <v-toolbar dense class="transparent">
+        <v-row align="end" justify="end">
+          <v-btn-toggle v-model="toggle_exclusive" mandatory dense group color="primary">
+            <v-btn>
+              <v-icon>mdi-view-list</v-icon>
+            </v-btn>
+            <v-btn>
+              <v-icon>mdi-view-grid</v-icon>
+            </v-btn>
+          </v-btn-toggle>
+        </v-row>
+    </v-toolbar>
     <v-row>
-      <v-col order="1" cols="8">
+      <v-col order="1" md="8" sm="12">
         <v-card class="mb-4 pa-2">
           <v-row >
-            <v-col xl="3" sm="12">
+            <v-col cols="12" :xl="toggle_view ? 12 : 3">
               <v-hover>
                 <template v-slot:default="{ hover }">
                   <v-card
                     class="mx-auto">
                     <v-img
                       aspect-ratio="1.7"
-                      :src="results[0].thumbnail.url">
+                      :src="results[0].thumbnail.url.split('?')[0]">
                     </v-img>
                     <v-fade-transition>
                       <v-overlay class="imgOverlay"
@@ -41,14 +53,19 @@
                 </template>
               </v-hover>
             </v-col>
-            <v-col sm="12" xl="9"class="d-flex flex-column justify-space-between d-sm-inline">
+            <v-col cols="12" :xl="toggle_view ? 12 : 9" class="d-flex flex-column justify-space-between d-sm-inline">
               <v-card-title class="text-h4 font-weight-bold pa-0">{{ results[0].title }}</v-card-title>
-              <v-card-title class="pa-0">
+              <v-card-title class="pa-1 mt-1">
                 <NuxtLink class="nuxt-link-exact-active" :to="{name: 'channel-id', params: {id: results[0].channel_id } }">
+                  <v-avatar size="36">
+                    <img :src="results[0].authorThumbnail">
+                  </v-avatar>
+                </NuxtLink>
+                <NuxtLink class="nuxt-link-exact-active pl-2" :to="{name: 'channel-id', params: {id: results[0].channel_id } }">
                   {{results[0].author}}
                 </NuxtLink>
               </v-card-title>
-              <v-card-title v-if="!results[0].isLive" class="pa-0 subtitle-2 grey--text">{{getPlayCounts(results[0].play_counts)}} - {{formatDate(results[0].published_at)}} - {{convertTime(results[0].duration)}}</v-card-title>
+              <v-card-title v-if="!results[0].isLive" class="pa-0 mt-1 subtitle-2 grey--text">{{getPlayCounts(results[0].play_counts)}} - {{formatDate(results[0].published_at)}} - {{convertTime(results[0].duration)}}</v-card-title>
               <v-chip v-if="results[0].isLive" color="red" small>LIVE</v-chip>
               <v-col cols="12" class="pa-0">
                 <v-chip-group class="pa-0" active-class="primary--text" column>
@@ -65,7 +82,7 @@
         </v-card>
         <description-card :descriptions="results[0].description"/>
       </v-col>
-      <v-col order="2" cols="4">
+      <v-col order="2" md="4" sm="12">
         <related-card :id="results[0].id"></related-card>
       </v-col>
     </v-row>
@@ -84,7 +101,8 @@
     computed: {
       ...mapGetters({
         AudioPlayerData: 'getAudioPlayerData',
-        VideoDialog: 'getVideoDialog'
+        VideoDialog: 'getVideoDialog',
+        toggle_view: 'getToggle_view'
       }),
     },
     watchQuery: true,
@@ -92,7 +110,8 @@
     },
     data() {
       return {
-        overlay: false
+        overlay: false,
+        toggle_exclusive: 0
       }
     },
     head() {
@@ -105,12 +124,16 @@
         if (!val) {
           this.$store.commit('showBottomSheet', true);
         }
+      },
+      toggle_exclusive (val) {
+        this.$store.commit('setToggle_view', val);
       }
     },
     async asyncData({params, $axios, store}) {
         let results = await $axios.$get('/api/player', {
           params: {
-            id: params.id
+            id: params.id,
+            date: new Date().toISOString().substring(0,10)
           }
         });
         store.commit('setAudioPlayerData', {

@@ -20,8 +20,8 @@
     "vue-plyr": "^7.0.0",
     "vue-youtube": "^1.4.0",
     "yt-audio": "file:../../yt-audio",
+    "ytdl-core": "file:/home/joe/Documents/Development/node-ytdl-core-master",
     "yt-channel-info": "^2.2.0",
-    "ytdl-core": "latest",
     "ytpl": "^2.2.3",
     "ytsr": "^3.5.0"
   },

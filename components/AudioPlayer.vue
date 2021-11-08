@@ -1,5 +1,5 @@
 <template>
-  <v-card tabindex="0" tile @keydown.left="rewind" @keydown.right="forward">
+  <v-card tile @keydown.left="rewind" @keydown.right="forward">
     <v-slider class="pb-0 ml-3 mr-3"
        v-model="sliderValue" hide-details dense thumb-label :max="getSliderMax" @change="SliderChange" @mousedown="SliderMouseDown" @mouseup="SliderMouseUp">
       <template v-slot:thumb-label="item">
@@ -24,6 +24,11 @@
 
         <v-spacer></v-spacer>
         <v-card-title class="subtitle-1">{{getAudioDuration}}</v-card-title>
+        <v-list-item-icon>
+          <v-btn icon >
+            <v-icon>mdi-repeat</v-icon>
+          </v-btn>
+        </v-list-item-icon>
         <v-list-item-icon>
           <v-btn icon @click="rewind">
             <v-icon>mdi-rewind</v-icon>
@@ -269,5 +274,7 @@
   }
 </script>
 <style scoped >
-
+  .slider-transition {
+    transition: none;
+  }
 </style>
