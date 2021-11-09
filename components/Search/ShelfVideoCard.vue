@@ -2,7 +2,7 @@
   <v-card class="pa-2" width="220">
     <v-row>
       <v-col cols="12">
-        <NuxtLink class="subheading " :to="{name: 'player-id', params: {id: data.videoId}}">
+        <NuxtLink class="subheading " :to="{name: 'player', query: {id: data.videoId}}">
           <v-img
             aspect-ratio="1.7"
             :src="data.thumbnail.url">

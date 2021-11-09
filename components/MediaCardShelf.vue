@@ -1,6 +1,6 @@
 <template>
   <v-card class="rounded-card elevation-4" width="240">
-    <NuxtLink class="subheading" :to="{name: 'player-id', params: {id: data.videoId}}">
+    <NuxtLink class="subheading" :to="{name: 'player', query: {id: data.videoId}}">
       <v-img :src="data.thumbnails.url" aspect-ratio="1.7" height="120px">
         <template v-slot:placeholder>
           <v-row class="fill-height pa-0">

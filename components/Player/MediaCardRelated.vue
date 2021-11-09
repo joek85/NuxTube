@@ -1,8 +1,8 @@
 <template>
-  <v-card class="rounded-card pa-2">
+  <v-card class="pa-2">
     <v-row >
       <v-col cols="12" xl="4">
-        <NuxtLink :to="{name: 'player-id', params: {id: data.id}}">
+        <NuxtLink :to="{name: 'player', query: {id: data.id}}">
           <v-img class=""
             aspect-ratio="1.7"
             :src="data.thumbnail.url.split('?')[0]">
@@ -20,7 +20,7 @@
         <v-card-title class="pa-0 subtitle-1">
           <v-row>
             <v-col cols="10">
-              <NuxtLink :to="{name: 'player-id', params: {id: data.id}}">{{data.title}}</NuxtLink>
+              <NuxtLink :to="{name: 'player', query: {id: data.id}}">{{data.title}}</NuxtLink>
             </v-col>
             <v-col cols="1">
               <v-menu bottom left>

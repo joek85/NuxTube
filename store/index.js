@@ -1,5 +1,6 @@
 export const state = () => ({
   AudioPlayerData: {},
+  PlayerPlaylist: {},
   showBottomSheet: false,
   SearchQuery: '',
   showVideoDialog: false,
@@ -29,6 +30,9 @@ export const mutations = {
   },
   setToggle_view (state, toggle) {
     state.toggle_view = toggle
+  },
+  setPlayerPlaylist (state, playlist){
+    state.PlayerPlaylist = playlist
   }
 };
 
@@ -53,6 +57,9 @@ export const getters = {
   },
   getToggle_view (state) {
     return state.toggle_view
+  },
+  getPlayerPlaylist (state) {
+    return state.PlayerPlaylist
   }
 };
 

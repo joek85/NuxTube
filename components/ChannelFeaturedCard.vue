@@ -3,7 +3,7 @@
     <v-card-title class="font-weight-bold">{{ data.title }}</v-card-title>
     <v-row v-for="video in data.videos" :key="video.title">
       <v-col md="2" sm="12">
-        <NuxtLink :to="{name: 'player-id', params: {id: video.videoId}}">
+        <NuxtLink :to="{name: 'player', query: {id: video.videoId}}">
           <v-img class="pa-0 ma-1"
                  aspect-ratio="1.7"
                  :src="video.thumbnails.url">

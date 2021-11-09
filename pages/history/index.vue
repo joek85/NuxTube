@@ -5,7 +5,7 @@
         <v-card>
           <v-card-title>
             <v-spacer></v-spacer>
-            <v-col cols="12" md="5">
+            <v-col cols="12" md="12" xl="6">
               <v-text-field
                 v-model="search"
                 append-icon="mdi-magnify"
@@ -14,7 +14,6 @@
                 hide-details
               ></v-text-field>
             </v-col>
-
           </v-card-title>
           <v-data-iterator
             :headers="headers"
@@ -24,7 +23,7 @@
           >
             <template v-slot:default="props">
               <v-row class="pa-1">
-                <v-col cols="12" md="4" xl="3" v-for="item in props.items"
+                <v-col cols="12" md="6" xl="3" v-for="item in props.items"
                        :key="item.videoId">
                   <v-card class="rounded-card pa-2">
                     <v-row >
@@ -77,7 +76,7 @@
                             <v-toolbar-title class="pa-0 subtitle-2 grey--text">{{item.author_name}}</v-toolbar-title>
                           </v-col>
                         </v-card-title>
-                        <v-card-title v-if="!item.isLive" class="pa-0 subtitle-2 grey--text">{{getPlayCounts(item.views)}} - {{formatDate(item.published)}} - {{item.duration}}</v-card-title>
+                        <v-card-title v-if="!item.isLive" class="pa-0 subtitle-2 grey--text">{{getPlayCounts(item.views)}} - {{formatDate(item.published)}} - {{convertTime(item.duration)}}</v-card-title>
                         <v-chip v-if="item.isLive === true" small color="red">LIVE</v-chip>
                       </v-col>
                     </v-row>
@@ -93,7 +92,13 @@
         <v-card
           class="mx-auto">
           <v-list :disabled="isDisabled">
-            <v-subheader>DATE</v-subheader>
+            <v-row class="pa-2">
+              <v-subheader>DATE</v-subheader>
+              <v-spacer></v-spacer>
+              <v-card-title class="">
+                <v-btn small rounded dark color="primary">clear history</v-btn>
+              </v-card-title>
+            </v-row>
             <v-list-item-group
               color="primary"
             >

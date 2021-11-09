@@ -12,7 +12,7 @@
         </div>
       </v-card>
       <v-card flat class="mt-2" v-if="data.action.title">
-        <NuxtLink :to="{name: 'player-id', params: {id: data.action.videoId}}">
+        <NuxtLink :to="{name: 'player', query: {id: data.action.videoId}}">
           <v-img class=""
                  aspect-ratio="1.7"
                  :src="data.action.thumbnail.url">
@@ -36,7 +36,7 @@
           <v-list-item-group
             active-class="primary">
             <template v-for="item in data.sections[0].items">
-              <v-list-item :key="item.videoId" :to="{name: 'player-id', params: {id: item.videoId}}">
+              <v-list-item :key="item.videoId" :to="{name: 'player', query: {id: item.videoId}}">
                   <v-list-item-content>
                     <v-list-item-title v-text="item.title"></v-list-item-title>
                     <v-list-item-subtitle v-text="item.subtitle"></v-list-item-subtitle>

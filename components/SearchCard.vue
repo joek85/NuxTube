@@ -4,7 +4,7 @@
       <v-card class="elevation-0 pa-2">
         <v-row>
           <v-col cols="12" sm="2">
-            <NuxtLink class="subheading " :to="{name: 'player-id', params: {id: data.id}}">
+            <NuxtLink class="subheading " :to="{name: 'player', query: {id: data.id}}">
               <v-img
                 aspect-ratio="1.7"
                 :src="data.bestThumbnail.url">
@@ -20,7 +20,7 @@
           </v-col>
           <v-col cols="12" sm="10" class="pa-2">
             <h3 class="d-flex justify-space-between">
-              <NuxtLink class="subheading " :to="{name: 'player-id', params: {id: data.id}}"> {{ data.title }}</NuxtLink>
+              <NuxtLink class="subheading " :to="{name: 'player', query: {id: data.id}}"> {{ data.title }}</NuxtLink>
               <v-menu bottom left>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn dark icon v-bind="attrs" v-on="on">

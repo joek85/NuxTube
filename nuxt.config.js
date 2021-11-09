@@ -99,11 +99,6 @@ export default {
             name: 'player',
           },
           {
-            path: ':id',
-            component: 'pages/player/_id.vue',
-            name: 'player-id'
-          },
-          {
             path: '',
             component: 'pages/channel/index.vue',
             name: 'channel',

@@ -7,7 +7,7 @@
       <v-card class="mb-2" flat>
         <v-card-title>
           <v-avatar size="88">
-            <img :src="results.header.avatar.url">
+            <!-- <img :src="results.header.avatar.url"> -->
           </v-avatar>
           <v-list-item-content class="ml-2">
             <v-toolbar-title>{{results.header.title}}</v-toolbar-title>
