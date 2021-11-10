@@ -119,8 +119,9 @@
       </v-col>
       <v-col order="2" md="4" sm="12">
         <playlist-card
-          v-if="PlayerPlaylist.items"
-          :data="PlayerPlaylist"
+          v-if="$route.query.playlistId"
+          :playlistId="$route.query.playlistId"
+          :index="$route.query.index"
         ></playlist-card>
         <related-card :id="results[0].id"></related-card>
       </v-col>
@@ -171,7 +172,6 @@ export default {
     },
   },
   async asyncData({ query, $axios, store }) {
-    console.log(query);
     let results = await $axios.$get("/api/player", {
       params: {
         id: query.id,

@@ -96,13 +96,13 @@ export default {
         playlistId: params.id,
       },
     });
-    store.commit("setPlayerPlaylist", {
-      title: results.title,
-      estimatedItemCount: results.estimatedItemCount,
-      views: results.views,
-      lastUpdated: results.lastUpdated,
-      items: results.items,
-    });
+    // store.commit("setPlayerPlaylist", {
+    //   title: results.title,
+    //   estimatedItemCount: results.estimatedItemCount,
+    //   views: results.views,
+    //   lastUpdated: results.lastUpdated,
+    //   items: results.items,
+    // });
     return { results };
   },
   methods: {
