@@ -31,6 +31,12 @@ export default {
   props: {
     id: "",
   },
+  watch: {
+    id () {
+      this.posts = {continuation: "", relatedVideos: []}
+      this.$fetch()
+    }
+  },
   data() {
     return {
       continuation: "",

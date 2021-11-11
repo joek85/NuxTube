@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-toolbar dense class="transparent mb-2">
+    <v-toolbar dense class="transparent mb-2" flat>
       <v-row align="end" justify="end">
         <v-btn-toggle
           v-model="toggle_exclusive"
