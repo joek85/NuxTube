@@ -9,6 +9,11 @@ If you are using mysql <5.7.5 you should set this global variable in order histo
 ```bash
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 ```
+or edit ```/etc/mysql/my.cnf``` and paste these 2 lines at the end of the file
+```
+[mysqld]
+sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
+```
 MySql database is included in the database folder, don't forget to import it, only structures are exported
 
 ## Features
