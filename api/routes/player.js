@@ -58,7 +58,7 @@ function parseRelated(related) {
       }
     }else if (related[i].type === 'playlist') {
         items.push({
-          id: related[i].id, title: related[i].title, thumbnail: related[i].thumbnail, published: related[i].published, count: related[i].count, type: related[i].type
+          id: related[i].id, title: related[i].title, subtitle: related[i].subtitle, thumbnail: related[i].thumbnail, published: related[i].published, count: related[i].count, type: related[i].type
         })
     }
   }

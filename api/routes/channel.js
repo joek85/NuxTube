@@ -1,13 +1,13 @@
 import { Router } from 'express';
 const router = Router();
 import { getChannelVideos } from 'yt-channel-info';
-import { getChannelInfos, getChannelPlaylists } from 'yt-audio';
+import ytaudio from 'yt-audio';
 
 router.get('/', async (req, res) => {
   let channelId = req.query['channelId'];
 
   try {
-    let response = await getChannelInfos(channelId);
+    let response = await ytaudio.getChannelInfos(channelId);
     // console.log(response)
     res.json(response)
   }catch (err){
@@ -32,7 +32,7 @@ router.get('/playlists', async (req, res) => {
   // console.log(clickTrackingParams)
   // console.log(params)
   try {
-    let response = await getChannelPlaylists(channelId, clickTrackingParams, params);
+    let response = await ytaudio.getChannelPlaylists(channelId, clickTrackingParams, params);
     // console.log(response)
     res.json(response)
   }catch (err){

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-let ytaudio = require('yt-audio');
+import ytaudio from 'yt-audio';
 import axios from 'axios'
 
 const SEARCH_URL = 'https://suggestqueries.google.com/complete/search';

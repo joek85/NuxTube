@@ -25,6 +25,8 @@
             v-else-if="related.type === 'playlist'"
             :playlistId="related.id"
             :title="related.title"
+            :subtitle="related.subtitle"
+            :published="related.published"
             :thumbnail="related.thumbnail"
             :videoCounts="related.count"
           ></playlist-card>

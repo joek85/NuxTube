@@ -16,6 +16,8 @@
       </v-col>
       <v-col cols="12" xl="8">
         <v-card-title class="grey--text pa-2">{{ title }}</v-card-title>
+        <v-card-title class="subtitle-1 grey--text pa-1">{{ subtitle }}</v-card-title>
+        <v-card-title class="subtitle-1 grey--text pa-1">{{ published }}</v-card-title>
         <v-card-title class="pa-2">
           <v-chip v-if="videoCounts" class="grey--text" outlined small
             >{{ videoCounts }} videos</v-chip
@@ -29,10 +31,11 @@
 <script>
 export default {
   props: {
-    playlistId: "",
-    thumbnail: "",
-    title: "",
-    subtitle: "",
+    playlistId: '',
+    thumbnail: '',
+    title: '',
+    subtitle: '',
+    published: '',
     videoCounts: 0,
   },
   methods: {},
