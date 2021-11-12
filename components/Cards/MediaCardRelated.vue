@@ -2,10 +2,10 @@
   <v-card class="pa-2">
     <v-row >
       <v-col cols="12" xl="4">
-        <NuxtLink :to="{name: 'player', query: {id: data.id}}">
+        <NuxtLink :to="{name: 'player', query: {id: videoId}}">
           <v-img class=""
             aspect-ratio="1.7"
-            :src="data.thumbnail.url.split('?')[0]">
+            :src="thumbnail.url.split('?')[0]">
             <template v-slot:placeholder>
               <v-row class="fill-height">
                 <v-col cols="12">
@@ -20,7 +20,7 @@
         <v-card-title class="pa-0 subtitle-1">
           <v-row>
             <v-col cols="10">
-              <NuxtLink :to="{name: 'player', query: {id: data.id}}">{{data.title}}</NuxtLink>
+              <NuxtLink :to="{name: 'player', query: {id: videoId}}">{{title}}</NuxtLink>
             </v-col>
             <v-col cols="1">
               <v-menu bottom left>
@@ -41,17 +41,17 @@
           </v-row>
         </v-card-title>
         <v-card-title class="pa-0">
-          <NuxtLink class="nuxt-link-exact-active" :to="{name: 'channel-id', params: {id: data.channel_id } }">
+          <NuxtLink class="nuxt-link-exact-active" :to="{name: 'channel-id', params: {id: channelId } }">
             <v-avatar size="36">
-              <img :src="data.author.thumbnails.url">
+              <img :src="authorThumbnail.url">
             </v-avatar>
           </NuxtLink>
           <v-col cols="10">
-            <v-toolbar-title class="pa-0 subtitle-2 grey--text">{{data.author.name}}</v-toolbar-title>
+            <v-toolbar-title class="pa-0 subtitle-2 grey--text">{{authorName}}</v-toolbar-title>
           </v-col>
         </v-card-title>
-        <v-card-title v-if="!data.isLive" class="pa-0 subtitle-2 grey--text">{{data.playcounts}} - {{data.published}} - {{data.duration}}</v-card-title>
-          <v-chip v-if="data.isLive === true" small color="red">LIVE</v-chip>
+        <v-card-title v-if="!isLive" class="pa-0 subtitle-2 grey--text">{{playCounts}} - {{published}} - {{duration}}</v-card-title>
+          <v-chip v-if="isLive === true" small color="red">LIVE</v-chip>
       </v-col>
     </v-row>
   </v-card>
@@ -61,7 +61,17 @@
   import utils from '../../utils/utils'
   export default {
     props: {
-      data: {}
+      videoId: '',
+      thumbnail: '',
+      title: '',
+      channelId: '',
+      authorThumbnail: '',
+      authorName: '',
+      playCounts: 0,
+      published: '',
+      duration: 0,
+      isLive: false
+
     },
     data () {
       return {

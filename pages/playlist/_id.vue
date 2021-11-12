@@ -77,7 +77,7 @@
 </template>
 <script>
 import utils from "../../utils/utils";
-import MediaCard from "../../components/Player/MediaCardRelated.vue";
+import MediaCard from "../../components/Cards/MediaCardRelated.vue";
 export default {
   components: {
     MediaCard,

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import { getRelatedVideos } from 'yt-audio';
+import ytaudio from 'yt-audio';
 import { getInfo, filterFormats, chooseFormat } from 'ytdl-core';
 
 let dateOptions = { year: 'numeric',
@@ -22,11 +22,11 @@ router.get('/', async (req, res) => {
   getInfo(id).then(info => {
     let audioformats = filterFormats(info.formats, 'audioonly');
     let af = chooseFormat(audioformats, 'highestaudio');
-
+    // console.log(info.related_videos)
     let out = [{id: id, title: info.videoDetails.title, authorThumbnail: info.videoDetails.author.thumbnails[0].url , subtitle: info.videoDetails.author, thumbnail: info.videoDetails.thumbnails[info.videoDetails.thumbnails.length-1],
       duration: info.videoDetails.lengthSeconds, play_counts: info.videoDetails.viewCount, published_at: info.videoDetails.publishDate,
       tags: info.videoDetails.keywords, channel_id: info.videoDetails.channelId, description: info.videoDetails.description,
-      formats: {url: af.url}, related: [], isLive: info.videoDetails.isLive, author: info.videoDetails.author.name}];
+      formats: {url: af.url}, isLive: info.videoDetails.isLive, author: info.videoDetails.author.name}];
 
     database_insert_item_history(id, out[0].title, out[0].author, out[0].channel_id, out[0].thumbnail.url, out[0].duration, out[0].play_counts, out[0].published_at, out[0].authorThumbnail, date);
 
@@ -40,7 +40,7 @@ router.get('/related', async (req, res) => {
   let id = req.query['id'];
   let continuation = req.query['continuation'];
   let tracking = req.query['ctp'];
-  getRelatedVideos(id, continuation, tracking).then(response => {
+  ytaudio.getRelatedVideos(id, continuation, tracking).then(response => {
     res.json({relatedVideos: parseRelated(response.videos), continuation: response.continuation})
   }).catch(err => {
     res.json(err)
@@ -52,10 +52,14 @@ function parseRelated(related) {
   for ( let i = 0; i < related.length; i++ ) {
     if (related[i].type === 'video') {
       if (related[i].author.id !== 'UCzKaBQDTjmqL1GLwJfxtqXg' && related[i].author.id !== 'UCX4sShAQf01LYjYQhG2ZgKg' && related[i].author.id !== 'UCjQFgnpxDY2b86b0sKp36dg'){
-        items.push({id: related[i].id, title : related[i].title, subtitle: related[i].author.name, duration: related[i].length_seconds, playcounts: related[i].short_view_count_text, thumbnail: related[i].thumbnails,
-          isLive: related[i].isLive, channel_id: related[i].author.id, published: related[i].published, author: related[i].author
+        items.push({id: related[i].id, title : related[i].title, authorName: related[i].author.name, duration: related[i].length_seconds, playCounts: related[i].short_view_count_text, thumbnail: related[i].thumbnails,
+          isLive: related[i].isLive, channelId: related[i].author.id, published: related[i].published, authorThumbnail: related[i].author.thumbnails, type: related[i].type
         })
       }
+    }else if (related[i].type === 'playlist') {
+        items.push({
+          id: related[i].id, title: related[i].title, thumbnail: related[i].thumbnail, published: related[i].published, count: related[i].count, type: related[i].type
+        })
     }
   }
   return items

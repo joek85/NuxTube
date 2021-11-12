@@ -8,7 +8,26 @@
           v-for="related in posts.relatedVideos"
           :key="related.id"
         >
-          <media-card :data="related" />
+          <media-card
+            v-if="related.type === 'video'"
+            :videoId="related.id"
+            :title="related.title"
+            :thumbnail="related.thumbnail"
+            :channelId="related.channelId"
+            :authorThumbnail="related.authorThumbnail"
+            :authorName="related.authorName"
+            :playCounts="related.playCounts"
+            :published="related.published"
+            :duration="related.duration"
+            :isLive="related.isLive"
+          ></media-card>
+          <playlist-card
+            v-else-if="related.type === 'playlist'"
+            :playlistId="related.id"
+            :title="related.title"
+            :thumbnail="related.thumbnail"
+            :videoCounts="related.count"
+          ></playlist-card>
         </v-col>
         <v-col cols="12">
           <div class="text-center pa-1" v-if="$fetchState.pending">
@@ -23,19 +42,21 @@
   </v-card>
 </template>
 <script>
-import MediaCard from "./MediaCardRelated.vue";
+import MediaCard from "../Cards/MediaCardRelated.vue";
+import PlaylistCard from "../Cards/PlaylistCard.vue";
 export default {
   components: {
     MediaCard,
+    PlaylistCard,
   },
   props: {
     id: "",
   },
   watch: {
-    id () {
-      this.posts = {continuation: "", relatedVideos: []}
-      this.$fetch()
-    }
+    id() {
+      this.posts = { continuation: "", relatedVideos: [] };
+      this.$fetch();
+    },
   },
   data() {
     return {
@@ -54,7 +75,6 @@ export default {
         ctp: this.ctp,
       },
     });
-
     this.posts.continuation = related.continuation;
     this.posts.relatedVideos.push(...related.relatedVideos);
     this.fetched = true;
@@ -79,6 +99,14 @@ export default {
         document.documentElement.offsetHeight;
       if (bottomOfWindow && this.fetched) {
         setTimeout(this.loadMore(this.posts.continuation), 1000);
+      }
+    },
+    getCardType(type) {
+      switch (type) {
+        case "video":
+          return "MediaCard";
+        case "playlist":
+          return "PlaylistCard";
       }
     },
   },
