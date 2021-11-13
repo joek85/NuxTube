@@ -43,7 +43,7 @@
               <v-divider :key="index"></v-divider>
               <v-list-item
                 :key="item.title"
-                :to="{ name: 'player', query: { id: item.id } }"
+                :to="{ name: 'player', query: { id: item.id, playlistId: $route.params.id, index: index } }"
               >
                 <v-list-item-icon>
                   <v-img width="160" height="80" :src="item.bestThumbnail.url">

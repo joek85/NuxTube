@@ -1,7 +1,7 @@
 <template>
   <v-card class="pa-2">
     <v-row >
-      <v-col cols="12" xl="4">
+      <v-col cols="12">
         <NuxtLink :to="{name: 'player', query: {id: videoId}}">
           <v-img class=""
             aspect-ratio="1.7"
@@ -16,11 +16,11 @@
           </v-img>
         </NuxtLink>
       </v-col>
-      <v-col cols="12" xl="8" class="d-flex flex-column justify-space-between d-sm-inline">
+      <v-col cols="12" class="d-flex flex-column justify-space-between d-sm-inline">
         <v-card-title class="pa-0 subtitle-1">
           <v-row>
             <v-col cols="10">
-              <NuxtLink :to="{name: 'player', query: {id: videoId}}">{{title}}</NuxtLink>
+    <v-card-title class="subtitle-1 pa-1">{{ title }}</v-card-title>
             </v-col>
             <v-col cols="1">
               <v-menu bottom left>
@@ -50,7 +50,7 @@
             <v-toolbar-title class="pa-0 subtitle-2 grey--text">{{authorName}}</v-toolbar-title>
           </v-col>
         </v-card-title>
-        <v-card-title v-if="!isLive" class="pa-0 subtitle-2 grey--text">{{playCounts}} - {{published}} - {{duration}}</v-card-title>
+        <v-card-title v-if="!isLive" class="pa-1 subtitle-2 grey--text">{{playCounts}} - {{published}} - {{duration}}</v-card-title>
           <v-chip v-if="isLive === true" small color="red">LIVE</v-chip>
       </v-col>
     </v-row>

@@ -2,7 +2,7 @@
   <v-card class="elevation-4">
     <v-card-title class="font-weight-bold">{{ data.title }}</v-card-title>
     <v-row v-for="video in data.videos" :key="video.title">
-      <v-col md="2" sm="12">
+      <v-col cols="12" md="3">
         <NuxtLink :to="{name: 'player', query: {id: video.videoId}}">
           <v-img class="pa-0 ma-1"
                  aspect-ratio="1.7"
@@ -17,7 +17,7 @@
           </v-img>
         </NuxtLink>
       </v-col>
-      <v-col md="10" sm="12">
+      <v-col cols="12" md="9">
         <v-card-title class="font-weight-bold">{{ video.title }}</v-card-title>
         <v-card-title class="subtitle-1 pt-0">{{ video.description }}</v-card-title>
         <v-card-actions class="pt-0">
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+
   export default {
     props: {
         data: {}

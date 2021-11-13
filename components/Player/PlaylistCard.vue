@@ -1,7 +1,7 @@
 <template>
   <v-card class="mb-6">
-    <v-col cols="12">
-      <div class="text-center pa-1" v-if="$fetchState.pending">
+    <v-col cols="12" v-if="$fetchState.pending">
+      <div class="text-center pa-1">
         <v-progress-circular
           indeterminate
           color="primary"
@@ -15,6 +15,7 @@
       {{ results.estimatedItemCount }} videos -
       {{ formatViews(results.views) }} views - {{ results.lastUpdated }}
     </v-card-subtitle>
+    <v-divider></v-divider>
     <v-list max-height="400" style="overflow-y: auto">
       <v-list-item-group v-model="getListIndex">
         <template v-for="(item, index) in results.items">
@@ -54,7 +55,7 @@ import utils from "../../utils/utils";
 export default {
   props: {
     playlistId: "",
-    index: 0
+    index: 0,
   },
   data() {
     return {
@@ -63,10 +64,10 @@ export default {
     };
   },
   watch: {
-   index (val) {
-       console.log(val)
-       this.selected = val
-   }
+    index(val) {
+      console.log(val);
+      this.selected = val;
+    },
   },
   fetchOnServer: false,
   methods: {
@@ -74,29 +75,28 @@ export default {
       return utils.formatNumbers(viewCount);
     },
     itemClick(id, index) {
-          this.$router.push({
+      this.$router.push({
         name: "player",
         query: {
           id: id,
           playlistId: this.playlistId,
-          index: index
+          index: index,
         },
       });
     },
   },
   mounted() {
-      
     //   this.selected = this.index
   },
   computed: {
-      getListIndex: {
-          get(){
-            return this.selected
-          },
-          set(val) {
-            this.selected = val
-          }
-      }
+    getListIndex: {
+      get() {
+        return this.selected;
+      },
+      set(val) {
+        this.selected = val;
+      },
+    },
   },
   async fetch() {
     this.results = await this.$axios.$get("/api/playlist", {

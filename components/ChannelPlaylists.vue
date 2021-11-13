@@ -1,10 +1,10 @@
 <template>
   <v-row class="">
-    <v-col cols="12" class=""
+    <v-col cols="12"  class=""
            v-for="playlist in playlists"
            :key="playlist.title">
       <v-row v-if="getCardType(playlist.type) === 'grid'">
-        <v-col cols="2"
+        <v-col cols="12" md="3" xl="2"
                v-for="item in playlist.items"
                :key="item.playlistId">
           <playlist-shelf class="" :data="item"/>
