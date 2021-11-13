@@ -26,6 +26,7 @@
 
       }
     },
+    fetchOnServer: false,
     mounted() {
       // console.log(this.$props.data)
     },

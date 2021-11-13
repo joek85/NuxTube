@@ -45,6 +45,7 @@
               </v-list-item-action>
             </template>
           </v-list-item>
+          <v-divider :key="index"></v-divider>
         </template>
       </v-list-item-group>
     </v-list>

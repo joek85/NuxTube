@@ -17,6 +17,7 @@
        props: {
          data: ''
        },
+       fetchOnServer: false,
       components: {
         ShelfVideoCard
       }

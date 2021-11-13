@@ -40,7 +40,7 @@
         <v-card>
           <v-list three-line>
             <template v-for="(item, index) in results.items">
-              <v-divider :key="index"></v-divider>
+              
               <v-list-item
                 :key="item.title"
                 :to="{ name: 'player', query: { id: item.id, playlistId: $route.params.id, index: index } }"
@@ -68,6 +68,7 @@
                   ></v-list-item-action-text>
                 </v-list-item-action>
               </v-list-item>
+              <v-divider :key="index"></v-divider>
             </template>
           </v-list>
         </v-card>

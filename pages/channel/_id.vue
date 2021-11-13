@@ -9,7 +9,7 @@
           <v-avatar size="88">
             <img :src="results.header.avatar.url" />
           </v-avatar>
-          <v-list-item-content class="ml-2">
+          <v-list-item-content class="ml-4">
             <v-toolbar-title>{{ results.header.title }}</v-toolbar-title>
             <v-toolbar-title class="grey--text subtitle-1">{{
               results.header.subscribers

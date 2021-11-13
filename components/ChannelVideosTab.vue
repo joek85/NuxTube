@@ -1,7 +1,7 @@
 <template>
   <v-row class="">
     <v-col
-      cols="12" md="3" xl="2"
+      cols="12" sm="4" md="3" xl="2"
       class=""
       v-for="video in channelVideos.videos"
       :key="video.videoId"
