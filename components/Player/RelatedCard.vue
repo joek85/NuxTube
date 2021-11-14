@@ -113,9 +113,11 @@ export default {
     },
   },
   mounted() {
+    console.log('related mounted')
     window.addEventListener("scroll", this.handleScroll);
   },
   destroyed() {
+        console.log('related destroyed')
     window.removeEventListener("scroll", this.handleScroll);
   },
 };

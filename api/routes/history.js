@@ -4,7 +4,7 @@ const router = Router();
 router.get('/', async function (req, res, next) {
   let date = req.query['date'];
 
-  let sql = 'SELECT DISTINCT videoId,author_id,author_name,author_thumbnail,title,duration,thumbnail,views,published FROM `history` WHERE date = ? GROUP BY videoId';
+  let sql = 'SELECT DISTINCT videoId,author_id,author_name,author_thumbnail,title,duration,thumbnail,views,published FROM `history` WHERE date = ? GROUP BY videoId ORDER BY id DESC';
 
   try {
     let result = await query(sql, [date]);

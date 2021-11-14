@@ -8,13 +8,23 @@
         ></v-progress-circular>
       </div>
     </v-col>
-    <v-card-title v-if="results.title">
-      {{ results.title }}
-    </v-card-title>
-    <v-card-subtitle v-if="results.estimatedItemCount">
-      {{ results.estimatedItemCount }} videos -
-      {{ formatViews(results.views) }} views - {{ results.lastUpdated }}
-    </v-card-subtitle>
+    <div class="d-flex justify-space-between">
+      <div>
+        <v-card-title v-if="results.title">
+          {{ results.title }}
+        </v-card-title>
+        <v-card-subtitle v-if="results.estimatedItemCount">
+          {{ results.estimatedItemCount }} videos -
+          {{ formatViews(results.views) }} views - {{ results.lastUpdated }}
+        </v-card-subtitle>
+      </div>
+      <div class="d-flex align-end pa-2">
+        <v-btn icon large>
+          <v-icon >mdi-playlist-plus</v-icon>
+        </v-btn>
+      </div>
+    </div>
+
     <v-divider></v-divider>
     <v-list max-height="400" style="overflow-y: auto">
       <v-list-item-group v-model="selected">
