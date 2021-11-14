@@ -2,11 +2,11 @@ import express from 'express';
 import { createPool } from 'mysql';
 const app = express();
 
-import search from './routes/search';
-import player from './routes/player';
-import playlist from './routes/playlist';
-import channel from './routes/channel';
-import trending from './routes/trending';
+import search from './routes/search.js';
+import player from './routes/player.js';
+import playlist from './routes/playlist.js';
+import channel from './routes/channel.js';
+import trending from './routes/trending.js';
 import history from './routes/history.js';
 
 global.pool  = createPool({
