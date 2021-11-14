@@ -11,7 +11,6 @@
             <v-autocomplete
               v-model="model"
               :items="searchItems"
-              :loading="isLoading"
               :search-input.sync="search"
               @change="searchlistClick"
               append-icon=""

@@ -104,6 +104,8 @@ export default {
       Audioduration: 0,
     };
   },
+  fetchOnServer: false,
+
   mounted() {
     this.setupAudio();
     this.audio.src = this.AudioPlayerData.url;

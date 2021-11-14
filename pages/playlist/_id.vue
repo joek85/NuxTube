@@ -12,7 +12,7 @@
               </v-row>
             </template>
           </v-img>
-          <v-card-title style="position: relative" class="">
+          <v-card-title style="position: relative" class="pb-0">
             <v-fab-transition>
               <v-btn
                 color="primary"
@@ -40,10 +40,16 @@
         <v-card>
           <v-list three-line>
             <template v-for="(item, index) in results.items">
-              
               <v-list-item
-                :key="item.title"
-                :to="{ name: 'player', query: { id: item.id, playlistId: $route.params.id, index: index } }"
+                :key="item.id"
+                :to="{
+                  name: 'player',
+                  query: {
+                    id: item.id,
+                    playlistId: $route.params.id,
+                    index: index,
+                  },
+                }"
               >
                 <v-list-item-icon>
                   <v-img width="160" height="80" :src="item.bestThumbnail.url">

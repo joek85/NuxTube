@@ -17,33 +17,34 @@
     </v-card-subtitle>
     <v-divider></v-divider>
     <v-list max-height="400" style="overflow-y: auto">
-      <v-list-item-group v-model="getListIndex">
+      <v-list-item-group v-model="selected">
         <template v-for="(item, index) in results.items">
-          <v-list-item :key="index" @click="itemClick(item.id, index)">
-            <template v-slot:default="{ active }">
-              <v-list-item-icon>
-                <v-img width="96" height="56" :src="item.bestThumbnail.url">
-                  <template v-slot:placeholder>
-                    <v-row class="fill-height">
-                      <v-col cols="12">
-                        <v-skeleton-loader type="image"></v-skeleton-loader>
-                      </v-col>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title v-html="item.title"></v-list-item-title>
-                <v-list-item-subtitle
-                  v-html="item.author.name"
-                ></v-list-item-subtitle>
-              </v-list-item-content>
-              <v-list-item-action>
-                <v-list-item-action-text
-                  v-text="item.duration"
-                ></v-list-item-action-text>
-              </v-list-item-action>
-            </template>
+          <v-list-item :key="item.id" @click="itemClick(item.id, index)">
+            <v-list-item-icon>
+              <v-img width="96" height="56" :src="item.bestThumbnail.url">
+                <template v-slot:placeholder>
+                  <v-row class="fill-height">
+                    <v-col cols="12">
+                      <v-skeleton-loader type="image"></v-skeleton-loader>
+                    </v-col>
+                  </v-row>
+                </template>
+              </v-img>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title v-html="item.title"></v-list-item-title>
+              <v-list-item-subtitle
+                v-html="item.author.name"
+              ></v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-list-item-action-text
+                v-text="index + 1"
+              ></v-list-item-action-text>
+              <v-list-item-action-text
+                v-text="item.duration"
+              ></v-list-item-action-text>
+            </v-list-item-action>
           </v-list-item>
           <v-divider :key="index"></v-divider>
         </template>
@@ -66,7 +67,6 @@ export default {
   },
   watch: {
     index(val) {
-      console.log(val);
       this.selected = val;
     },
   },
@@ -87,18 +87,9 @@ export default {
     },
   },
   mounted() {
-    //   this.selected = this.index
+    this.selected = Number(this.index);
   },
-  computed: {
-    getListIndex: {
-      get() {
-        return this.selected;
-      },
-      set(val) {
-        this.selected = val;
-      },
-    },
-  },
+  computed: {},
   async fetch() {
     this.results = await this.$axios.$get("/api/playlist", {
       params: {
