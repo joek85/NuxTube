@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="8">
+      <v-col order="2" order-sm="1" cols="12" sm="8">
         <v-card>
           <v-card-title class="d-flex justify-center">
             <v-col cols="12" md="12" xl="6">
@@ -130,7 +130,7 @@
           </v-data-iterator>
         </v-card>
       </v-col>
-      <v-col cols="4">
+      <v-col order="1" order-sm="2" cols="12" sm="4">
         <v-card class="mx-auto">
           <v-list :disabled="isDisabled">
             <v-row class="pa-2">
