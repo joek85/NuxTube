@@ -1,7 +1,7 @@
 <template>
   <v-card class="pa-2">
     <v-row>
-      <v-col sm="3" md="4">
+      <v-col cols="12" sm="3" md="4">
         <NuxtLink class="subheading " :to="{name: 'player', query: {id: data.videoId}}">
           <v-img
             aspect-ratio="1.7"
@@ -16,7 +16,7 @@
           </v-img>
         </NuxtLink>
       </v-col>
-      <v-col sm="9" md="8" class="d-flex flex-column justify-space-between d-sm-inline">
+      <v-col cols="12" sm="9" md="8" class="d-flex flex-column justify-space-between d-sm-inline">
         <v-card-title class="pa-0">{{data.title}}</v-card-title>
         <v-card-title class="pa-0 subtitle-2 grey--text">{{data.views}} - {{data.published}} - {{data.duration}}</v-card-title>
         <v-card-title class="pa-0">

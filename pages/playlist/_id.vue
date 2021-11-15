@@ -41,7 +41,7 @@
           <v-list three-line>
             <template v-for="(item, index) in results.videos">
               <v-list-item
-                :key="item.id"
+                :key="item.videoId"
                 :to="{
                   name: 'player',
                   query: {
@@ -94,7 +94,7 @@ export default {
   },
   head() {
     return {
-      title: this.results.title,
+      title: this.results.sidebar.title,
     };
   },
   async asyncData({ params, $axios, store }) {
@@ -120,7 +120,7 @@ export default {
       this.$router.push({
         name: "player",
         query: {
-          id: this.results.items[0].id,
+          id: this.results.videos[0].videoId,
           playlistId: this.$route.params.id,
         },
       });

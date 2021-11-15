@@ -21,34 +21,12 @@
           </div>
         </v-sheet>
       </v-col>
-      <v-col order="2" md="4">
+      <v-col order-sm="1" order-md="2" cols="12" md="4">
         <artist-card :data="results.secondaryResults"/>
       </v-col>
-      <v-col order="1" md="8">
+      <v-col order-sm="2" order-md="1" cols="12" md="8">
         <v-card flat class="transparent">
-          <!--<v-slide-group show-arrows v-model="refines" @change="cardClick">-->
-            <!--<v-slide-item class="ma-2"-->
-              <!--v-for="item in SearchResults.refinements"-->
-              <!--:key="item.q" v-slot="{ active, toggle }">-->
-              <!--<v-card @click="toggle" class="rounded-card " width="180">-->
-                <!--<router-link :to="{name: 'Search', query: {q: item.q } }">-->
-                  <!--<v-img :src="item.bestThumbnail.url" contain height="">-->
-                    <!--<template v-slot:placeholder>-->
-                      <!--<v-row class="fill-height pa-0">-->
-                        <!--<v-col cols="12">-->
-                          <!--<v-skeleton-loader type="image"></v-skeleton-loader>-->
-                        <!--</v-col>-->
-                      <!--</v-row>-->
-                    <!--</template>-->
-                  <!--</v-img>-->
-                <!--</router-link>-->
-                <!--<v-card-title >-->
-                  <!--<p>{{ item.q }}</p>-->
-                <!--</v-card-title>-->
-              <!--</v-card>-->
-            <!--</v-slide-item>-->
-          <!--</v-slide-group>-->
-          <v-col cols="12">
+          <v-col cols="12" class="pa-0">
             <template v-for="result in results.primaryResults">
               <component :is="getCardType(result.type)" :data="result.items" class="mb-3"/>
             </template>

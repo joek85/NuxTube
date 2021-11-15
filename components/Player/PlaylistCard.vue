@@ -15,20 +15,23 @@
         </v-card-title>
         <v-card-subtitle v-if="results.sidebar">
           {{ results.sidebar.videoCounts }} -
-          {{ formatViews(results.sidebar.views) }} - {{ results.sidebar.published }}
+          {{ formatViews(results.sidebar.views) }} -
+          {{ results.sidebar.published }}
         </v-card-subtitle>
       </div>
       <div class="d-flex align-end pa-2">
         <v-btn icon>
-          <v-icon >mdi-playlist-plus</v-icon>
+          <v-icon>mdi-playlist-plus</v-icon>
         </v-btn>
       </div>
     </div>
-
     <v-list max-height="400" style="overflow-y: auto">
       <v-list-item-group v-model="selected">
         <template v-for="(item, index) in results.videos">
-          <v-list-item :key="item.videoId" @click="itemClick(item.videoId, index)">
+          <v-list-item
+            :key="item.videoId"
+            @click="itemClick(item.videoId, index)"
+          >
             <v-list-item-icon>
               <v-img width="96" height="56" :src="item.thumbnails.url">
                 <template v-slot:placeholder>
@@ -105,7 +108,7 @@ export default {
         playlistId: this.playlistId,
       },
     });
-    console.log(this.results)
+    console.log(this.results);
   },
 };
 </script>
