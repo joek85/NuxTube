@@ -8,7 +8,7 @@
         ></v-progress-circular>
       </div>
     </v-col>
-    <div class="d-flex justify-space-between">
+    <div class="d-flex justify-space-between" v-if="!$fetchState.pending">
       <div>
         <v-card-title v-if="results.sidebar">
           {{ results.sidebar.title }}
@@ -25,7 +25,6 @@
       </div>
     </div>
 
-    <v-divider></v-divider>
     <v-list max-height="400" style="overflow-y: auto">
       <v-list-item-group v-model="selected">
         <template v-for="(item, index) in results.videos">
