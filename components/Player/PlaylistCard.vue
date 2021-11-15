@@ -10,16 +10,16 @@
     </v-col>
     <div class="d-flex justify-space-between">
       <div>
-        <v-card-title v-if="results.title">
-          {{ results.title }}
+        <v-card-title v-if="results.sidebar">
+          {{ results.sidebar.title }}
         </v-card-title>
-        <v-card-subtitle v-if="results.estimatedItemCount">
-          {{ results.estimatedItemCount }} videos -
-          {{ formatViews(results.views) }} views - {{ results.lastUpdated }}
+        <v-card-subtitle v-if="results.sidebar">
+          {{ results.sidebar.videoCounts }} -
+          {{ formatViews(results.sidebar.views) }} - {{ results.sidebar.published }}
         </v-card-subtitle>
       </div>
       <div class="d-flex align-end pa-2">
-        <v-btn icon large>
+        <v-btn icon>
           <v-icon >mdi-playlist-plus</v-icon>
         </v-btn>
       </div>
@@ -28,10 +28,10 @@
     <v-divider></v-divider>
     <v-list max-height="400" style="overflow-y: auto">
       <v-list-item-group v-model="selected">
-        <template v-for="(item, index) in results.items">
-          <v-list-item :key="item.id" @click="itemClick(item.id, index)">
+        <template v-for="(item, index) in results.videos">
+          <v-list-item :key="item.videoId" @click="itemClick(item.videoId, index)">
             <v-list-item-icon>
-              <v-img width="96" height="56" :src="item.bestThumbnail.url">
+              <v-img width="96" height="56" :src="item.thumbnails.url">
                 <template v-slot:placeholder>
                   <v-row class="fill-height">
                     <v-col cols="12">
@@ -44,7 +44,7 @@
             <v-list-item-content>
               <v-list-item-title v-html="item.title"></v-list-item-title>
               <v-list-item-subtitle
-                v-html="item.author.name"
+                v-html="item.subtitle"
               ></v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
@@ -106,6 +106,7 @@ export default {
         playlistId: this.playlistId,
       },
     });
+    console.log(this.results)
   },
 };
 </script>

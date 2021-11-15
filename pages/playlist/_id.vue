@@ -31,7 +31,7 @@
             {{ results.sidebar.title }}
           </v-card-title>
           <v-card-subtitle>
-            {{ results.sidebar.viewCounts }} -
+            {{ results.sidebar.videoCounts }} -
             {{ formatViews(results.sidebar.views) }} - {{ results.sidebar.published }}
           </v-card-subtitle>
         </v-card>
