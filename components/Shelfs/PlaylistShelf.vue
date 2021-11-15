@@ -1,7 +1,7 @@
 <template>
-  <v-card class="rounded-card elevation-4" >
+  <v-card class="rounded-card elevation-4" width="240">
     <NuxtLink class="subheading" :to="{name: 'playlist-id', params: {id: data.playlistId}}">
-      <v-img v-if="data.thumbnails" :src="data.thumbnails.url" aspect-ratio="1.7">
+      <v-img v-if="data.thumbnails" :src="data.thumbnails.url" aspect-ratio="1.7" >
         <template v-slot:placeholder>
           <v-row class="fill-height pa-0">
             <v-col cols="12">
