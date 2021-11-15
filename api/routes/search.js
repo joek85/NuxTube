@@ -27,10 +27,10 @@ router.get('/suggestions', async (req, res) => {
     }
   });
   let response = results.data;
-  response = response.substring(3, response.length-1);
+  response = response.substring(3, response.length - 1);
   let json = JSON.parse(response);
-  for (let suggestion of json[1]){
-    suggestions.push({text: suggestion[0]})
+  for (let suggestion of json[1]) {
+    suggestions.push({ text: suggestion[0] })
   }
   res.json(suggestions)
 });

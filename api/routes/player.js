@@ -3,8 +3,6 @@ const router = Router();
 import ytaudio from 'yt-audio';
 import { getInfo, filterFormats, chooseFormat } from 'ytdl-core';
 
-let dateOptions = { year: 'numeric',
-  month: 'long', day: 'numeric' };
 
 router.get('/', async (req, res) => {
   let id = req.query['id'];
@@ -22,7 +20,6 @@ router.get('/', async (req, res) => {
   getInfo(id).then(info => {
     let audioformats = filterFormats(info.formats, 'audioonly');
     let af = chooseFormat(audioformats, 'highestaudio');
-    // console.log(info.related_videos)
     let out = [{id: id, title: info.videoDetails.title, authorThumbnail: info.videoDetails.author.thumbnails[0].url , subtitle: info.videoDetails.author, thumbnail: info.videoDetails.thumbnails[info.videoDetails.thumbnails.length-1],
       duration: info.videoDetails.lengthSeconds, play_counts: info.videoDetails.viewCount, published_at: info.videoDetails.publishDate,
       tags: info.videoDetails.keywords, channel_id: info.videoDetails.channelId, description: info.videoDetails.description,

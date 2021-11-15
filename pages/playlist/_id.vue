@@ -3,7 +3,7 @@
     <v-row>
       <v-col sm="12" md="4">
         <v-card>
-          <v-img class="" aspect-ratio="1.7" :src="results.bestThumbnail.url">
+          <v-img class="" aspect-ratio="1.7" :src="results.sidebar.thumbnails.url">
             <template v-slot:placeholder>
               <v-row class="fill-height">
                 <v-col cols="12">
@@ -28,31 +28,31 @@
             </v-fab-transition>
           </v-card-title>
           <v-card-title>
-            {{ results.title }}
+            {{ results.sidebar.title }}
           </v-card-title>
           <v-card-subtitle>
-            {{ results.estimatedItemCount }} videos -
-            {{ formatViews(results.views) }} views - {{ results.lastUpdated }}
+            {{ results.sidebar.viewCounts }} -
+            {{ formatViews(results.sidebar.views) }} - {{ results.sidebar.published }}
           </v-card-subtitle>
         </v-card>
       </v-col>
       <v-col md="8">
         <v-card>
           <v-list three-line>
-            <template v-for="(item, index) in results.items">
+            <template v-for="(item, index) in results.videos">
               <v-list-item
                 :key="item.id"
                 :to="{
                   name: 'player',
                   query: {
-                    id: item.id,
+                    id: item.videoId,
                     playlistId: $route.params.id,
                     index: index,
                   },
                 }"
               >
                 <v-list-item-icon>
-                  <v-img width="160" height="80" :src="item.bestThumbnail.url">
+                  <v-img width="160" height="80" :src="item.thumbnails.url">
                     <template v-slot:placeholder>
                       <v-row class="fill-height">
                         <v-col cols="12">
@@ -65,7 +65,7 @@
                 <v-list-item-content>
                   <v-list-item-title v-html="item.title"></v-list-item-title>
                   <v-list-item-subtitle
-                    v-html="item.author.name"
+                    v-html="item.subtitle"
                   ></v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action>
