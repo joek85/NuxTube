@@ -29,9 +29,10 @@
 
         <v-spacer></v-spacer>
         <v-card-title class="subtitle-1">{{ getAudioDuration }}</v-card-title>
-        <v-list-item-icon>
-          <v-btn icon>
-            <v-icon>mdi-repeat</v-icon>
+        <v-list-item-icon class="mr-2">
+          <v-btn icon @click="toggleRepeat">
+            <v-icon v-if="getRepeat">mdi-repeat-once</v-icon>
+            <v-icon v-else>mdi-repeat</v-icon>
           </v-btn>
         </v-list-item-icon>
         <v-list-item-icon>
@@ -85,6 +86,9 @@ export default {
             this.convertTimeHHMMSS(this.audio.duration)
         : "-- / --";
     },
+    getRepeat() {
+      return this.isRepeat
+    }
   },
   data() {
     return {
@@ -102,6 +106,7 @@ export default {
       sliderUpdate: true,
       sliderValue: 0,
       Audioduration: 0,
+      isRepeat: false
     };
   },
   fetchOnServer: false,
@@ -223,17 +228,9 @@ export default {
     onAudioEnded() {
       this.btns[0].btnPlay = "mdi-play";
       this.sliderValue = 0;
-      //        this.hSliderOptions.value = 0;
-      //        // console.log('end')
-      //        if (this.audios.repeat) {
-      //          this.setupAudioEventListinners(this.audios.activeAudio);
-      //          this.play()
-      //        }else{
-      //          if (this.getAutoPlay){
-      //            this.$root.$emit('autoplay', '')
-      //          }
-      //        }
-      // webAudioPeakMeter.Stop()
+      if (this.getRepeat) {
+        this.play()
+      }
     },
     onwaitingdata() {
       this.loading = true;
@@ -250,6 +247,9 @@ export default {
       } else {
         this.play();
       }
+    },
+    toggleRepeat () {
+      this.isRepeat = !this.isRepeat
     },
     play() {
       this.audio.play();

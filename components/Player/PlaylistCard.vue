@@ -108,7 +108,6 @@ export default {
         playlistId: this.playlistId,
       },
     });
-    console.log(this.results);
   },
 };
 </script>
