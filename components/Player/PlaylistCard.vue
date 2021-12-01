@@ -80,6 +80,7 @@ export default {
   watch: {
     index(val) {
       this.selected = val;
+      this.$store.commit('setPlaylistIndex', val)
     },
   },
   fetchOnServer: false,
@@ -108,6 +109,7 @@ export default {
         playlistId: this.playlistId,
       },
     });
+    this.$store.commit('setPlaylistInfo', this.playlistId, this.results.length)
   },
 };
 </script>

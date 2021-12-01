@@ -154,6 +154,7 @@ export default {
     return {
       overlay: false,
       toggle_exclusive: 0,
+      isPlaylist: false,
     };
   },
   head() {
@@ -170,8 +171,18 @@ export default {
     toggle_exclusive(val) {
       this.$store.commit("setToggle_view", val);
     },
+    "$route.query"(query) {
+      if (query.playlistId) {
+        this.$store.commit("setIsPlaylist", true);
+      } else {
+        this.$store.commit("setIsPlaylist", false);
+      }
+    },
   },
   async asyncData({ query, $axios, store }) {
+    if (query.playlistId) {
+      store.commit("setIsPlaylist", true);
+    }
     let results = await $axios.$get("/api/player", {
       params: {
         id: query.id,

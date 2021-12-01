@@ -1,63 +1,65 @@
 <template>
-  <v-card tile @keydown.left="rewind" @keydown.right="forward">
-    <v-slider
-      class="pb-0 ml-3 mr-3"
-      v-model="sliderValue"
-      hide-details
-      dense
-      thumb-label
-      :max="getSliderMax"
-      @change="SliderChange"
-      @mousedown="SliderMouseDown"
-      @mouseup="SliderMouseUp"
-    >
-      <template v-slot:thumb-label="item">
-        {{ convertTimeHHMMSS(item.value) }}
-      </template>
-    </v-slider>
-    <v-list class="pa-0">
-      <v-list-item>
-        <v-sheet elevation="5" class="ma-2" width="96">
-          <v-img aspect-ratio="1.7" :src="AudioPlayerData.thumbnail"> </v-img>
-        </v-sheet>
-        <v-list-item-content>
-          <v-list-item-title>{{ AudioPlayerData.title }}</v-list-item-title>
-          <v-list-item-subtitle>{{
-            AudioPlayerData.subtitle
-          }}</v-list-item-subtitle>
-        </v-list-item-content>
+  <v-col cols="12" class="pa-0">
+    <v-card tile @keydown.left="rewind" @keydown.right="forward">
+      <v-slider
+        class="pb-0 ml-3 mr-3"
+        v-model="sliderValue"
+        hide-details
+        dense
+        thumb-label
+        :max="getSliderMax"
+        @change="SliderChange"
+        @mousedown="SliderMouseDown"
+        @mouseup="SliderMouseUp"
+      >
+        <template v-slot:thumb-label="item">
+          {{ convertTimeHHMMSS(item.value) }}
+        </template>
+      </v-slider>
+      <v-list class="pa-0">
+        <v-list-item>
+          <v-sheet elevation="5" class="ma-2" width="96">
+            <v-img aspect-ratio="1.7" :src="AudioPlayerData.thumbnail"> </v-img>
+          </v-sheet>
+          <v-list-item-content>
+            <v-list-item-title>{{ AudioPlayerData.title }}</v-list-item-title>
+            <v-list-item-subtitle>{{
+              AudioPlayerData.subtitle
+            }}</v-list-item-subtitle>
+          </v-list-item-content>
 
-        <v-spacer></v-spacer>
-        <v-card-title class="subtitle-1">{{ getAudioDuration }}</v-card-title>
-        <v-list-item-icon class="mr-2">
-          <v-btn icon @click="toggleRepeat">
-            <v-icon v-if="getRepeat">mdi-repeat-once</v-icon>
-            <v-icon v-else>mdi-repeat</v-icon>
-          </v-btn>
-        </v-list-item-icon>
-        <v-list-item-icon>
-          <v-btn icon @click="rewind">
-            <v-icon>mdi-rewind</v-icon>
-          </v-btn>
-        </v-list-item-icon>
+          <v-spacer></v-spacer>
+          <v-card-title class="subtitle-1">{{ getAudioDuration }}</v-card-title>
+          <v-list-item-icon class="mr-2">
+            <v-btn icon @click="toggleRepeat">
+              <v-icon v-if="getRepeat">mdi-repeat-once</v-icon>
+              <v-icon v-else>mdi-repeat</v-icon>
+            </v-btn>
+          </v-list-item-icon>
+          <v-list-item-icon>
+            <v-btn icon @click="rewind">
+              <v-icon>mdi-rewind</v-icon>
+            </v-btn>
+          </v-list-item-icon>
 
-        <v-list-item-icon :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }">
-          <v-btn icon @click="togglePlaying" :loading="isLoading">
-            <v-icon>{{ onbtnPlayChange }}</v-icon>
-          </v-btn>
-        </v-list-item-icon>
+          <v-list-item-icon :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }">
+            <v-btn icon @click="togglePlaying" :loading="isLoading">
+              <v-icon>{{ onbtnPlayChange }}</v-icon>
+            </v-btn>
+          </v-list-item-icon>
 
-        <v-list-item-icon
-          class="ml-0"
-          :class="{ 'mr-3': $vuetify.breakpoint.mdAndUp }"
-        >
-          <v-btn icon @click="forward">
-            <v-icon>mdi-fast-forward</v-icon>
-          </v-btn>
-        </v-list-item-icon>
-      </v-list-item>
-    </v-list>
-  </v-card>
+          <v-list-item-icon
+            class="ml-0"
+            :class="{ 'mr-3': $vuetify.breakpoint.mdAndUp }"
+          >
+            <v-btn icon @click="forward">
+              <v-icon>mdi-fast-forward</v-icon>
+            </v-btn>
+          </v-list-item-icon>
+        </v-list-item>
+      </v-list>
+    </v-card>
+  </v-col>
 </template>
 <script>
 import { mapMutations, mapGetters } from "vuex";
@@ -66,6 +68,9 @@ export default {
   computed: {
     ...mapGetters({
       AudioPlayerData: "getAudioPlayerData",
+      IsPlaylist: 'getIsPlaylist',
+      PlaylistInfo: 'getPlaylistInfo',
+      PlaylistIndex: 'getPlaylistIndex'
     }),
     onbtnPlayChange() {
       return this.btns[0].btnPlay;
@@ -87,8 +92,8 @@ export default {
         : "-- / --";
     },
     getRepeat() {
-      return this.isRepeat
-    }
+      return this.isRepeat;
+    },
   },
   data() {
     return {
@@ -106,7 +111,7 @@ export default {
       sliderUpdate: true,
       sliderValue: 0,
       Audioduration: 0,
-      isRepeat: false
+      isRepeat: false,
     };
   },
   fetchOnServer: false,
@@ -128,6 +133,9 @@ export default {
         this.loading = true;
         this.videoId = val.id;
       }
+      console.log(this.IsPlaylist);
+      console.log(this.PlaylistInfo)
+      console.log(this.PlaylistIndex)
     },
   },
   methods: {
@@ -229,7 +237,7 @@ export default {
       this.btns[0].btnPlay = "mdi-play";
       this.sliderValue = 0;
       if (this.getRepeat) {
-        this.play()
+        this.play();
       }
     },
     onwaitingdata() {
@@ -248,8 +256,8 @@ export default {
         this.play();
       }
     },
-    toggleRepeat () {
-      this.isRepeat = !this.isRepeat
+    toggleRepeat() {
+      this.isRepeat = !this.isRepeat;
     },
     play() {
       this.audio.play();

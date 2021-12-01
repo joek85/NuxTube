@@ -5,7 +5,7 @@
         <v-col
           cols="12"
           class="pa-0 pb-2"
-          v-for="related in posts.relatedVideos"
+          v-for="related in relatedVideos"
           :key="related.id"
         >
           <media-card
@@ -52,19 +52,21 @@ export default {
     PlaylistCard,
   },
   props: {
-    id: "",
+    id: '',
   },
   watch: {
     id() {
-      this.posts = { continuation: "", relatedVideos: [] };
+      this.continuation = '';
+      this.ctp = '';
+      this.relatedVideos = [];
       this.$fetch();
     },
   },
   data() {
     return {
-      continuation: "",
-      ctp: "",
-      posts: { continuation: "", relatedVideos: [] },
+      continuation: '',
+      ctp: '',
+      relatedVideos: [],
       fetched: false,
     };
   },
@@ -77,8 +79,8 @@ export default {
         ctp: this.ctp,
       },
     });
-    this.posts.continuation = related.continuation;
-    this.posts.relatedVideos.push(...related.relatedVideos);
+    this.continuation = related.continuation;
+    this.relatedVideos.push(...related.relatedVideos);
     this.fetched = true;
   },
   fetchOnServer: false,
@@ -100,7 +102,7 @@ export default {
           window.innerHeight ===
         document.documentElement.offsetHeight;
       if (bottomOfWindow && this.fetched) {
-        setTimeout(this.loadMore(this.posts.continuation), 1000);
+        setTimeout(this.loadMore(this.continuation), 1000);
       }
     },
     getCardType(type) {

@@ -9,10 +9,10 @@
         <v-col cols="6" class="">
           <v-form @submit="doSearch">
             <v-autocomplete
-              v-model="model"
               :items="searchItems"
               :search-input.sync="search"
               @change="searchlistClick"
+              @update:list-index="keyd"
               append-icon=""
               color="accent"
               label="Search..."
@@ -78,11 +78,16 @@
     </v-main>
     <v-footer app color="transparent" class="pa-0" v-if="getBottomSheet" fixed>
       <transition name="bottom-sheet-transition">
-        <div
-          class="v-dialog v-bottom-sheet v-dialog--active v-dialog--persistent"
+        <v-col
+          cols="12"
+          class="
+            v-dialog v-bottom-sheet
+            v-dialog--active v-dialog--persistent
+            pa-0
+          "
         >
           <AudioPlayer></AudioPlayer>
-        </div>
+        </v-col>
       </transition>
     </v-footer>
   </v-app>
@@ -130,6 +135,7 @@ export default {
       miniVariant: false,
       title: "NuxTube",
       searchQuery: "",
+      inputText: "",
       isOpen: true,
       listS: [],
       isLoading: false,
@@ -197,8 +203,14 @@ export default {
       this.$store.commit("setWindowSize", window.innerHeight);
     },
     searchlistClick(val) {
-      if (val) {
+      // console.log(val)
+      if (val.length > 0) {
         this.$router.push({ name: "search-query", query: { q: val.text } });
+      }
+    },
+    keyd(val) {
+      if (val != -1) {
+        this.inputText = this.listS[val].text;
       }
     },
   },
@@ -225,12 +237,14 @@ export default {
         return Object.assign({}, entry, { text });
       });
     },
+    getInputText() {
+      return this.inputText;
+    },
   },
 };
 </script>
 
 <style lang="css" scoped>
-
 .slide-enter-active,
 .fslide-leave-active {
   transition: transform 0.5s;
