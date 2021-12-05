@@ -123,6 +123,7 @@
           :playlistId="$route.query.playlistId"
           :index="$route.query.index"
         ></playlist-card>
+        <chapters-card v-if="results[0].chapters" :chapters="results[0].chapters" :thumbnail="results[0].thumbnail.url"></chapters-card>
         <related-card :id="results[0].id"></related-card>
       </v-col>
     </v-row>
@@ -133,12 +134,14 @@ import utils from "../../utils/utils";
 import RelatedCard from "../../components/Player/RelatedCard.vue";
 import DescriptionCard from "../../components/Player/DescriptionCard.vue";
 import PlaylistCard from "../../components/Player/PlaylistCard.vue";
+import ChaptersCard from '../../components/Cards/ChaptersCard.vue'
 import { mapGetters } from "vuex";
 export default {
   components: {
     RelatedCard,
     DescriptionCard,
     PlaylistCard,
+    ChaptersCard
   },
   computed: {
     ...mapGetters({
