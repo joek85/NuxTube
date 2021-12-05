@@ -133,9 +133,9 @@ export default {
         this.loading = true;
         this.videoId = val.id;
       }
-      console.log(this.IsPlaylist);
-      console.log(this.PlaylistInfo)
-      console.log(this.PlaylistIndex)
+      // console.log(this.IsPlaylist);
+      // console.log(this.PlaylistInfo)
+      // console.log(this.PlaylistIndex)
     },
   },
   methods: {

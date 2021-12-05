@@ -9,10 +9,10 @@
         <v-col cols="6" class="">
           <v-form @submit="doSearch">
             <v-autocomplete
+              v-model="model"
               :items="searchItems"
               :search-input.sync="search"
               @change="searchlistClick"
-              @update:list-index="keyd"
               append-icon=""
               color="accent"
               label="Search..."
@@ -204,9 +204,9 @@ export default {
     },
     searchlistClick(val) {
       // console.log(val)
-      if (val.length > 0) {
+      // if (val.length > 0) {
         this.$router.push({ name: "search-query", query: { q: val.text } });
-      }
+      // }
     },
     keyd(val) {
       if (val != -1) {

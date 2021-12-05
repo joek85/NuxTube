@@ -34,7 +34,12 @@
                   </v-btn>
                 </template>
                 <v-list>
-                  <v-list-item v-for="(item, i) in items" :key="i" link>
+                  <v-list-item
+                    v-for="(item, i) in items"
+                    :key="i"
+                    link
+                    @click.prevent="menuClick(i)"
+                  >
                     <v-icon small class="pa-2 pl-0">{{ item.icon }}</v-icon>
                     <v-list-item-title> {{ item.title }}</v-list-item-title>
                   </v-list-item>
@@ -98,6 +103,13 @@ export default {
     },
     convertTime(time) {
       return utils.convertTime(time);
+    },
+    menuClick(index) {
+      switch (index) {
+        case 3:
+          this.$root.$emit("blockVideo", this.videoId);
+          break;
+      }
     },
   },
 };

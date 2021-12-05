@@ -5,7 +5,7 @@
         <v-col
           cols="12"
           class="pa-0 pb-2"
-          v-for="related in relatedVideos"
+          v-for="related in getRelatedVideos"
           :key="related.id"
         >
           <media-card
@@ -52,20 +52,20 @@ export default {
     PlaylistCard,
   },
   props: {
-    id: '',
+    id: "",
   },
   watch: {
     id() {
-      this.continuation = '';
-      this.ctp = '';
+      this.continuation = "";
+      this.ctp = "";
       this.relatedVideos = [];
       this.$fetch();
     },
   },
   data() {
     return {
-      continuation: '',
-      ctp: '',
+      continuation: "",
+      ctp: "",
       relatedVideos: [],
       fetched: false,
     };
@@ -113,9 +113,35 @@ export default {
           return "PlaylistCard";
       }
     },
+    blockVideo(videoId) {
+      this.$axios
+        .$get("/api/player/block", {
+          params: {
+            videoId: videoId,
+          },
+        })
+        .then((res) => {
+          let index = this.relatedVideos.findIndex((item) => {
+            return item.id == videoId
+          })
+          console.log(index);
+          this.relatedVideos.splice(index, 1)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  computed: {
+    getRelatedVideos() {
+      return this.relatedVideos;
+    },
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
+    this.$root.$on("blockVideo", (videoId) => {
+      this.blockVideo(videoId);
+    });
   },
   destroyed() {
     window.removeEventListener("scroll", this.handleScroll);
