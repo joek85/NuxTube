@@ -124,7 +124,6 @@ export default {
           let index = this.relatedVideos.findIndex((item) => {
             return item.id == videoId
           })
-          console.log(index);
           this.relatedVideos.splice(index, 1)
         })
         .catch((err) => {

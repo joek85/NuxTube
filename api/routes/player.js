@@ -60,9 +60,7 @@ router.get('/block', async (req, res) => {
 
 async function parseRelated(related) {
   let items = [];
-  let videos = related.map((videos) => {
-    return videos.id
-  })
+  let videos = related.map(v => v.id)
 
   let blocked_videos = await get_blocked_videos(videos)
   blocked_videos = blocked_videos.map(row => row.videoId)
