@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 11, 2021 at 01:33 PM
+-- Generation Time: Dec 05, 2021 at 07:29 PM
 -- Server version: 8.0.27-0ubuntu0.20.04.1
 -- PHP Version: 7.4.3
 
@@ -21,6 +21,17 @@ SET time_zone = "+00:00";
 --
 -- Database: `nuxtube`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `blocked`
+--
+
+CREATE TABLE `blocked` (
+  `id` bigint NOT NULL,
+  `videoId` longtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -47,6 +58,12 @@ CREATE TABLE `history` (
 --
 
 --
+-- Indexes for table `blocked`
+--
+ALTER TABLE `blocked`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `history`
 --
 ALTER TABLE `history`
@@ -55,6 +72,12 @@ ALTER TABLE `history`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `blocked`
+--
+ALTER TABLE `blocked`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `history`
