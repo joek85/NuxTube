@@ -5,6 +5,12 @@
         Playlists
       </v-expansion-panel-header>
       <v-expansion-panel-content>
+        <div class="text-center pa-1" v-if="$fetchState.pending">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
+        </div>
         <div class="d-flex justify-space-between" v-if="!$fetchState.pending">
           <div>
             <v-card-title v-if="results.sidebar">
@@ -75,7 +81,7 @@ export default {
     return {
       results: [],
       selected: 0,
-      panel: 0
+      panel: 0,
     };
   },
   watch: {
