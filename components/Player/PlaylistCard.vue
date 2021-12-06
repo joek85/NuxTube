@@ -1,7 +1,7 @@
 <template>
   <v-expansion-panels class="mb-6">
     <v-expansion-panel>
-      <v-expansion-panel-header> Playlists </v-expansion-panel-header>
+      <v-expansion-panel-header class="text-uppercase font-weight-bold"> Playlists </v-expansion-panel-header>
       <v-expansion-panel-content>
         <div class="d-flex justify-space-between" v-if="!$fetchState.pending">
           <div>

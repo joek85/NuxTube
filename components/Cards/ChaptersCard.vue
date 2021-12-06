@@ -1,7 +1,7 @@
 <template>
   <v-expansion-panels class="mb-6">
     <v-expansion-panel>
-      <v-expansion-panel-header> Chapters </v-expansion-panel-header>
+      <v-expansion-panel-header class="text-uppercase font-weight-bold"> Chapters </v-expansion-panel-header>
       <v-expansion-panel-content>
         <v-list max-height="400" style="overflow-y: auto">
           <v-list-item-group v-model="selected">
