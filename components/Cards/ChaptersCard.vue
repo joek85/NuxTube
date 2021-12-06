@@ -6,7 +6,7 @@
         <v-list max-height="400" style="overflow-y: auto">
           <v-list-item-group v-model="selected">
             <template v-for="(item, index) in chapters">
-              <v-list-item :key="item.start_time">
+              <v-list-item :key="item.start_time" @click="GoToChapter(item.start_time)">
                 <v-list-item-icon>
                   <v-img width="96" height="56" :src="thumbnail">
                     <template v-slot:placeholder>
@@ -49,6 +49,9 @@ export default {
     convertTime(time) {
       return utils.convertTime(time);
     },
+    GoToChapter(time) {
+        this.$root.$emit('seek', {time: time})
+    }
   },
 };
 </script>

@@ -123,7 +123,7 @@
           :playlistId="$route.query.playlistId"
           :index="$route.query.index"
         ></playlist-card>
-        <chapters-card v-if="results[0].chapters" :chapters="results[0].chapters" :thumbnail="results[0].thumbnail.url"></chapters-card>
+        <chapters-card v-if="results[0].chapters.length" :chapters="results[0].chapters" :thumbnail="results[0].thumbnail.url"></chapters-card>
         <related-card :id="results[0].id"></related-card>
       </v-col>
     </v-row>

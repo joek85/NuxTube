@@ -68,9 +68,9 @@ export default {
   computed: {
     ...mapGetters({
       AudioPlayerData: "getAudioPlayerData",
-      IsPlaylist: 'getIsPlaylist',
-      PlaylistInfo: 'getPlaylistInfo',
-      PlaylistIndex: 'getPlaylistIndex'
+      IsPlaylist: "getIsPlaylist",
+      PlaylistInfo: "getPlaylistInfo",
+      PlaylistIndex: "getPlaylistIndex",
     }),
     onbtnPlayChange() {
       return this.btns[0].btnPlay;
@@ -117,6 +117,9 @@ export default {
   fetchOnServer: false,
 
   mounted() {
+    this.$root.$on("seek", (param) => {
+      this.Seek(param.time);
+    });
     this.setupAudio();
     this.audio.src = this.AudioPlayerData.url;
     this.videoId = this.AudioPlayerData.id;
@@ -283,6 +286,9 @@ export default {
       } else {
         this.audio.currentTime = val;
       }
+    },
+    Seek(time) {
+      this.audio.currentTime = time;
     },
   },
 };
