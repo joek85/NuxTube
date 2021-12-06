@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels class="mb-6">
+  <v-expansion-panels class="mb-6" v-model="panel">
     <v-expansion-panel>
       <v-expansion-panel-header class="text-uppercase font-weight-bold">
         Playlists
@@ -75,6 +75,7 @@ export default {
     return {
       results: [],
       selected: 0,
+      panel: 0
     };
   },
   watch: {

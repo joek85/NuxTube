@@ -28,19 +28,21 @@
             }}</v-list-item-subtitle>
           </v-list-item-content>
 
-          <v-spacer></v-spacer>
+          <!-- <v-spacer></v-spacer> -->
           <v-card-title class="subtitle-1">{{ getAudioDuration }}</v-card-title>
-          <v-list-item-icon class="">
+          <v-list-item-icon>
             <v-btn icon @click="toggleRepeat">
               <v-icon v-if="getRepeat">mdi-repeat-once</v-icon>
               <v-icon v-else>mdi-repeat</v-icon>
             </v-btn>
           </v-list-item-icon>
+
           <v-list-item-icon v-if="IsPlaylist">
             <v-btn icon @click="SkipBackward" :disabled="isBackwardDiabled">
               <v-icon>mdi-skip-backward</v-icon>
             </v-btn>
           </v-list-item-icon>
+
           <v-list-item-icon>
             <v-btn icon @click="rewind">
               <v-icon>mdi-rewind</v-icon>
