@@ -122,6 +122,7 @@ export default {
         query: {
           id: this.results.videos[0].videoId,
           playlistId: this.$route.params.id,
+          index: 0
         },
       });
     },

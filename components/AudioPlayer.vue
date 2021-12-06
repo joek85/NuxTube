@@ -30,10 +30,15 @@
 
           <v-spacer></v-spacer>
           <v-card-title class="subtitle-1">{{ getAudioDuration }}</v-card-title>
-          <v-list-item-icon class="mr-2">
+          <v-list-item-icon class="">
             <v-btn icon @click="toggleRepeat">
               <v-icon v-if="getRepeat">mdi-repeat-once</v-icon>
               <v-icon v-else>mdi-repeat</v-icon>
+            </v-btn>
+          </v-list-item-icon>
+          <v-list-item-icon v-if="IsPlaylist">
+            <v-btn icon @click="SkipBackward" :disabled="isBackwardDiabled">
+              <v-icon>mdi-skip-backward</v-icon>
             </v-btn>
           </v-list-item-icon>
           <v-list-item-icon>
@@ -48,12 +53,15 @@
             </v-btn>
           </v-list-item-icon>
 
-          <v-list-item-icon
-            class="ml-0"
-            :class="{ 'mr-3': $vuetify.breakpoint.mdAndUp }"
-          >
+          <v-list-item-icon>
             <v-btn icon @click="forward">
               <v-icon>mdi-fast-forward</v-icon>
+            </v-btn>
+          </v-list-item-icon>
+
+          <v-list-item-icon v-if="IsPlaylist">
+            <v-btn icon @click="SkipForward" :disabled="isForwardDisabled">
+              <v-icon>mdi-skip-forward</v-icon>
             </v-btn>
           </v-list-item-icon>
         </v-list-item>
@@ -93,6 +101,12 @@ export default {
     },
     getRepeat() {
       return this.isRepeat;
+    },
+    isBackwardDiabled() {
+      return this.PlaylistIndex <= 0;
+    },
+    isForwardDisabled() {
+      return this.PlaylistIndex >= this.PlaylistInfo.PlaylistLength - 1;
     },
   },
   data() {
@@ -136,9 +150,6 @@ export default {
         this.loading = true;
         this.videoId = val.id;
       }
-      // console.log(this.IsPlaylist);
-      // console.log(this.PlaylistInfo)
-      // console.log(this.PlaylistIndex)
     },
   },
   methods: {
@@ -241,6 +252,8 @@ export default {
       this.sliderValue = 0;
       if (this.getRepeat) {
         this.play();
+      } else {
+        this.SkipForward();
       }
     },
     onwaitingdata() {
@@ -289,6 +302,19 @@ export default {
     },
     Seek(time) {
       this.audio.currentTime = time;
+    },
+    SkipBackward() {
+      if (Number(this.PlaylistIndex) - 1 >= 0) {
+        this.$root.$emit("Skip", Number(this.PlaylistIndex) - 1);
+      }
+    },
+    SkipForward() {
+      if (
+        Number(this.PlaylistIndex) + 1 <=
+        this.PlaylistInfo.PlaylistLength - 1
+      ) {
+        this.$root.$emit("Skip", Number(this.PlaylistIndex) + 1);
+      }
     },
   },
 };

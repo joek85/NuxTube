@@ -33,10 +33,6 @@
           </v-col>
         </v-card>
       </v-col>
-
-      <!--<v-col cols="12" class="d-flex justify-center">-->
-        <!--<v-btn rounded color="primary" dark>loadmore</v-btn>-->
-      <!--</v-col>-->
     </v-row>
   </v-container>
 </template>

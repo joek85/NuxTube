@@ -1,7 +1,9 @@
 <template>
   <v-expansion-panels class="mb-6">
     <v-expansion-panel>
-      <v-expansion-panel-header class="text-uppercase font-weight-bold"> Playlists </v-expansion-panel-header>
+      <v-expansion-panel-header class="text-uppercase font-weight-bold">
+        Playlists
+      </v-expansion-panel-header>
       <v-expansion-panel-content>
         <div class="d-flex justify-space-between" v-if="!$fetchState.pending">
           <div>
@@ -99,15 +101,33 @@ export default {
   },
   mounted() {
     this.selected = Number(this.index);
+    this.$store.commit("setPlaylistIndex", this.index);
+    this.$root.$on("Skip", (index) => {
+      this.$router.push({
+        name: "player",
+        query: {
+          id: this.getResults.videos[index].videoId,
+          playlistId: this.playlistId,
+          index: index,
+        },
+      });
+    });
   },
-  computed: {},
+  computed: {
+    getResults() {
+      return this.results;
+    },
+  },
   async fetch() {
     this.results = await this.$axios.$get("/api/playlist", {
       params: {
         playlistId: this.playlistId,
       },
     });
-    this.$store.commit("setPlaylistInfo", this.playlistId, this.results.length);
+    this.$store.commit("setPlaylistInfo", {
+      id: this.playlistId,
+      PlaylistLength: this.results.videos.length,
+    });
   },
 };
 </script>
