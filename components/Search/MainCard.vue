@@ -112,8 +112,6 @@ export default {
   },
   watch: {
     query() {
-      //   this.continuation = "";
-      //   this.ctp = "";
       this.results = {
         primaryResults: [],
         secondaryResults: null,
@@ -147,15 +145,16 @@ export default {
         continuation: this.continuation,
       },
     });
-
+    if (!this.continuation) {
+      this.results.primaryResults.push(...response.primaryResults);
+      this.results.secondaryResults = response.secondaryResults;
+      this.results.estimatedResults = response.estimatedResults;
+      this.results.refinements = response.refinements;
+      this.results.searchFilters = response.searchFilters;
+    } else {
+      this.results.primaryResults.push(...response.primaryResults);
+    }
     this.continuation = response.continuation;
-    this.results.primaryResults.push(...response.primaryResults);
-    this.results.secondaryResults = response.secondaryResults;
-    this.results.estimatedResults = response.estimatedResults;
-    this.results.refinements = response.refinements;
-    this.results.searchFilters = response.searchFilters;
-
-    console.log(response);
     this.fetched = true;
   },
   fetchOnServer: false,
