@@ -9,7 +9,8 @@ export const state = () => ({
   toggle_view: 0,
   isPlaylist: false,
   PlaylistIndex: 0,
-  PlaylistInfo: {id: '', PlaylistLength: 0}
+  PlaylistInfo: {id: '', PlaylistLength: 0},
+  SearchContinuation: {clickTrackingParams: '', token: ''}
 });
 
 export const mutations = {
@@ -45,6 +46,9 @@ export const mutations = {
   },
   setPlaylistIndex(state, index) {
     state.PlaylistIndex = index
+  },
+  setSearchContinuation(state, continuation) {
+    state.SearchContinuation = continuation
   }
 };
 
@@ -81,6 +85,9 @@ export const getters = {
   },
   getPlaylistIndex(state) {
     return state.PlaylistIndex
+  },
+  getSearchContinuation(state) {
+    return state.SearchContinuation
   }
 };
 

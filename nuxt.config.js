@@ -112,7 +112,7 @@ export default {
             name: 'playlist-id'
           },
           {
-            path: ':id',
+            path: ':id:sp',
             component: 'pages/search/_query.vue',
             name: 'search-query'
           },

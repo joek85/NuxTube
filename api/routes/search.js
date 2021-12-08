@@ -7,8 +7,9 @@ const SEARCH_URL = 'https://suggestqueries.google.com/complete/search';
 
 router.get('/', async (req, res) => {
   let q = req.query['q'];
-
-  let results = await ytaudio.getSearchResults(q);
+  let sp = req.query['sp'];
+  let continuation = req.query['continuation'] ? JSON.parse(req.query['continuation']) : '';
+  let results = await ytaudio.getSearchResults(q, sp, continuation);
 
   res.json(results)
 });

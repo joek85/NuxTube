@@ -2,7 +2,7 @@
   <v-card flat color="transparent" v-if="data">
     <v-card flat class="d-flex align-center">
       <v-card-title>
-        <v-avatar size="88">
+        <v-avatar size="64">
           <img :src="data.header.avatar.url" />
         </v-avatar>
       </v-card-title>
