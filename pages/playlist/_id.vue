@@ -41,7 +41,7 @@
           <v-list three-line>
             <template v-for="(item, index) in results.videos">
               <v-list-item
-                :key="item.videoId"
+                :key="index"
                 :to="{
                   name: 'player',
                   query: {
