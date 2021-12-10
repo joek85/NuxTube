@@ -72,6 +72,15 @@
                 :data="result.items"
                 class="mb-3"
               />
+              <playlist-card class="mb-2" v-if="result.type === 'playlist'" :key="index"
+                :thumbnail="result.items.thumbnails"
+                :playlistId="result.items.playlistId"
+                :channelId="result.items.channelId"
+                :title="result.items.title"
+                :subtitle="result.items.subtitle"
+                :videoCounts="result.items.videoCounts"
+                :videos="result.items.videos"
+              ></playlist-card>
             </template>
           </v-col>
         </v-card>
@@ -93,6 +102,7 @@ import ShelfCard from "../../components/Search/ShelfCard.vue";
 import ChannelCard from "../../components/Search/ChannelCard.vue";
 import ArtistCard from "../../components/Search/ArtistCard.vue";
 import QueryCard from "../../components/Search/QueryCard.vue";
+import PlaylistCard from "../../components/Search/SearchPlaylistCard.vue"
 import { mapGetters } from "vuex";
 
 export default {
@@ -102,6 +112,7 @@ export default {
     ChannelCard,
     ShelfCard,
     QueryCard,
+    PlaylistCard
   },
   props: { query: "" },
   computed: {
@@ -145,6 +156,7 @@ export default {
         continuation: this.continuation,
       },
     });
+    console.log(response)
     if (!this.continuation) {
       this.results.primaryResults.push(...response.primaryResults);
       this.results.secondaryResults = response.secondaryResults;
