@@ -28,7 +28,7 @@
             }}</v-list-item-subtitle>
           </v-list-item-content>
 
-          <!-- <v-spacer></v-spacer> -->
+          <v-spacer></v-spacer>
           <v-card-title class="subtitle-1">{{ getAudioDuration }}</v-card-title>
           <v-list-item-icon>
             <v-btn icon @click="toggleRepeat">
@@ -49,7 +49,7 @@
             </v-btn>
           </v-list-item-icon>
 
-          <v-list-item-icon :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }">
+          <v-list-item-icon>
             <v-btn icon @click="togglePlaying" :loading="isLoading">
               <v-icon>{{ onbtnPlayChange }}</v-icon>
             </v-btn>
