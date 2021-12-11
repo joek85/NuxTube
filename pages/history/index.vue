@@ -132,17 +132,21 @@
       </v-col>
       <v-col order="1" order-sm="2" cols="12" sm="4">
         <v-card class="mx-auto">
-          <v-list :disabled="isDisabled">
-            <v-row class="pa-2">
-              <v-subheader>DATE</v-subheader>
-              <v-spacer></v-spacer>
-              <v-card-title class="">
-                <v-btn small rounded dark color="primary">clear history</v-btn>
-              </v-card-title>
-            </v-row>
-            <v-list-item-group color="primary">
+          <v-row class="pa-2">
+            <v-subheader>DATE</v-subheader>
+            <v-spacer></v-spacer>
+            <v-card-title class="">
+              <v-btn small rounded dark color="primary">clear history</v-btn>
+            </v-card-title>
+          </v-row>
+          <v-data-iterator
+            :items="results"
+            hide-default-header
+            :headers="headers"
+          >
+            <template v-slot:default="props">
               <v-list-item
-                v-for="(item, i) in results"
+                v-for="(item, i) in props.items"
                 :key="i"
                 @click="getHistory(item.date)"
               >
@@ -152,8 +156,8 @@
                   }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-            </v-list-item-group>
-          </v-list>
+            </template>
+          </v-data-iterator>
         </v-card>
       </v-col>
     </v-row>
