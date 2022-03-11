@@ -16,7 +16,7 @@ router.get('/', async function (req, res, next) {
 });
 
 router.get('/dates', async (req, res) => {
-  let sql = 'SELECT DISTINCT date FROM history GROUP BY date';
+  let sql = 'SELECT DISTINCT date FROM history GROUP BY date order by date DESC';
   try {
     let result = await query(sql);
     res.json(result)
