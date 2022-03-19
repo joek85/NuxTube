@@ -11,7 +11,7 @@
         </template>
       </v-img>
     </NuxtLink>
-    <v-card-subtitle class="white--text pb-1 body-1">{{ data.title }}</v-card-subtitle>
+    <v-card-subtitle class="white--text pb-1 body-1 font-weight-bold">{{ data.title }}</v-card-subtitle>
     <v-card-subtitle v-if="data.subtitle" class="grey--text pt-1">{{ data.subtitle }}</v-card-subtitle>
     <v-card-title class="pa-1 d-flex ">
       <v-chip v-if="data.duration" class="grey--text" outlined small color="accent">{{data.duration}}</v-chip>

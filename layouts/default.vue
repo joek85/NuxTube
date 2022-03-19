@@ -18,14 +18,57 @@
               label="Search..."
               class="mx-4"
               loader-height="12"
+              clearable
               flat
               no-filter
               hide-no-data
               hide-details
               solo-inverted
               return-object
+              @update:list-index="updateListIndex"
               :menu-props="{ closeOnContentClick: true }"
-            ></v-autocomplete>
+            >
+              <template v-slot:item="{ item }">
+                <v-list-item-title v-html="item.text"></v-list-item-title>
+                <v-divider></v-divider>
+              </template>
+              <!-- <template v-slot:selection="">
+               <div>{{ getInputText.text }}</div>
+              </template> -->
+            </v-autocomplete>
+
+            <!-- <v-menu
+              offset-y
+              transition="slide-y-transition"
+              max-height="400px"
+              rounded="b-xl"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-on="on"
+                  class=""
+                  flat
+                  solo-inverted
+                  hide-details
+                  single-line
+                  append-icon=""
+                  placeholder="Search..."
+                  :value="getInputText"
+                  @input="onChange"
+                ></v-text-field>
+              </template>
+              <v-list light class="pa-2">
+                <v-list-item-group
+                  v-model="selectedItem"
+                  @change="searchlistClick"
+                >
+                  <v-list-item link v-for="(item, i) in searchItems" :key="i">
+                    <v-list-item-title v-html="item.text"></v-list-item-title>
+                    <v-divider></v-divider>
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
+            </v-menu> -->
           </v-form>
         </v-col>
       </v-row>
@@ -119,6 +162,7 @@ export default {
       drawer: false,
       fixed: false,
       fullscreen: false,
+      isOpen: false,
       iconText: "fullscreen",
       items: [
         {
@@ -139,6 +183,7 @@ export default {
       isOpen: true,
       listS: [],
       isLoading: false,
+      selectedItem: null,
       model: null,
       search: null,
       snackbar: false,
@@ -151,13 +196,16 @@ export default {
   watch: {
     search(val) {
       if (!val) return;
+      // console.log("search " + val);
+      // Items have already been loaded
+      // if (this.searchItems.length > 0) return;
 
+      // Items have already been requested
+      // if (this.isLoading) return;
       this.searchQuery = val;
+      // this.isLoading = true;
 
-      if (this.isLoading) return;
-
-      this.isLoading = true;
-
+      // Lazily load input items
       SuggestionService.searchSuggestion(val)
         .then((res) => {
           this.listS = res.data;
@@ -165,13 +213,24 @@ export default {
         .catch((err) => {
           console.log(err);
         })
-        .finally(() => (this.isLoading = false));
+        .finally(() => {
+          this.isLoading = false;
+          // this.isOpen = false;
+        });
     },
   },
   methods: {
+    updateListIndex(i) {
+      if (i > -1) {
+        // console.log(i);
+        this.searchQuery = this.searchItems[i].text;
+        // console.log(this.searchQuery);
+      }
+    },
     doSearch(event) {
       event.preventDefault();
 
+      // console.log("doSearch " + this.searchQuery);
       if (this.searchQuery.length > 0) {
         this.listS = [];
         this.$router.push({
@@ -203,15 +262,35 @@ export default {
       this.$store.commit("setWindowSize", window.innerHeight);
     },
     searchlistClick(val) {
-      // console.log(val)
-      // if (val.length > 0) {
+      if (val) {
+        // console.log(val.text);
         this.$router.push({ name: "search-query", query: { q: val.text } });
-      // }
+      }
     },
     keyd(val) {
-      if (val != -1) {
-        this.inputText = this.listS[val].text;
-      }
+      console.log("keyd");
+    },
+    onChange(val) {
+      // if (!val) return;
+
+      this.searchQuery = val;
+
+      // if (this.isLoading) return;
+
+      // this.isLoading = true;
+      // this.isOpen = true;
+      console.log("onChange = " + val);
+      SuggestionService.searchSuggestion(val)
+        .then((res) => {
+          this.listS = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.isLoading = false;
+          // this.isOpen = false;
+        });
     },
   },
   created() {},
@@ -238,7 +317,7 @@ export default {
       });
     },
     getInputText() {
-      return this.inputText;
+      return this.searchQuery;
     },
   },
 };

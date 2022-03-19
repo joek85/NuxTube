@@ -6,7 +6,7 @@
         </v-img>
       </v-avatar>
     </NuxtLink>
-    <v-card-title class="ml-1 body-1">{{ data.title }}</v-card-title>
+    <v-card-title class="ml-1 body-1 font-weight-bold">{{ data.title }}</v-card-title>
     <v-card-subtitle v-if="data.subscribers" class="ml-1 grey--text">{{ data.subscribers }}</v-card-subtitle>
     <v-card-title class="pa-1 d-flex ">
       <v-chip v-if="data.videoCounts" class="grey--text" outlined small color="accent">{{data.videoCounts}} videos</v-chip>

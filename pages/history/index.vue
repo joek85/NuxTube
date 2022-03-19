@@ -23,8 +23,7 @@
             <template v-slot:default="props">
               <v-row class="pa-1">
                 <v-col
-                  cols="12"
-                  md="6"
+                  cols="6"
                   xl="3"
                   v-for="item in props.items"
                   :key="item.videoId"
@@ -136,7 +135,7 @@
             <v-subheader>DATE</v-subheader>
             <v-spacer></v-spacer>
             <v-card-title class="">
-              <v-btn small rounded dark color="primary">clear history</v-btn>
+              <v-btn small rounded dark outlined color="primary">clear history</v-btn>
             </v-card-title>
           </v-row>
           <v-data-iterator
@@ -145,7 +144,8 @@
             :headers="headers"
           >
             <template v-slot:default="props">
-              <v-list-item
+              <v-list-item-group v-model="listIndex">
+                <v-list-item
                 v-for="(item, i) in props.items"
                 :key="i"
                 @click="getHistory(item.date)"
@@ -156,6 +156,8 @@
                   }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
+              </v-list-item-group>
+              
             </template>
           </v-data-iterator>
         </v-card>
@@ -172,6 +174,7 @@ export default {
     return {
       disabled: false,
       search: "",
+      listIndex: null,
       headers: [
         {
           text: "Dessert",

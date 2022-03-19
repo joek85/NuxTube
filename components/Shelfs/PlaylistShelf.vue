@@ -11,7 +11,7 @@
         </template>
       </v-img>
     </NuxtLink>
-    <v-card-title class="subtitle-1">{{ data.title }}</v-card-title>
+    <v-card-title class="subtitle-1 font-weight-bold">{{ data.title }}</v-card-title>
     <v-card-subtitle v-if="data.subtitle" class="">{{ data.subtitle }}</v-card-subtitle>
     <v-card-title class="">
       <v-chip v-if="data.videoCounts" class="grey--text" outlined small color="accent">{{data.videoCounts}} videos</v-chip>

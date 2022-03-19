@@ -19,7 +19,13 @@
       <v-list class="pa-0">
         <v-list-item>
           <v-sheet elevation="5" class="ma-2" width="96">
-            <v-img aspect-ratio="1.7" :src="AudioPlayerData.thumbnail"> </v-img>
+            <NuxtLink
+              class="subheading"
+              :to="{ name: 'player', query: { id: videoId } }"
+            >
+              <v-img aspect-ratio="1.7" :src="AudioPlayerData.thumbnail">
+              </v-img>
+            </NuxtLink>
           </v-sheet>
           <v-list-item-content>
             <v-list-item-title>{{ AudioPlayerData.title }}</v-list-item-title>
@@ -28,7 +34,7 @@
             }}</v-list-item-subtitle>
           </v-list-item-content>
 
-          <v-spacer></v-spacer>
+          <!-- <v-spacer></v-spacer> -->
           <v-card-title class="subtitle-1">{{ getAudioDuration }}</v-card-title>
           <v-list-item-icon>
             <v-btn icon @click="toggleRepeat">
@@ -81,6 +87,8 @@ export default {
       IsPlaylist: "getIsPlaylist",
       PlaylistInfo: "getPlaylistInfo",
       PlaylistIndex: "getPlaylistIndex",
+      ChapterDurations: "getChapterDurations",
+      selected: "getChapterSelectedItem",
     }),
     onbtnPlayChange() {
       return this.btns[0].btnPlay;
@@ -245,6 +253,15 @@ export default {
       if (this.sliderUpdate) {
         this.sliderValue = this.audio.currentTime;
       }
+      // var lower = this.ChapterDurations[this.selected];
+      // var upper = this.ChapterDurations[this.selected + 1];
+
+      // var between = this.ChapterDurations.filter( function(item, i, arr) {
+      //   return arr[i]
+      // });
+      // console.log(this.selected)
+      // console.log((between))
+      // console.log(this.convertTimeHHMMSS(this.Audioduration))
     },
     onAudioVolumeChange() {
       //      this.volume = this.audioB[this.audios.activeAudio].volume
@@ -255,7 +272,7 @@ export default {
       if (this.getRepeat) {
         this.play();
       } else {
-        this.SkipForward();
+        if (this.IsPlaylist) this.SkipForward();
       }
     },
     onwaitingdata() {

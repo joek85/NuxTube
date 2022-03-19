@@ -10,7 +10,9 @@ export const state = () => ({
   isPlaylist: false,
   PlaylistIndex: 0,
   PlaylistInfo: {id: '', PlaylistLength: 0},
-  SearchContinuation: {clickTrackingParams: '', token: ''}
+  SearchContinuation: {clickTrackingParams: '', token: ''},
+  ChapterSelectedItem: 0,
+  ChapterDurations: []
 });
 
 export const mutations = {
@@ -49,6 +51,12 @@ export const mutations = {
   },
   setSearchContinuation(state, continuation) {
     state.SearchContinuation = continuation
+  },
+  setChapterSelectedItem(state, ChapterSelectedItem) {
+    state.ChapterSelectedItem = ChapterSelectedItem
+  },
+  setChapterDurations(state, ChapterDurations) {
+    state.ChapterDurations = ChapterDurations
   }
 };
 
@@ -88,6 +96,12 @@ export const getters = {
   },
   getSearchContinuation(state) {
     return state.SearchContinuation
+  },
+  getChapterSelectedItem(state) {
+    return state.ChapterSelectedItem
+  },
+  getChapterDurations(state) {
+    return state.ChapterDurations
   }
 };
 

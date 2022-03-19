@@ -17,6 +17,10 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  server: {
+    port: 3000, // default: 3000
+    timing: false
+  },
   target: 'server',
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
@@ -47,7 +51,7 @@ export default {
     '@nuxtjs/axios',
   ],
   serverMiddleware: {
-    '/api': '~/api'
+    '/api': '~/api/index.js'
   },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
