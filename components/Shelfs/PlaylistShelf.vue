@@ -1,5 +1,5 @@
 <template>
-  <v-card class="rounded-card elevation-4" width="240">
+  <v-card class="rounded-card elevation-4 grow" width="240">
     <NuxtLink class="subheading" :to="{name: 'playlist-id', params: {id: data.playlistId}}">
       <v-img v-if="data.thumbnails" :src="data.thumbnails.url" aspect-ratio="1.7" >
         <template v-slot:placeholder>
@@ -33,3 +33,11 @@
     }
   }
 </script>
+<style lang="scss">
+.grow {
+  transition: all 0.25s ease-in-out;
+}
+.grow:hover {
+  transform: scale(1.05);
+}
+</style>

@@ -29,7 +29,9 @@
     "@nuxtjs/eslint-module": "^3.0.2",
     "@nuxtjs/vuetify": "^1.11.3",
     "eslint": "^7.28.0",
-    "yt-trending-scraper": "^2.0.1",
-    "yt-audio": "file:../../yt-audio"
+    "sass": "^1.49.9",
+    "sass-loader": "^10.2.1",
+    "yt-audio": "file:../../yt-audio",
+    "yt-trending-scraper": "^2.0.1"
   }
 }

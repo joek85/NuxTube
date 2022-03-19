@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-2 shadowing">
+  <v-card class="pa-2 grow">
     <v-row>
       <v-col cols="12" xl="4">
         <NuxtLink :to="{ name: 'player', query: { id: videoId } }">
@@ -114,14 +114,11 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.shadowing {
-	box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.05) !important;
-	transition: transform 250ms ease-in-out, box-shadow 250ms ease-in-out !important;
+<style lang="scss">
+.grow {
+  transition: all 0.25s ease-in-out;
 }
-.shadowing:hover {
-	animation: move 250ms;
-	transform: translateX(10px);
-	box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.18) !important;
+.grow:hover {
+  transform: scale(1.05);
 }
 </style>

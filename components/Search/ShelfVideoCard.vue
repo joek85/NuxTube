@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-2" width="220">
+  <v-card class="pa-2 grow" width="220">
     <v-row>
       <v-col cols="12">
         <NuxtLink class="subheading " :to="{name: 'player', query: {id: data.videoId}}">
@@ -41,6 +41,11 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+.grow {
+  transition: all 0.25s ease-in-out;
+}
+.grow:hover {
+  transform: scale(1.05);
+}
 </style>
