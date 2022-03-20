@@ -121,14 +121,19 @@ export default {
           },
         })
         .then((res) => {
-          let index = this.relatedVideos.findIndex((item) => {
-            return item.id == videoId
-          })
-          this.relatedVideos.splice(index, 1)
+          this.hideVideo(videoId)
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+    hideVideo(videoId) {
+      
+          let index = this.relatedVideos.findIndex((item) => {
+            return item.id == videoId
+          })
+          this.relatedVideos.splice(index, 1)
+        
     },
   },
   computed: {
@@ -140,6 +145,9 @@ export default {
     window.addEventListener("scroll", this.handleScroll);
     this.$root.$on("blockVideo", (videoId) => {
       this.blockVideo(videoId);
+    });
+        this.$root.$on("hideVideo", (videoId) => {
+      this.hideVideo(videoId);
     });
   },
   destroyed() {

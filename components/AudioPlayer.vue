@@ -34,6 +34,13 @@
             }}</v-list-item-subtitle>
           </v-list-item-content>
 
+          <v-card
+            id="my-peak-meter"
+            elevation="4"
+            color="primary"
+            class=""
+            width="196"
+          ></v-card>
           <!-- <v-spacer></v-spacer> -->
           <v-card-title class="subtitle-1">{{ getAudioDuration }}</v-card-title>
           <v-list-item-icon>
@@ -79,6 +86,7 @@
 </template>
 <script>
 import { mapMutations, mapGetters } from "vuex";
+let webAudioPeakMeter = require("web-audio-peak-meter");
 export default {
   components: {},
   computed: {
@@ -122,6 +130,7 @@ export default {
   data() {
     return {
       audio: null,
+      audioCtx: null,
       btns: [
         {
           btnPlay: "mdi-play",
@@ -144,6 +153,7 @@ export default {
     this.$root.$on("seek", (param) => {
       this.Seek(param.time);
     });
+
     this.setupAudio();
     this.audio.src = this.AudioPlayerData.url;
     this.videoId = this.AudioPlayerData.id;
@@ -167,7 +177,16 @@ export default {
       this.audio = new Audio();
       this.audio.autoplay = true;
       this.audio.playsinline = true;
+      this.audio.crossorigin = 'anonymous';
       this.setupAudioEventListinners();
+
+      // var myMeterElement = document.getElementById("my-peak-meter");
+      // this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      // var sourceNode = this.audioCtx.createMediaElementSource(this.audio);
+
+      // sourceNode.connect(this.audioCtx.destination);
+      // var meterNode = webAudioPeakMeter.createMeterNode(sourceNode, this.audioCtx);
+      // webAudioPeakMeter.createMeter(myMeterElement, meterNode, {});
     },
     setupAudioEventListinners() {
       this.audio.addEventListener("error", this.onAudioError);
@@ -217,6 +236,7 @@ export default {
       //      // this.audios.activeAudio = (this.audios.activeAudio ? 0 : 1)
       //      console.log(this.audios.activeAudio)
       //      this.crossFadeOut()
+      // this.audioCtx.resume();
     },
     onAudioError(err) {
       this.loading = false;

@@ -31,6 +31,7 @@
     "eslint": "^7.28.0",
     "sass": "^1.49.9",
     "sass-loader": "^10.2.1",
+    "web-audio-peak-meter": "^2.1.0",
     "yt-audio": "file:../../yt-audio",
     "yt-trending-scraper": "^2.0.1"
   }

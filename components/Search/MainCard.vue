@@ -156,7 +156,7 @@ export default {
         continuation: this.continuation,
       },
     });
-    // console.log(response)
+    console.log(response)
     if (!this.continuation) {
       this.results.primaryResults.push(...response.primaryResults);
       this.results.secondaryResults = response.secondaryResults;

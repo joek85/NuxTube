@@ -13,7 +13,7 @@
         }}</v-card-title>
       </div>
     </v-card>
-    <v-card flat class="mt-2" v-if="data.action.title">
+    <v-card flat v-if="data.action.title">
       <NuxtLink :to="{ name: 'player', query: { id: data.action.videoId } }">
         <v-img class="" aspect-ratio="1.7" :src="data.action.thumbnail.url">
           <template v-slot:placeholder>
