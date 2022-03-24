@@ -1,5 +1,4 @@
-import colors from 'vuetify/es5/util/colors'
-
+import colors from 'vuetify/lib/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -58,7 +57,7 @@ export default {
   vuetify: {
     // customVariables: ['~/assets/css/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: '#f44336',
@@ -76,7 +75,8 @@ export default {
           error: '#ff9800',
           warning: '#ff5722',
           info: '#4caf50',
-          success: '#8bc34a'
+          success: '#8bc34a',
+          background: colors.grey.lighten4
         }
       }
     }

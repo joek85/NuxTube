@@ -2,7 +2,7 @@
   <v-card flat class="transparent">
     <v-row>
       <v-col cols="12">
-        <v-sheet elevation="10" rounded="xl" v-if="!$fetchState.pending">
+        <v-sheet flat rounded="xl" v-if="!$fetchState.pending">
           <v-sheet class="pa-2 primary" dark rounded="t-xl">
             <v-card-title class="pa-0 pl-2"
               >Searching for: {{ query.q }}</v-card-title
@@ -27,7 +27,7 @@
         </v-sheet>
       </v-col>
       <v-col cols="12">
-        <v-expansion-panels v-if="!$fetchState.pending">
+        <v-expansion-panels flat v-if="!$fetchState.pending">
           <v-expansion-panel>
             <v-expansion-panel-header>Filters</v-expansion-panel-header>
             <v-expansion-panel-content>

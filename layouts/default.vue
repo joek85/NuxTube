@@ -1,12 +1,12 @@
 <template>
-  <v-app dark>
+  <v-app dark :style="{background: $vuetify.theme.themes[theme].background}">
     <v-app-bar app dark clipped-left color="primary">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title @click="$router.push('/')" style="cursor: pointer">{{
         title
       }}</v-toolbar-title>
       <v-row class="d-flex justify-center">
-        <v-col cols="6" class="">
+        <v-col cols="12" class="">
           <v-form @submit="doSearch">
             <v-autocomplete
               v-model="model"
@@ -71,6 +71,9 @@
             </v-menu> -->
           </v-form>
         </v-col>
+      </v-row>
+      <v-row class="d-flex justify-end">
+        <v-switch v-model="$vuetify.theme.dark" inset light color="indigo"></v-switch>
       </v-row>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" app clipped temporary hide-overlay>
@@ -319,6 +322,9 @@ export default {
     getInputText() {
       return this.searchQuery;
     },
+     theme(){
+      return (this.$vuetify.theme.dark) ? 'dark' : 'light'
+    }
   },
 };
 </script>

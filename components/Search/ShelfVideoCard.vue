@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-2 grow" width="220">
+  <v-card class="pa-1 grow" width="256" flat>
     <v-row>
       <v-col cols="12">
         <NuxtLink class="subheading " :to="{name: 'player', query: {id: data.videoId}}">
@@ -18,7 +18,6 @@
       </v-col>
       <v-col cols="12" class="d-flex flex-column justify-space-between">
         <v-card-text class="pa-0 text-truncate">{{data.title}}</v-card-text>
-        <v-card-title class="pa-0 subtitle-2 grey--text">{{data.views}} - {{data.published}} - {{data.duration}}</v-card-title>
         <v-card-title class="pa-0">
           <NuxtLink class="nuxt-link-exact-active" :to="{name: 'channel-id', params: {id: data.author.channelId } }">
             <v-avatar size="36">
@@ -27,6 +26,8 @@
           </NuxtLink>
           <v-card-title class=" subtitle-2 grey--text">{{ data.author.name }}</v-card-title>
         </v-card-title>
+        <v-card-title class="pa-0 subtitle-2 grey--text">{{data.views}} - {{data.published}} - {{data.duration}}</v-card-title>
+        
       </v-col>
     </v-row>
   </v-card>

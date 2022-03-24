@@ -1,5 +1,5 @@
 <template>
-  <v-row >
+  <v-row>
     <v-col cols="12" class=""
            v-for="item in data"
            :key="item.title">

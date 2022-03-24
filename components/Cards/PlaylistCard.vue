@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-2 grow">
+  <v-card class="pa-2 grow" flat>
     <v-row>
       <v-col cols="12" xl="4">
         <NuxtLink :to="{ name: 'playlist-id', params: { id: playlistId } }">
@@ -19,6 +19,7 @@
         <v-card-title class="subtitle-1 pa-1">{{ subtitle }}</v-card-title>
         <v-card-title class="subtitle-1 pa-1">{{ published }}</v-card-title>
         <v-card-actions class="">
+          <v-spacer></v-spacer>
           <v-chip v-if="videoCounts" class="grey--text" outlined
             >{{ videoCounts }} videos</v-chip
           >

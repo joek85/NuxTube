@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-2 grow">
+  <v-card flat class="pa-2 grow">
     <v-row>
       <v-col cols="12" sm="3" md="4">
         <NuxtLink

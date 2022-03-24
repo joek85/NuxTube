@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col sm="12" md="4">
-        <v-card>
+        <v-card flat>
           <v-img class="" aspect-ratio="1.7" :src="results.sidebar.thumbnails.url">
             <template v-slot:placeholder>
               <v-row class="fill-height">
@@ -37,7 +37,7 @@
         </v-card>
       </v-col>
       <v-col md="8">
-        <v-card>
+        <v-card flat>
           <v-list three-line>
             <template v-for="(item, index) in results.videos">
               <v-list-item

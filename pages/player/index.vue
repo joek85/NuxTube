@@ -1,6 +1,11 @@
 <template>
   <v-container>
-    <v-toolbar dense class="transparent mb-2" flat v-if="$vuetify.breakpoint.xlOnly">
+    <v-toolbar
+      dense
+      class="transparent mb-2"
+      flat
+      v-if="$vuetify.breakpoint.xlOnly"
+    >
       <v-row align="end" justify="end">
         <v-btn-toggle
           v-model="toggle_exclusive"
@@ -20,12 +25,12 @@
     </v-toolbar>
     <v-row>
       <v-col order="1" cols="12" md="8" sm="8">
-        <v-card class="mb-4 pa-2">
+        <v-card class="mb-4 pa-2" flat>
           <v-row>
             <v-col cols="12" :xl="toggle_view ? 12 : 3">
               <v-hover>
                 <template v-slot:default="{ hover }">
-                  <v-card class="mx-auto">
+                  <v-card flat>
                     <v-img
                       aspect-ratio="1.7"
                       :src="results[0].thumbnail.url.split('?')[0]"
@@ -123,7 +128,11 @@
           :playlistId="$route.query.playlistId"
           :index="$route.query.index"
         ></playlist-card>
-        <chapters-card v-if="results[0].chapters.length" :chapters="results[0].chapters" :thumbnail="results[0].thumbnail.url"></chapters-card>
+        <chapters-card
+          v-if="results[0].chapters.length"
+          :chapters="results[0].chapters"
+          :thumbnail="results[0].thumbnail.url"
+        ></chapters-card>
         <related-card :id="results[0].id"></related-card>
       </v-col>
     </v-row>
@@ -134,14 +143,14 @@ import utils from "../../utils/utils";
 import RelatedCard from "../../components/Player/RelatedCard.vue";
 import DescriptionCard from "../../components/Player/DescriptionCard.vue";
 import PlaylistCard from "../../components/Player/PlaylistCard.vue";
-import ChaptersCard from '../../components/Cards/ChaptersCard.vue'
+import ChaptersCard from "../../components/Cards/ChaptersCard.vue";
 import { mapGetters } from "vuex";
 export default {
   components: {
     RelatedCard,
     DescriptionCard,
     PlaylistCard,
-    ChaptersCard
+    ChaptersCard,
   },
   computed: {
     ...mapGetters({

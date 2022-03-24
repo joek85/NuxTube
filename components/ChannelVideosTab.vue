@@ -2,7 +2,7 @@
   <v-row class="">
     <v-col
       cols="12" sm="4" md="3" xl="2"
-      class=""
+      class="pa-1"
       v-for="video in channelVideos.videos"
       :key="video.videoId"
     >
@@ -54,7 +54,7 @@ export default {
     });
     console.log(videos);
     this.channelVideos.videos = videos.videos;
-    this.videos.continuation = videos.continuation;
+    this.channelVideos.continuation = videos.continuation;
     this.fetched = true;
   },
   fetchOnServer: false,

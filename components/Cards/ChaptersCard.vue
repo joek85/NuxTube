@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels class="mb-6">
+  <v-expansion-panels class="mb-2" flat>
     <v-expansion-panel>
       <v-expansion-panel-header class="text-uppercase font-weight-bold">
         Chapters

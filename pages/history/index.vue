@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col order="2" order-sm="1" cols="12" sm="8">
-        <v-card>
+        <v-card flat>
           <v-card-title class="d-flex justify-center">
             <v-col cols="12" md="12" xl="6">
               <v-text-field
@@ -21,14 +21,14 @@
             :search="search"
           >
             <template v-slot:default="props">
-              <v-row class="pa-1">
-                <v-col
+              <v-row class="pa-3">
+                <v-col class="pa-1"
                   cols="6"
                   xl="3"
                   v-for="item in props.items"
                   :key="item.videoId"
                 >
-                  <v-card class="rounded-card pa-2">
+                  <v-card flat>
                     <v-row>
                       <v-col cols="12">
                         <NuxtLink
@@ -70,7 +70,7 @@
                             <v-col sm="1">
                               <v-menu bottom left>
                                 <template v-slot:activator="{ on, attrs }">
-                                  <v-btn dark icon v-bind="attrs" v-on="on">
+                                  <v-btn icon v-bind="attrs" v-on="on">
                                     <v-icon>mdi-dots-vertical</v-icon>
                                   </v-btn>
                                 </template>
@@ -130,7 +130,7 @@
         </v-card>
       </v-col>
       <v-col order="1" order-sm="2" cols="12" sm="4">
-        <v-card class="mx-auto">
+        <v-card flat class="mt-3">
           <v-row class="pa-2">
             <v-subheader>DATE</v-subheader>
             <v-spacer></v-spacer>

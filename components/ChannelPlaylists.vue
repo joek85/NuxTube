@@ -15,7 +15,7 @@
           <v-card flat>
             <v-card-title class="pb-0"> {{ playlist.title }}</v-card-title>
             <v-slide-group show-arrows>
-              <v-slide-item class="ma-2"
+              <v-slide-item class="pa-1"
                             v-for="item in playlist.items"
                             :key="item.playlistId">
                 <playlist-shelf :data="item"/>

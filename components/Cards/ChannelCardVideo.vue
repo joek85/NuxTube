@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-2 grow">
+  <v-card class="pa-1 grow" flat>
     <v-row>
       <v-col cols="12">
         <NuxtLink :to="{ name: 'player', query: { id: videoId } }">
@@ -26,7 +26,7 @@
             <v-col cols="1">
               <v-menu bottom left>
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn dark icon v-bind="attrs" v-on="on">
+                  <v-btn icon v-bind="attrs" v-on="on">
                     <v-icon>mdi-dots-vertical</v-icon>
                   </v-btn>
                 </template>

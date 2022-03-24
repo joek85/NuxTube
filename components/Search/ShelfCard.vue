@@ -2,7 +2,7 @@
   <v-card flat>
     <v-card-title class=""> {{ data.title }}</v-card-title>
     <v-slide-group show-arrows>
-      <v-slide-item class="ma-2"
+      <v-slide-item class=""
                     v-for="video in data.videos"
                     :key="video.videoId">
         <shelf-video-card :data="video"></shelf-video-card>

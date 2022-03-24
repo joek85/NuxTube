@@ -1,8 +1,8 @@
 <template>
   <v-col cols="12" class="pa-0">
-    <v-card tile @keydown.left="rewind" @keydown.right="forward">
+    <v-card class="pa-0" tile @keydown.left="rewind" @keydown.right="forward">
       <v-slider
-        class="pb-0 ml-3 mr-3"
+        class="pa-0 ml-3 mr-3"
         v-model="sliderValue"
         hide-details
         dense
@@ -17,7 +17,7 @@
         </template>
       </v-slider>
       <v-list class="pa-0">
-        <v-list-item>
+        <v-list-item class="pa-0">
           <v-sheet elevation="5" class="ma-2" width="96">
             <NuxtLink
               class="subheading"

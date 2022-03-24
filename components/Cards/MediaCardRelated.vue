@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-2 grow">
+  <v-card class="pa-2 grow" flat>
     <v-row>
       <v-col cols="12" xl="4">
         <NuxtLink :to="{ name: 'player', query: { id: videoId } }">
@@ -16,13 +16,13 @@
       </v-col>
       <v-col cols="12" xl="8">
         <v-card class="d-flex" flat tile>
-          <v-card-title class="font-weight-bold pa-0 subtitle-1">{{
+          <v-card-title class="font-weight-bold pa-0 subtitle-1 red--text">{{
             title
           }}</v-card-title>
           <v-card class="ml-auto" flat tile>
             <v-menu bottom left>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn dark icon v-bind="attrs" v-on="on">
+                <v-btn icon v-bind="attrs" v-on="on">
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </template>
@@ -59,7 +59,7 @@
         <v-card-title v-if="!isLive" class="pa-0 subtitle-2 grey--text"
           >{{ playCounts }} - {{ published }} - {{ duration }}</v-card-title
         >
-        <v-chip v-if="isLive === true" small color="red">LIVE</v-chip>
+        <v-chip v-if="isLive === true" dark small color="red">LIVE</v-chip>
       </v-col>
     </v-row>
   </v-card>

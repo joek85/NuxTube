@@ -68,7 +68,7 @@
           v-for="item in data.sections[1].items.items"
           :key="item.playlistId"
         >
-          <v-card class="rounded-card elevation-4" width="180" height="180">
+          <v-card flat width="180" height="220">
             <NuxtLink
               class="subheading"
               :to="{ name: 'playlist-id', params: { id: item.playlistId } }"
@@ -76,7 +76,7 @@
               <v-img
                 :src="item.thumbnail.url"
                 aspect-ratio="1.7"
-                height="120px"
+                height=""
               >
                 <template v-slot:placeholder>
                   <v-row class="fill-height pa-0">
@@ -87,9 +87,9 @@
                 </template>
               </v-img>
             </NuxtLink>
-            <v-toolbar-title
+            <v-card-title
               class="subtitle-1 pa-2 align-center justify-center d-flex"
-              >{{ item.query }}</v-toolbar-title
+              >{{ item.query }}</v-card-title
             >
           </v-card>
         </v-slide-item>

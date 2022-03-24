@@ -1,5 +1,5 @@
 <template>
-  <v-card class="rounded-card elevation-4 grow" width="240">
+  <v-card class="pa-1 grow" width="256" flat>
     <NuxtLink class="subheading" :to="{name: 'playlist-id', params: {id: data.playlistId}}">
       <v-img v-if="data.thumbnails" :src="data.thumbnails.url" aspect-ratio="1.7" >
         <template v-slot:placeholder>
@@ -13,9 +13,10 @@
     </NuxtLink>
     <v-card-title class="subtitle-1 font-weight-bold">{{ data.title }}</v-card-title>
     <v-card-subtitle v-if="data.subtitle" class="">{{ data.subtitle }}</v-card-subtitle>
-    <v-card-title class="">
+    <v-card-actions>
+      <v-spacer></v-spacer>
       <v-chip v-if="data.videoCounts" class="grey--text" outlined small color="accent">{{data.videoCounts}} videos</v-chip>
-    </v-card-title>
+    </v-card-actions>
   </v-card>
 </template>
 

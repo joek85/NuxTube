@@ -5,7 +5,7 @@
       <v-slide-item class="ma-2"
                     v-for="(refinement, index) in data.searchRefinments"
                     :key="index">
-        <v-card class="pa-2" width="220">
+        <v-card flat width="220">
           <v-row>
             <v-col cols="12">
               <NuxtLink class="subheading " :to="{name: 'search-query', query: {q: refinement.query}}">

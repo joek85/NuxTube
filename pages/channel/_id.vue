@@ -1,6 +1,6 @@
 <template>
-  <v-card>
-    <v-card v-if="results.header.banner">
+  <v-card flat color="transparent">
+    <v-card flat v-if="results.header.banner">
       <v-img class="imgStyle" :src="results.header.banner.url"></v-img>
     </v-card>
     <v-container>
@@ -33,7 +33,7 @@
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
-        <v-tab-item v-for="item in results.items" :key="item.tabs.title">
+        <v-tab-item class="pa-1" v-for="item in results.items" :key="item.tabs.title">
           <component
             :is="getCardType(item.tabs.title)"
             :data="item.tabs.items"
