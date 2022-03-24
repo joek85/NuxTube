@@ -18,7 +18,7 @@
         <v-card-title class="pa-1">{{ title }}</v-card-title>
         <v-card-title class="subtitle-1 pa-1">{{ subtitle }}</v-card-title>
         <v-card-title class="subtitle-1 pa-1">{{ published }}</v-card-title>
-        <v-card-actions class="">
+        <v-card-actions>
           <v-spacer></v-spacer>
           <v-chip v-if="videoCounts" class="grey--text" outlined
             >{{ videoCounts }} videos</v-chip

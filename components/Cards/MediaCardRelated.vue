@@ -16,9 +16,7 @@
       </v-col>
       <v-col cols="12" xl="8">
         <v-card class="d-flex" flat tile>
-          <v-card-title class="font-weight-bold pa-0 subtitle-1 red--text">{{
-            title
-          }}</v-card-title>
+          <v-card-title class="pa-0 subtitle-1">{{ title }}</v-card-title>
           <v-card class="ml-auto" flat tile>
             <v-menu bottom left>
               <template v-slot:activator="{ on, attrs }">
@@ -59,7 +57,10 @@
         <v-card-title v-if="!isLive" class="pa-0 subtitle-2 grey--text"
           >{{ playCounts }} - {{ published }} - {{ duration }}</v-card-title
         >
-        <v-chip v-if="isLive === true" dark small color="red">LIVE</v-chip>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-chip v-if="isLive === true" dark small color="red">LIVE</v-chip>
+        </v-card-actions>
       </v-col>
     </v-row>
   </v-card>

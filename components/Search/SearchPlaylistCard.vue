@@ -1,7 +1,7 @@
 <template>
-  <v-card class="pa-2">
+  <v-card class="pa-2" flat>
     <v-row>
-      <v-col cols="12" xl="4">
+      <v-col cols="12" sm="3" md="4">
         <NuxtLink :to="{ name: 'playlist-id', params: { id: playlistId } }">
           <v-img v-if="thumbnail" :src="thumbnail.url" aspect-ratio="1.7">
             <template v-slot:placeholder>
@@ -14,7 +14,9 @@
           </v-img>
         </NuxtLink>
       </v-col>
-      <v-col cols="12" xl="8">
+      <v-col cols="12"
+        sm="9"
+        md="8">
         <v-card-title class="pa-1">{{ title }}</v-card-title>
         <v-card-title class="subtitle-1 pa-1">
           <NuxtLink

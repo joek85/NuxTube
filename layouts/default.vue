@@ -1,6 +1,6 @@
 <template>
-  <v-app dark :style="{background: $vuetify.theme.themes[theme].background}">
-    <v-app-bar app dark clipped-left color="primary">
+  <v-app :style="{ background: $vuetify.theme.themes[theme].background }">
+    <v-app-bar app dark clipped-left color="primary" class="">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title @click="$router.push('/')" style="cursor: pointer">{{
         title
@@ -32,48 +32,17 @@
                 <v-list-item-title v-html="item.text"></v-list-item-title>
                 <v-divider></v-divider>
               </template>
-              <!-- <template v-slot:selection="">
-               <div>{{ getInputText.text }}</div>
-              </template> -->
             </v-autocomplete>
-
-            <!-- <v-menu
-              offset-y
-              transition="slide-y-transition"
-              max-height="400px"
-              rounded="b-xl"
-            >
-              <template v-slot:activator="{ on }">
-                <v-text-field
-                  v-on="on"
-                  class=""
-                  flat
-                  solo-inverted
-                  hide-details
-                  single-line
-                  append-icon=""
-                  placeholder="Search..."
-                  :value="getInputText"
-                  @input="onChange"
-                ></v-text-field>
-              </template>
-              <v-list light class="pa-2">
-                <v-list-item-group
-                  v-model="selectedItem"
-                  @change="searchlistClick"
-                >
-                  <v-list-item link v-for="(item, i) in searchItems" :key="i">
-                    <v-list-item-title v-html="item.text"></v-list-item-title>
-                    <v-divider></v-divider>
-                  </v-list-item>
-                </v-list-item-group>
-              </v-list>
-            </v-menu> -->
           </v-form>
         </v-col>
       </v-row>
       <v-row class="d-flex justify-end">
-        <v-switch v-model="$vuetify.theme.dark" inset light color="indigo"></v-switch>
+        <v-switch
+          v-model="$vuetify.theme.dark"
+          inset
+          light
+          color="indigo"
+        ></v-switch>
       </v-row>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" app clipped temporary hide-overlay>
@@ -322,9 +291,9 @@ export default {
     getInputText() {
       return this.searchQuery;
     },
-     theme(){
-      return (this.$vuetify.theme.dark) ? 'dark' : 'light'
-    }
+    theme() {
+      return this.$vuetify.theme.dark ? "dark" : "light";
+    },
   },
 };
 </script>

@@ -1,11 +1,11 @@
 <template>
-  <v-expansion-panels class="mb-6" v-model="panel">
+  <v-expansion-panels class="mb-2" v-model="panel" flat>
     <v-expansion-panel>
       <v-expansion-panel-header class="text-uppercase font-weight-bold">
         Playlists
       </v-expansion-panel-header>
       <v-expansion-panel-content>
-        <div class="text-center pa-1" v-if="$fetchState.pending">
+        <div class="text--center" v-if="$fetchState.pending">
           <v-progress-circular
             indeterminate
             color="primary"
@@ -36,7 +36,7 @@
                 :key="item.videoId"
                 @click="itemClick(item.videoId, index)"
               >
-                <v-list-item-icon>
+                <v-list-item-icon v-if="$vuetify.breakpoint.xlOnly">
                   <v-img width="96" height="56" :src="item.thumbnails.url">
                     <template v-slot:placeholder>
                       <v-row class="fill-height">
