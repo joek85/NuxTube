@@ -55,7 +55,14 @@
                             >mdi-video-outline</v-icon
                           >
                         </v-btn>
-                        <v-btn icon fab dark color="primary" x-large>
+                        <v-btn
+                          icon
+                          fab
+                          dark
+                          color="primary"
+                          x-large
+                          @click="openDownloadDialog()"
+                        >
                           <v-icon x-large color="white"
                             >mdi-cloud-download-outline</v-icon
                           >
@@ -103,7 +110,9 @@
                 {{ formatDate(results[0].published_at) }} -
                 {{ convertTime(results[0].duration) }}</v-card-title
               >
-              <v-chip v-if="results[0].isLive" color="red" small>LIVE</v-chip>
+              <v-chip v-if="results[0].isLive" color="red" dark small
+                >LIVE</v-chip
+              >
               <v-col cols="12" class="pa-0">
                 <v-chip-group class="pa-0" active-class="primary--text" column>
                   <v-chip
@@ -226,6 +235,9 @@ export default {
     showVideoDialog() {
       this.$store.commit("showVideoDialog", true);
       this.$store.commit("showBottomSheet", false);
+    },
+    openDownloadDialog() {
+      this.$root.$emit("Dialog", {id: this.$route.query.id});
     },
   },
 };

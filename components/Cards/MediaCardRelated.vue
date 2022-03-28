@@ -100,6 +100,9 @@ export default {
     },
     menuClick(index) {
       switch (index) {
+        case 0:
+          this.$root.$emit("Dialog", {id: this.videoId});
+          break;
         case 2:
           this.$root.$emit("hideVideo", this.videoId);
           break;

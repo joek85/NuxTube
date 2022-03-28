@@ -90,6 +90,27 @@
       >
         {{ snackbarText }}
       </v-snackbar>
+      <v-dialog
+        transition="dialog-bottom-transition"
+        class="pa-0"
+        v-model="dialog"
+      >
+        <template v-slot:default="dialog">
+          <v-card rounded="lg">
+            <v-toolbar color="primary" dark></v-toolbar>
+            <div class="text-center pa-1" v-if="loading">
+              <v-progress-circular
+                indeterminate
+                color="primary"
+              ></v-progress-circular>
+            </div>
+            <download-dialog :infos="downloadInfos" v-else></download-dialog>
+            <v-card-actions class="justify-end">
+              <v-btn text @click="dialog.value = false">Close</v-btn>
+            </v-card-actions>
+          </v-card>
+        </template>
+      </v-dialog>
     </v-main>
     <v-footer app color="transparent" class="pa-0" v-if="getBottomSheet" fixed>
       <transition name="bottom-sheet-transition">
@@ -112,11 +133,13 @@
 import AudioPlayer from "../components/AudioPlayer.vue";
 import VideoPlayer from "../components/VideoPlayer.vue";
 import SuggestionService from "../services/service";
+import DownloadDialog from "../components/DownloadDialog.vue";
 import { mapState, mapGetters } from "vuex";
 export default {
   components: {
     AudioPlayer,
     VideoPlayer,
+    DownloadDialog,
   },
   mounted() {
     window.addEventListener("resize", this.resizeEventHandler);
@@ -126,10 +149,15 @@ export default {
       this.snackbarText = param.text;
       this.snackbar = true;
     });
+    this.$root.$on("Dialog", (param) => {
+      this.dialog = true;
+      this.downloadId = param.id;
+    });
   },
   fetchOnServer: false,
   data() {
     return {
+      dialog: false,
       clipped: true,
       drawer: false,
       fixed: false,
@@ -163,6 +191,8 @@ export default {
       snackbarColor: "success",
       snackbarTimeout: 8000,
       snackbarText: "",
+      loading: false,
+      downloadInfos: "",
     };
   },
   watch: {
@@ -189,6 +219,9 @@ export default {
           this.isLoading = false;
           // this.isOpen = false;
         });
+    },
+    dialog(val) {
+      if (val === true) this.getDownloadInfos();
     },
   },
   methods: {
@@ -262,6 +295,26 @@ export default {
         .finally(() => {
           this.isLoading = false;
           // this.isOpen = false;
+        });
+    },
+    getDownloadInfos() {
+      this.loading = true;
+      this.$axios
+        .$get("/api/download", {
+          params: {
+            id: this.downloadId,
+          },
+        })
+        .then((response) => {
+          this.loading = false;
+          this.downloadInfos = {
+            videoDetails: response.videoDetails,
+            formats: response.streamingData.adaptiveFormats,
+          };
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
   },

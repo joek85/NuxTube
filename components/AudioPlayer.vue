@@ -177,7 +177,7 @@ export default {
       this.audio = new Audio();
       this.audio.autoplay = true;
       this.audio.playsinline = true;
-      this.audio.crossorigin = 'anonymous';
+      this.audio.crossorigin = "anonymous";
       this.setupAudioEventListinners();
 
       // var myMeterElement = document.getElementById("my-peak-meter");
@@ -340,7 +340,7 @@ export default {
       }
     },
     Seek(time) {
-      this.audio.currentTime = time;
+      if (this.audio) this.audio.currentTime = time;
     },
     SkipBackward() {
       if (Number(this.PlaylistIndex) - 1 >= 0) {
