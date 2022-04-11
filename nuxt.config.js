@@ -49,7 +49,24 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
+    'nuxt-socket-io',
   ],
+  io: {
+    // module options
+    sockets: [{
+      name: 'main',
+      url: 'http://localhost:3000',
+      default: true,
+      vuex: {
+        mutations: [{ 
+          // When "progress" is received, 
+          // commit mutation "examples/SET_PROGRESS
+          progress: 'downloads/SET_PROGRESS' 
+        },
+        ],
+      },
+    }]
+  },
   serverMiddleware: {
     '/api': '~/api/index.js'
   },
@@ -130,6 +147,11 @@ export default {
             path: '',
             component: 'pages/history/index.vue',
             name: 'history',
+          },
+          {
+            path: '',
+            component: 'pages/downloads/index.vue',
+            name: 'downloads',
           },
         ]
       },

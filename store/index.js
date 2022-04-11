@@ -12,7 +12,8 @@ export const state = () => ({
   PlaylistInfo: {id: '', PlaylistLength: 0},
   SearchContinuation: {clickTrackingParams: '', token: ''},
   ChapterSelectedItem: 0,
-  ChapterDurations: []
+  ChapterDurations: [],
+  DownloadInfos: {}
 });
 
 export const mutations = {
@@ -57,6 +58,9 @@ export const mutations = {
   },
   setChapterDurations(state, ChapterDurations) {
     state.ChapterDurations = ChapterDurations
+  },
+  setDownloadInfos(state, infos) {
+    state.DownloadInfos = infos
   }
 };
 
@@ -102,6 +106,9 @@ export const getters = {
   },
   getChapterDurations(state) {
     return state.ChapterDurations
+  },
+  getDownloadInfos(state) {
+    return state.DownloadInfos
   }
 };
 

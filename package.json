@@ -17,6 +17,7 @@
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.6",
     "nuxt": "^2.15.3",
+    "nuxt-socket-io": "^2.0.3",
     "vue-linkify": "^1.0.1",
     "vue-plyr": "^7.0.0",
     "vue-youtube": "^1.4.0",

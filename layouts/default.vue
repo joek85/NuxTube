@@ -36,14 +36,33 @@
           </v-form>
         </v-col>
       </v-row>
-      <v-row class="d-flex justify-end">
-        <v-switch
-          v-model="$vuetify.theme.dark"
-          inset
-          light
-          color="indigo"
-        ></v-switch>
-      </v-row>
+      <v-spacer></v-spacer>
+      <v-menu
+        v-model="menu"
+        :nudge-width="400"
+        offset-y
+        transition="slide-y-transition"
+        bottom
+        :close-on-content-click="false"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-badge hidden color="secondary" dot offset-x="20" offset-y="20">
+            <v-btn class="text-center" icon v-bind="attrs" v-on="on">
+              <v-icon>mdi-bell</v-icon>
+            </v-btn>
+          </v-badge>
+        </template>
+        <downloads-component></downloads-component>
+      </v-menu>
+      <!-- <v-switch
+        v-model="$vuetify.theme.dark"
+        inset
+        light
+        color="indigo"
+      ></v-switch> -->
+      <v-btn icon @click="toggleTheme()">
+        <v-icon>{{btnThemeIcon}}</v-icon>
+      </v-btn>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" app clipped temporary hide-overlay>
       <v-list>
@@ -90,27 +109,6 @@
       >
         {{ snackbarText }}
       </v-snackbar>
-      <v-dialog
-        transition="dialog-bottom-transition"
-        class="pa-0"
-        v-model="dialog"
-      >
-        <template v-slot:default="dialog">
-          <v-card rounded="lg">
-            <v-toolbar color="primary" dark></v-toolbar>
-            <div class="text-center pa-1" v-if="loading">
-              <v-progress-circular
-                indeterminate
-                color="primary"
-              ></v-progress-circular>
-            </div>
-            <download-dialog :infos="downloadInfos" v-else></download-dialog>
-            <v-card-actions class="justify-end">
-              <v-btn text @click="dialog.value = false">Close</v-btn>
-            </v-card-actions>
-          </v-card>
-        </template>
-      </v-dialog>
     </v-main>
     <v-footer app color="transparent" class="pa-0" v-if="getBottomSheet" fixed>
       <transition name="bottom-sheet-transition">
@@ -126,6 +124,25 @@
         </v-col>
       </transition>
     </v-footer>
+    <v-dialog class="pa-0" v-model="dialog">
+      <template v-slot:default="dialog">
+        <v-card class="pa-0" flat min-height="400">
+          <v-toolbar color="primary" dark>
+            <v-spacer></v-spacer>
+            <v-btn rounded icon dark @click="dialog.value = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </v-toolbar>
+          <div class="text-center pa-1" v-if="loading">
+            <v-progress-circular
+              indeterminate
+              color="primary"
+            ></v-progress-circular>
+          </div>
+          <download-dialog v-else></download-dialog>
+        </v-card>
+      </template>
+    </v-dialog>
   </v-app>
 </template>
 
@@ -134,16 +151,19 @@ import AudioPlayer from "../components/AudioPlayer.vue";
 import VideoPlayer from "../components/VideoPlayer.vue";
 import SuggestionService from "../services/service";
 import DownloadDialog from "../components/DownloadDialog.vue";
+import DownloadsComponent from "../components/Downloads/DownloadsNotifications.vue";
 import { mapState, mapGetters } from "vuex";
 export default {
   components: {
     AudioPlayer,
     VideoPlayer,
     DownloadDialog,
+    DownloadsComponent,
   },
   mounted() {
     window.addEventListener("resize", this.resizeEventHandler);
     this.setWindowSize();
+
     this.$root.$on("SnackBar", (param) => {
       this.snackbarColor = param.color;
       this.snackbarText = param.text;
@@ -151,12 +171,16 @@ export default {
     });
     this.$root.$on("Dialog", (param) => {
       this.dialog = true;
-      this.downloadId = param.id;
+      if (this.downloadId != param.id) {
+        this.downloadId = param.id;
+        this.getDownloadInfos(param.id);
+      }
     });
   },
   fetchOnServer: false,
   data() {
     return {
+      menu: false,
       dialog: false,
       clipped: true,
       drawer: false,
@@ -174,6 +198,11 @@ export default {
           icon: "mdi-history",
           title: "History",
           to: "/history",
+        },
+        {
+          icon: "mdi-cloud-download",
+          title: "Downloads",
+          to: "/downloads",
         },
       ],
       miniVariant: false,
@@ -193,6 +222,7 @@ export default {
       snackbarText: "",
       loading: false,
       downloadInfos: "",
+      btnThemeIcon: 'mdi-white-balance-sunny'
     };
   },
   watch: {
@@ -220,11 +250,18 @@ export default {
           // this.isOpen = false;
         });
     },
-    dialog(val) {
-      if (val === true) this.getDownloadInfos();
-    },
+    dialog(val) {},
   },
   methods: {
+    toggleTheme() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+      if (this.$vuetify.theme.dark) {
+        this.btnThemeIcon = 'mdi-weather-night'
+      }else{
+        this.btnThemeIcon = 'mdi-white-balance-sunny'
+
+      }
+    },
     updateListIndex(i) {
       if (i > -1) {
         // console.log(i);
@@ -297,20 +334,20 @@ export default {
           // this.isOpen = false;
         });
     },
-    getDownloadInfos() {
+    getDownloadInfos(id) {
       this.loading = true;
       this.$axios
         .$get("/api/download", {
           params: {
-            id: this.downloadId,
+            id: id,
           },
         })
         .then((response) => {
           this.loading = false;
-          this.downloadInfos = {
+          this.$store.commit("setDownloadInfos", {
             videoDetails: response.videoDetails,
             formats: response.streamingData.adaptiveFormats,
-          };
+          });
           console.log(response);
         })
         .catch((err) => {

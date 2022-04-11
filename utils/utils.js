@@ -1,4 +1,5 @@
 import moment from 'moment'
+import os from 'os'
 export default {
   formatNumbers (number) {
     return format(number)
@@ -9,6 +10,9 @@ export default {
   formatDate (time) {
     return moment(time).fromNow()
   },
+  getLocalPath () {
+    return require('path').resolve(__dirname, '..')
+  }
 }
 
 let pow = Math.pow;
