@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
       id: id, title: info.videoDetails.title, authorThumbnail: info.videoDetails.author.thumbnails[0].url, subtitle: info.videoDetails.author, thumbnail: info.videoDetails.thumbnails[info.videoDetails.thumbnails.length - 1],
       duration: info.videoDetails.lengthSeconds, play_counts: info.videoDetails.viewCount, published_at: info.videoDetails.publishDate,
       tags: info.videoDetails.keywords, channel_id: info.videoDetails.channelId, description: info.videoDetails.description,
-      formats: { url: af.url }, isLive: info.videoDetails.isLive, author: info.videoDetails.author.name, chapters: info.videoDetails.chapters
+      formats: { url: af.url }, isLive: info.videoDetails.isLive, author: info.videoDetails.author.name, subscribers: info.videoDetails.author.subscriber_count, chapters: info.videoDetails.chapters
     }];
 
     database_insert_item_history(id, out[0].title, out[0].author, out[0].channel_id, out[0].thumbnail.url, out[0].duration, out[0].play_counts, out[0].published_at, out[0].authorThumbnail, date);

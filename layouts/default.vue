@@ -54,12 +54,6 @@
         </template>
         <downloads-component></downloads-component>
       </v-menu>
-      <!-- <v-switch
-        v-model="$vuetify.theme.dark"
-        inset
-        light
-        color="indigo"
-      ></v-switch> -->
       <v-btn icon @click="toggleTheme()">
         <v-icon>{{btnThemeIcon}}</v-icon>
       </v-btn>
@@ -78,6 +72,25 @@
     </v-navigation-drawer>
     <v-main>
       <nuxt />
+      <v-dialog class="pa-0" v-model="dialog">
+      <template v-slot:default="dialog">
+        <v-card class="pa-0" flat min-height="400">
+          <v-toolbar color="primary" dark>
+            <v-spacer></v-spacer>
+            <v-btn rounded icon dark @click="dialog.value = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </v-toolbar>
+          <div class="text-center pa-1" v-if="loading">
+            <v-progress-linear
+              indeterminate
+              color="primary"
+            ></v-progress-linear>
+          </div>
+          <download-dialog v-else></download-dialog>
+        </v-card>
+      </template>
+    </v-dialog>
       <div class="wrapper__content">
         <div
           v-if="getShowVideoDialog"
@@ -124,25 +137,6 @@
         </v-col>
       </transition>
     </v-footer>
-    <v-dialog class="pa-0" v-model="dialog">
-      <template v-slot:default="dialog">
-        <v-card class="pa-0" flat min-height="400">
-          <v-toolbar color="primary" dark>
-            <v-spacer></v-spacer>
-            <v-btn rounded icon dark @click="dialog.value = false">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-          </v-toolbar>
-          <div class="text-center pa-1" v-if="loading">
-            <v-progress-circular
-              indeterminate
-              color="primary"
-            ></v-progress-circular>
-          </div>
-          <download-dialog v-else></download-dialog>
-        </v-card>
-      </template>
-    </v-dialog>
   </v-app>
 </template>
 

@@ -47,21 +47,36 @@
           >
             Download Image
           </v-btn>
-          <v-btn class="pa-1" color="primary" text :disabled="isSelected" @click="downloadMedia()">
+          <v-btn
+            class="pa-1"
+            color="primary"
+            text
+            :disabled="isSelected"
+            @click="downloadMedia()"
+          >
             Download
           </v-btn>
         </v-card-actions>
       </v-col>
       <v-col cols="12">
-        <v-data-table
-          v-model="selected"
-          :headers="tableHeaders"
-          :items="infos.formats"
-          item-key="itag"
-          :search="search"
-          show-select
-          single-select
-        ></v-data-table>
+        <v-tabs v-model="tab">
+          <v-tab v-for="(item, i) in tabItems" :key="item.tab">
+            {{ item.tab + ' (' + splitInfos[i].length + ')'}} 
+          </v-tab>
+        </v-tabs>
+        <v-tabs-items v-model="tab">
+          <v-tab-item v-for="(item, i) in splitInfos" :key="i">
+            <v-data-table
+              v-model="selected"
+              :headers="tableHeaders"
+              :items="item"
+              item-key="itag"
+              :search="search"
+              show-select
+              single-select
+            ></v-data-table>
+          </v-tab-item>
+        </v-tabs-items>
       </v-col>
     </v-row>
   </v-card>
@@ -108,14 +123,19 @@ export default {
       search: "",
       selected: [],
       downloading: false,
+      tab: null,
+      tabItems: [
+        {
+          tab: "Video",
+        },
+        {
+          tab: "audio",
+        },
+      ],
     };
   },
-  watch: {
-   
-  },
-  mounted() {
-   
-  },
+  watch: {},
+  mounted() {},
   computed: {
     ...mapGetters({
       infos: "getDownloadInfos",
@@ -123,11 +143,21 @@ export default {
     isSelected() {
       return this.selected.length ? false : true;
     },
+    splitInfos() {
+      let grouped = this.infos.formats.reduce(function (r, a, i) {
+        if (!i || r[r.length - 1][0].audioChannels !== a.audioChannels) {
+          return r.concat([[a]]);
+        }
+        r[r.length - 1].push(a);
+        return r;
+      }, []);
+      return grouped;
+    },
   },
   methods: {
     downloadImage(url) {
       this.downloading = true;
-      console.log(this.infos.videoDetails.title)
+      console.log(this.infos.videoDetails.title);
       this.$axios
         .$get("/api/download/image", {
           params: {
@@ -138,7 +168,7 @@ export default {
         })
         .then(() => {
           this.downloading = false;
-          
+
           this.$root.$emit("SnackBar", {
             color: "success",
             text: "Image Downloaded Successfully!",
@@ -161,13 +191,9 @@ export default {
             itag: this.selected[0].itag,
           },
         })
-        .then(() => {
-          
-        })
-        .catch((err) => {
-          
-        });
-    }
+        .then(() => {})
+        .catch((err) => {});
+    },
   },
 };
 </script>

@@ -89,23 +89,31 @@
                     params: { id: results[0].channel_id },
                   }"
                 >
-                  <v-avatar size="36">
+                  <v-avatar size="48">
                     <img :src="results[0].authorThumbnail" />
                   </v-avatar>
                 </NuxtLink>
-                <NuxtLink
-                  class="nuxt-link-exact-active pl-2"
-                  :to="{
-                    name: 'channel-id',
-                    params: { id: results[0].channel_id },
-                  }"
-                >
-                  {{ results[0].author }}
-                </NuxtLink>
+                <v-list-item-content class="pl-2">
+                  <v-toolbar-title>
+                    <NuxtLink
+                      class="nuxt-link-exact-active"
+                      :to="{
+                        name: 'channel-id',
+                        params: { id: results[0].channel_id },
+                      }"
+                    >
+                      {{ results[0].author }}
+                    </NuxtLink>
+                  </v-toolbar-title>
+                  <v-toolbar-title class="grey--text subtitle-2" v-if="results[0].subscribers">{{
+                    formatNumbers(results[0].subscribers)
+                  }} Subscribers</v-toolbar-title>
+                </v-list-item-content>
               </v-card-title>
+
               <v-card-title
                 v-if="!results[0].isLive"
-                class="pa-0 mt-1 subtitle-2 grey--text"
+                class="pa-1 subtitle-2 grey--text"
                 >{{ getPlayCounts(results[0].play_counts) }} -
                 {{ formatDate(results[0].published_at) }} -
                 {{ convertTime(results[0].duration) }}</v-card-title
@@ -232,12 +240,15 @@ export default {
     formatDate(date) {
       return utils.formatDate(date);
     },
+    formatNumbers(nb) {
+      return utils.formatNumbers(nb)
+    },
     showVideoDialog() {
       this.$store.commit("showVideoDialog", true);
       this.$store.commit("showBottomSheet", false);
     },
     openDownloadDialog() {
-      this.$root.$emit("Dialog", {id: this.$route.query.id});
+      this.$root.$emit("Dialog", { id: this.$route.query.id });
     },
   },
 };
