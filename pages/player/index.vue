@@ -1,34 +1,11 @@
 <template>
   <v-container>
-    <v-toolbar
-      dense
-      class="transparent mb-2"
-      flat
-      v-if="$vuetify.breakpoint.xlOnly"
-    >
-      <v-row align="end" justify="end">
-        <v-btn-toggle
-          v-model="toggle_exclusive"
-          mandatory
-          dense
-          group
-          color="primary"
-        >
-          <v-btn>
-            <v-icon>mdi-view-list</v-icon>
-          </v-btn>
-          <v-btn>
-            <v-icon>mdi-view-grid</v-icon>
-          </v-btn>
-        </v-btn-toggle>
-      </v-row>
-    </v-toolbar>
     <v-row>
       <v-col order="1" cols="12" md="8" sm="8">
         <v-card class="mb-4 pa-2" flat>
           <v-row>
-            <v-col cols="12" :xl="toggle_view ? 12 : 3">
-              <v-hover>
+            <v-col cols="12" :xl="ToggleView ? 12 : 3">
+              <!-- <v-hover>
                 <template v-slot:default="{ hover }">
                   <v-card flat>
                     <v-img
@@ -71,31 +48,41 @@
                     </v-fade-transition>
                   </v-card>
                 </template>
-              </v-hover>
+              </v-hover> -->
+              <v-card flat>
+                <v-img
+                  aspect-ratio="1.7"
+                  :src="results[0].thumbnail.url.split('?')[0]"
+                >
+                </v-img>
+              </v-card>
             </v-col>
             <v-col
               cols="12"
               :xl="toggle_view ? 12 : 9"
               class="d-flex flex-column justify-space-between d-sm-inline"
             >
-              <v-card-title class="text-h4 font-weight-bold pa-0">{{
+              <v-card-title class="text-h5 font-weight-bold pa-0">{{
                 results[0].title
               }}</v-card-title>
-              <v-card-title class="pa-1 mt-1">
-                <NuxtLink
-                  class="nuxt-link-exact-active"
-                  :to="{
-                    name: 'channel-id',
-                    params: { id: results[0].channel_id },
-                  }"
-                >
-                  <v-avatar size="48">
-                    <img :src="results[0].authorThumbnail" />
-                  </v-avatar>
-                </NuxtLink>
-                <v-list-item-content class="pl-2">
-                  <v-toolbar-title>
-                    <NuxtLink
+
+              <v-list-item two-line class="pa-0">
+                <v-list-item-avatar>
+                  <NuxtLink
+                    class="nuxt-link-exact-active"
+                    :to="{
+                      name: 'channel-id',
+                      params: { id: results[0].channel_id },
+                    }"
+                  >
+                    <v-avatar size="48">
+                      <img :src="results[0].authorThumbnail" />
+                    </v-avatar>
+                  </NuxtLink>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title
+                    ><NuxtLink
                       class="nuxt-link-exact-active"
                       :to="{
                         name: 'channel-id',
@@ -103,24 +90,52 @@
                       }"
                     >
                       {{ results[0].author }}
-                    </NuxtLink>
-                  </v-toolbar-title>
-                  <v-toolbar-title class="grey--text subtitle-2" v-if="results[0].subscribers">{{
-                    formatNumbers(results[0].subscribers)
-                  }} Subscribers</v-toolbar-title>
+                    </NuxtLink></v-list-item-title
+                  >
+                  <v-list-item-subtitle v-if="results[0].subscribers"
+                    >{{
+                      formatNumbers(results[0].subscribers)
+                    }}
+                    Subscribers</v-list-item-subtitle
+                  >
                 </v-list-item-content>
-              </v-card-title>
+                <v-list-item-action>
+                  <v-list-item-action-text
+                    class="subtitle-2"
+                    v-text="
+                      getPlayCounts(results[0].play_counts) +
+                      ' - ' +
+                      formatDate(results[0].published_at) +
+                      ' - ' +
+                      convertTime(results[0].duration)
+                    "
+                  ></v-list-item-action-text>
 
-              <v-card-title
-                v-if="!results[0].isLive"
-                class="pa-1 subtitle-2 grey--text"
-                >{{ getPlayCounts(results[0].play_counts) }} -
-                {{ formatDate(results[0].published_at) }} -
-                {{ convertTime(results[0].duration) }}</v-card-title
-              >
-              <v-chip v-if="results[0].isLive" color="red" dark small
-                >LIVE</v-chip
-              >
+                  <v-chip v-if="results[0].isLive" color="red" dark small
+                    >LIVE</v-chip
+                  >
+                </v-list-item-action>
+              </v-list-item>
+              <v-list-item class="pa-0">
+                <v-spacer></v-spacer>
+                <v-list-item-action class="ma-0">
+                  <v-list-item-action-text>
+                    <v-btn @click.stop="showVideoDialog" icon fab>
+                      <v-icon color="primary">mdi-video-outline</v-icon>
+                    </v-btn>
+                    <v-btn icon fab @click="openDownloadDialog()">
+                      <v-icon color="primary"
+                        >mdi-cloud-download-outline</v-icon
+                      >
+                    </v-btn>
+                    <v-btn icon fab @click="setToggleView()">
+                      <v-icon color="primary">{{
+                        ToggleView == 0 ? "mdi-view-grid" : "mdi-view-list"
+                      }}</v-icon>
+                    </v-btn>
+                  </v-list-item-action-text>
+                </v-list-item-action>
+              </v-list-item>
               <v-col cols="12" class="pa-0">
                 <v-chip-group class="pa-0" active-class="primary--text" column>
                   <v-chip
@@ -173,7 +188,7 @@ export default {
     ...mapGetters({
       AudioPlayerData: "getAudioPlayerData",
       VideoDialog: "getVideoDialog",
-      toggle_view: "getToggle_view",
+      ToggleView: "getToggle_view",
       PlayerPlaylist: "getPlayerPlaylist",
     }),
   },
@@ -182,7 +197,7 @@ export default {
   data() {
     return {
       overlay: false,
-      toggle_exclusive: 0,
+      toggle_view: 0,
       isPlaylist: false,
     };
   },
@@ -196,9 +211,6 @@ export default {
       if (!val) {
         this.$store.commit("showBottomSheet", true);
       }
-    },
-    toggle_exclusive(val) {
-      this.$store.commit("setToggle_view", val);
     },
     "$route.query"(query) {
       if (query.playlistId) {
@@ -241,7 +253,7 @@ export default {
       return utils.formatDate(date);
     },
     formatNumbers(nb) {
-      return utils.formatNumbers(nb)
+      return utils.formatNumbers(nb);
     },
     showVideoDialog() {
       this.$store.commit("showVideoDialog", true);
@@ -249,6 +261,10 @@ export default {
     },
     openDownloadDialog() {
       this.$root.$emit("Dialog", { id: this.$route.query.id });
+    },
+    setToggleView() {
+      this.toggle_view = !this.toggle_view;
+      this.$store.commit("setToggle_view", this.toggle_view);
     },
   },
 };

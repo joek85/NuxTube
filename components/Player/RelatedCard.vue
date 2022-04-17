@@ -20,6 +20,7 @@
             :published="related.published"
             :duration="related.duration"
             :isLive="related.isLive"
+            :noMenu="false"
           ></media-card>
           <playlist-card
             v-else-if="related.type === 'playlist'"

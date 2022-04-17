@@ -21,7 +21,7 @@
         <v-card-title class="pa-0 subtitle-1">
           <v-row>
             <v-col cols="10">
-              <v-card-title class="subtitle-1 pa-1">{{ title }}</v-card-title>
+              <v-card-title class="subtitle-1 pa-1" v-snip="{ lines: 2 }">{{ title }}</v-card-title>
             </v-col>
             <v-col cols="1">
               <v-menu bottom left>

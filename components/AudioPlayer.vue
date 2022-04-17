@@ -18,7 +18,7 @@
       </v-slider>
       <v-list class="pa-0">
         <v-list-item class="pa-0">
-          <v-sheet elevation="5" class="ma-2" width="96">
+          <v-sheet elevation="0" class="ma-2" width="96">
             <NuxtLink
               class="subheading"
               :to="{ name: 'player', query: { id: videoId } }"

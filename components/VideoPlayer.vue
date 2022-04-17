@@ -1,6 +1,6 @@
 <template >
   <v-card flat >
-    <v-col class="d-flex justify-center flex-column">
+    <v-col class="d-flex justify-center flex-column pa-0">
       <vue-plyr :key="videoId" :style="{'height': getHeight}">
         <div class="plyr__video-embed">
           <iframe

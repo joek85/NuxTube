@@ -30,7 +30,8 @@ export default {
   plugins: [
     '~/plugins/vue-youtube.js',
     {src:'~/plugins/vue-plyr.js', mode: 'client'},
-    '~/plugins/vue-linkify.js'
+    '~/plugins/vue-linkify.js',
+    '~/plugins/vue-snip.js'
   ],
   loading: {
     color: '#673ab7',

@@ -1,11 +1,11 @@
 <template>
   <v-card flat color="transparent">
-    <v-card flat v-if="results.header.banner">
+    <v-card flat v-if="results.header">
       <v-img class="imgStyle" :src="results.header.banner.url"></v-img>
     </v-card>
     <v-container>
       <v-card class="mb-2" flat>
-        <v-card-title>
+        <v-card-title v-if="results.header">
           <v-avatar size="88">
             <img :src="results.header.avatar.url" />
           </v-avatar>
@@ -61,7 +61,7 @@ export default {
   },
   head() {
     return {
-      title: this.results.header.title,
+      title: this.results.header ? this.results.header.title : '',
     };
   },
   async asyncData({ params, $axios, store }) {

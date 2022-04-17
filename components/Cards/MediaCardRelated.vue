@@ -16,9 +16,11 @@
       </v-col>
       <v-col cols="12" xl="8">
         <v-card class="d-flex" flat tile>
-          <v-card-title class="pa-0 subtitle-1">{{ title }}</v-card-title>
+          <v-card-title class="pa-0 subtitle-1" v-snip="{ lines: 2 }">{{
+            title
+          }}</v-card-title>
           <v-card class="ml-auto" flat tile>
-            <v-menu bottom left>
+            <v-menu v-if="noMenu === false" bottom left>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn icon v-bind="attrs" v-on="on">
                   <v-icon>mdi-dots-vertical</v-icon>
@@ -38,29 +40,27 @@
             </v-menu>
           </v-card>
         </v-card>
-
-        <v-card-title v-if="authorThumbnail" class="pa-0">
-          <NuxtLink
-            class="nuxt-link-exact-active"
-            :to="{ name: 'channel-id', params: { id: channelId } }"
-          >
-            <v-avatar size="36">
-              <img :src="authorThumbnail.url" />
-            </v-avatar>
-          </NuxtLink>
-          <v-col cols="10">
-            <v-toolbar-title class="pa-0 subtitle-2 grey--text">{{
-              authorName
-            }}</v-toolbar-title>
-          </v-col>
-        </v-card-title>
-        <v-card-title v-if="!isLive" class="pa-0 subtitle-2 grey--text"
-          >{{ playCounts }} - {{ published }} - {{ duration }}</v-card-title
-        >
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-chip v-if="isLive === true" dark small color="red">LIVE</v-chip>
-        </v-card-actions>
+        <v-list-item two-line class="pa-0">
+          <v-list-item-avatar v-if="authorThumbnail">
+            <NuxtLink
+              class="nuxt-link-exact-active"
+              :to="{ name: 'channel-id', params: { id: channelId } }"
+            >
+              <v-avatar size="36">
+                <img :src="authorThumbnail.url" />
+              </v-avatar>
+            </NuxtLink>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>{{ authorName }}</v-list-item-title>
+            <v-list-item-subtitle v-if="playCounts"
+              >{{ playCounts + " - " + published + " - " + duration }}
+            </v-list-item-subtitle>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-chip v-if="isLive === true" dark small color="red">LIVE</v-chip>
+          </v-list-item-action>
+        </v-list-item>
       </v-col>
     </v-row>
   </v-card>
@@ -80,6 +80,7 @@ export default {
     published: "",
     duration: 0,
     isLive: false,
+    noMenu: false,
   },
   data() {
     return {
@@ -101,7 +102,7 @@ export default {
     menuClick(index) {
       switch (index) {
         case 0:
-          this.$root.$emit("Dialog", {id: this.videoId});
+          this.$root.$emit("Dialog", { id: this.videoId });
           break;
         case 2:
           this.$root.$emit("hideVideo", this.videoId);
@@ -120,5 +121,11 @@ export default {
 }
 .grow:hover {
   transform: scale(1.05);
+}
+.trunc {
+  max-width: 50vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

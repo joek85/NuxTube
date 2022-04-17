@@ -61,20 +61,24 @@
       <v-col cols="12">
         <v-tabs v-model="tab">
           <v-tab v-for="(item, i) in tabItems" :key="item.tab">
-            {{ item.tab + ' (' + splitInfos[i].length + ')'}} 
+            {{ item.tab + "(" + splitInfos[i].length + ")" }}
           </v-tab>
         </v-tabs>
         <v-tabs-items v-model="tab">
           <v-tab-item v-for="(item, i) in splitInfos" :key="i">
             <v-data-table
               v-model="selected"
-              :headers="tableHeaders"
+              :headers="getTableHeaders(i)"
               :items="item"
               item-key="itag"
               :search="search"
               show-select
               single-select
-            ></v-data-table>
+            >
+              <template v-slot:item.contentLength="{ item }">
+                <v-card-text class="pa-0">{{ formatNumbers(item.contentLength) }}</v-card-text>
+              </template></v-data-table
+            >
           </v-tab-item>
         </v-tabs-items>
       </v-col>
@@ -84,13 +88,14 @@
 
 <script>
 import { mapGetters } from "vuex";
+import utils from "../utils/utils";
 
 export default {
   props: {},
   data() {
     return {
       dialog: false,
-      tableHeaders: [
+      tableVideoHeaders: [
         {
           text: "Itag",
           value: "itag",
@@ -112,12 +117,34 @@ export default {
           value: "mimeType",
         },
         {
+          text: "Size",
+          value: "contentLength",
+        },
+      ],
+      tableAudioHeaders: [
+        {
+          text: "Itag",
+          value: "itag",
+        },
+        {
+          text: "Quality",
+          value: "audioQuality",
+        },
+        {
+          text: "mimeType",
+          value: "mimeType",
+        },
+        {
           text: "audioChannels",
           value: "audioChannels",
         },
         {
           text: "audioSampleRate",
           value: "audioSampleRate",
+        },
+        {
+          text: "Size",
+          value: "contentLength",
         },
       ],
       search: "",
@@ -141,6 +168,7 @@ export default {
       infos: "getDownloadInfos",
     }),
     isSelected() {
+      console.log(this.selected);
       return this.selected.length ? false : true;
     },
     splitInfos() {
@@ -157,7 +185,6 @@ export default {
   methods: {
     downloadImage(url) {
       this.downloading = true;
-      console.log(this.infos.videoDetails.title);
       this.$axios
         .$get("/api/download/image", {
           params: {
@@ -193,6 +220,17 @@ export default {
         })
         .then(() => {})
         .catch((err) => {});
+    },
+    getTableHeaders(index) {
+      switch (index) {
+        case 0:
+          return this.tableVideoHeaders;
+        case 1:
+          return this.tableAudioHeaders;
+      }
+    },
+    formatNumbers(nb) {
+      return utils.bytesToSize(nb);
     },
   },
 };

@@ -55,7 +55,7 @@
         <downloads-component></downloads-component>
       </v-menu>
       <v-btn icon @click="toggleTheme()">
-        <v-icon>{{btnThemeIcon}}</v-icon>
+        <v-icon>{{ btnThemeIcon }}</v-icon>
       </v-btn>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" app clipped temporary hide-overlay>
@@ -73,24 +73,24 @@
     <v-main>
       <nuxt />
       <v-dialog class="pa-0" v-model="dialog">
-      <template v-slot:default="dialog">
-        <v-card class="pa-0" flat min-height="400">
-          <v-toolbar color="primary" dark>
-            <v-spacer></v-spacer>
-            <v-btn rounded icon dark @click="dialog.value = false">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-          </v-toolbar>
-          <div class="text-center pa-1" v-if="loading">
-            <v-progress-linear
-              indeterminate
-              color="primary"
-            ></v-progress-linear>
-          </div>
-          <download-dialog v-else></download-dialog>
-        </v-card>
-      </template>
-    </v-dialog>
+        <template v-slot:default="dialog">
+          <v-card class="pa-0" flat min-height="400">
+            <v-toolbar color="primary" dark flat dense>
+              <v-spacer></v-spacer>
+              <v-btn rounded icon dark @click="dialog.value = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </v-toolbar>
+            <div class="text-center pa-1" v-if="loading">
+              <v-progress-linear
+                indeterminate
+                color="primary"
+              ></v-progress-linear>
+            </div>
+            <download-dialog v-else></download-dialog>
+          </v-card>
+        </template>
+      </v-dialog>
       <div class="wrapper__content">
         <div
           v-if="getShowVideoDialog"
@@ -123,19 +123,17 @@
         {{ snackbarText }}
       </v-snackbar>
     </v-main>
-    <v-footer app color="transparent" class="pa-0" v-if="getBottomSheet" fixed>
-      <transition name="bottom-sheet-transition">
-        <v-col
-          cols="12"
-          class="
-            v-dialog v-bottom-sheet
-            v-dialog--active v-dialog--persistent
-            pa-0
-          "
-        >
-          <AudioPlayer></AudioPlayer>
-        </v-col>
-      </transition>
+    <v-footer app fixed color="transparent" class="pa-0" v-if="getBottomSheet">
+      <v-col
+        cols="12"
+        class="
+          v-dialog v-bottom-sheet
+          v-dialog--active v-dialog--persistent
+          pa-0
+        "
+      >
+        <AudioPlayer></AudioPlayer>
+      </v-col>
     </v-footer>
   </v-app>
 </template>
@@ -186,7 +184,7 @@ export default {
         {
           icon: "mdi-apps",
           title: "Home",
-          to: "/",
+          to: "/trending",
         },
         {
           icon: "mdi-history",
@@ -216,7 +214,7 @@ export default {
       snackbarText: "",
       loading: false,
       downloadInfos: "",
-      btnThemeIcon: 'mdi-white-balance-sunny'
+      btnThemeIcon: "mdi-white-balance-sunny",
     };
   },
   watch: {
@@ -250,10 +248,9 @@ export default {
     toggleTheme() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
       if (this.$vuetify.theme.dark) {
-        this.btnThemeIcon = 'mdi-weather-night'
-      }else{
-        this.btnThemeIcon = 'mdi-white-balance-sunny'
-
+        this.btnThemeIcon = "mdi-weather-night";
+      } else {
+        this.btnThemeIcon = "mdi-white-balance-sunny";
       }
     },
     updateListIndex(i) {

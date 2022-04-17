@@ -3,11 +3,12 @@ const router = express.Router();
 const ytrend = require("yt-trending-scraper");
 
 router.get('/', (req, res) => {
-  // let q = req.query['q']
+  let location = req.query['location']
+  let page = req.query['page']
   const parameters = {
-    geoLocation: 'US',
+    geoLocation: location,
     parseCreatorOnRise: false,
-    page: 'default'
+    page: page
   };
   ytrend.scrape_trending_page(parameters).then((data) =>{
     //console.log('hi')

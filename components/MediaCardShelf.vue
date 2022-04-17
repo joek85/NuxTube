@@ -26,13 +26,16 @@
 
     </v-card-title>
   </v-card> -->
-  
-  
-    <v-card class="pa-1 grow" width="256" flat>
+
+  <v-card class="pa-1 grow" width="256" flat>
     <v-row>
       <v-col cols="12">
         <NuxtLink :to="{ name: 'player', query: { id: data.videoId } }">
-          <v-img class="" aspect-ratio="1.7" :src="data.thumbnails.url.split('?')[0]">
+          <v-img
+            class=""
+            aspect-ratio="1.7"
+            :src="data.thumbnails.url.split('?')[0]"
+          >
             <template v-slot:placeholder>
               <v-row class="fill-height">
                 <v-col cols="12">
@@ -47,24 +50,17 @@
         cols="12"
         class="d-flex flex-column justify-space-between d-sm-inline"
       >
-        <v-card-title class="pa-0 subtitle-1">
-          <v-row>
-            <v-col cols="10">
-              <v-card-title class="subtitle-1 pa-1">{{ data.title }}</v-card-title>
-            </v-col>
-            
-          </v-row>
-        </v-card-title>
-     
-         
-          <v-col cols="10">
-            <v-toolbar-title class="pa-0 subtitle-2 grey--text">{{
-              data.subtitle
-            }}</v-toolbar-title>
-          </v-col>
-      
+        <v-card-title class="subtitle-1 pa-1" v-snip="{ lines: 2 }">{{
+          data.title
+        }}</v-card-title>
+
+        <v-toolbar-title class="pa-0 subtitle-2 grey--text">{{
+          data.subtitle
+        }}</v-toolbar-title>
+
         <v-card-title v-if="!data.isLive" class="pa-1 subtitle-2 grey--text"
-          >{{ data.views }} - {{ data.published }} - {{ data.duration }}</v-card-title
+          >{{ data.views }} - {{ data.published }} -
+          {{ data.duration }}</v-card-title
         >
         <v-chip v-if="data.isLive === true" small color="red">LIVE</v-chip>
       </v-col>
@@ -73,20 +69,20 @@
 </template>
 
 <script>
-  import utils from '../utils/utils'
-  export default {
-    props: {
-      data: {}
+import utils from "../utils/utils";
+export default {
+  props: {
+    data: {},
+  },
+  methods: {
+    getPlayCounts(nb) {
+      return utils.formatNumbers(nb);
     },
-    methods: {
-      getPlayCounts (nb) {
-        return utils.formatNumbers(nb)
-      },
-      convertTime (time) {
-        return utils.convertTime(time)
-      }
-    }
-  }
+    convertTime(time) {
+      return utils.convertTime(time);
+    },
+  },
+};
 </script>
 <style lang="scss">
 .grow {
