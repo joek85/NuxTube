@@ -127,8 +127,7 @@
       <v-col
         cols="12"
         class="
-          v-dialog v-bottom-sheet
-          v-dialog--active v-dialog--persistent
+         
           pa-0
         "
       >

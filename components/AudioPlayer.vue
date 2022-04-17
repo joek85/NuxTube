@@ -16,71 +16,70 @@
           {{ convertTimeHHMMSS(item.value) }}
         </template>
       </v-slider>
-      <v-list class="pa-0">
-        <v-list-item class="pa-0">
-          <v-sheet elevation="0" class="ma-2" width="96">
-            <NuxtLink
-              class="subheading"
-              :to="{ name: 'player', query: { id: videoId } }"
-            >
-              <v-img aspect-ratio="1.7" :src="AudioPlayerData.thumbnail">
-              </v-img>
-            </NuxtLink>
-          </v-sheet>
-          <v-list-item-content>
-            <v-list-item-title>{{ AudioPlayerData.title }}</v-list-item-title>
-            <v-list-item-subtitle>{{
-              AudioPlayerData.subtitle
-            }}</v-list-item-subtitle>
-          </v-list-item-content>
-
+      <v-list-item class="pa-0" two-line>
+        <v-sheet elevation="0" class="ma-2" width="96">
+          <NuxtLink
+            class="subheading"
+            :to="{ name: 'player', query: { id: videoId } }"
+          >
+            <v-img aspect-ratio="1.7" :src="AudioPlayerData.thumbnail"> </v-img>
+          </NuxtLink>
+        </v-sheet>
+        <v-list-item-content>
+          <v-list-item-title>{{ AudioPlayerData.title }}</v-list-item-title>
+          <v-list-item-subtitle>{{
+            AudioPlayerData.subtitle
+          }}</v-list-item-subtitle>
+        </v-list-item-content>
+        <!-- 
           <v-card
             id="my-peak-meter"
             elevation="4"
             color="primary"
             class=""
             width="196"
-          ></v-card>
-          <!-- <v-spacer></v-spacer> -->
-          <v-card-title class="subtitle-1">{{ getAudioDuration }}</v-card-title>
-          <v-list-item-icon>
+          ></v-card> -->
+
+        <v-list-item-action class="ma-0">
+          <v-list-item-action-text>
+            <v-card-title class="subtitle-1 pa-0 d-flex flex-column">{{
+              getAudioDuration
+            }}</v-card-title>
             <v-btn icon @click="toggleRepeat">
               <v-icon v-if="getRepeat">mdi-repeat-once</v-icon>
               <v-icon v-else>mdi-repeat</v-icon>
             </v-btn>
-          </v-list-item-icon>
-
-          <v-list-item-icon v-if="IsPlaylist">
-            <v-btn icon @click="SkipBackward" :disabled="isBackwardDiabled">
+            <v-btn
+              v-if="IsPlaylist"
+              icon
+              @click="SkipBackward"
+              :disabled="isBackwardDiabled"
+            >
               <v-icon>mdi-skip-backward</v-icon>
             </v-btn>
-          </v-list-item-icon>
-
-          <v-list-item-icon>
             <v-btn icon @click="rewind">
               <v-icon>mdi-rewind</v-icon>
             </v-btn>
-          </v-list-item-icon>
 
-          <v-list-item-icon>
             <v-btn icon @click="togglePlaying" :loading="isLoading">
               <v-icon>{{ onbtnPlayChange }}</v-icon>
             </v-btn>
-          </v-list-item-icon>
 
-          <v-list-item-icon>
             <v-btn icon @click="forward">
               <v-icon>mdi-fast-forward</v-icon>
             </v-btn>
-          </v-list-item-icon>
 
-          <v-list-item-icon v-if="IsPlaylist">
-            <v-btn icon @click="SkipForward" :disabled="isForwardDisabled">
+            <v-btn
+              v-if="IsPlaylist"
+              icon
+              @click="SkipForward"
+              :disabled="isForwardDisabled"
+            >
               <v-icon>mdi-skip-forward</v-icon>
             </v-btn>
-          </v-list-item-icon>
-        </v-list-item>
-      </v-list>
+          </v-list-item-action-text>
+        </v-list-item-action>
+      </v-list-item>
     </v-card>
   </v-col>
 </template>
