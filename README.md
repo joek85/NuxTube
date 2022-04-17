@@ -26,7 +26,7 @@ sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_
 - Playlist Playing
 - History
 - Parse related videos with continuations
-- Audio or Video Downloads
+- Audio and Video Downloads
 - Block or remove specific video
 ## WIP
 - Create Playlists
