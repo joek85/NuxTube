@@ -62,7 +62,7 @@
                     </template>
                   </v-img>
                 </v-list-item-icon>
-                <v-list-item-content>
+                <v-list-item-content class="pa-0">
                   <v-list-item-title v-html="item.title"></v-list-item-title>
                   <v-list-item-subtitle
                     v-html="item.subtitle"

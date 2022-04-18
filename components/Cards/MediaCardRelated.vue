@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12" xl="4">
         <NuxtLink :to="{ name: 'player', query: { id: videoId } }">
-          <v-img class="" aspect-ratio="1.7" :src="thumbnail.url.split('?')[0]">
+          <v-img class="" aspect-ratio="1.7" :src="thumbnail.url">
             <template v-slot:placeholder>
               <v-row class="fill-height">
                 <v-col cols="12">

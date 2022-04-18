@@ -120,7 +120,7 @@
                 <v-spacer></v-spacer>
                 <v-list-item-action class="ma-0">
                   <v-list-item-action-text>
-                    <v-btn @click.stop="showVideoDialog" icon fab>
+                    <v-btn icon fab @click.stop="showVideoDialog">
                       <v-icon color="primary">mdi-video-outline</v-icon>
                     </v-btn>
                     <v-btn icon fab @click="openDownloadDialog()">

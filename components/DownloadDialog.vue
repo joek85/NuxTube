@@ -21,15 +21,42 @@
         </v-img>
       </v-col>
       <v-col cols="12" md="8">
-        <v-card flat class="pa-0">
+        <!-- <v-card flat class="pa-0">
           <v-card-title class="pa-1 subtitle-1">{{
             infos.videoDetails.title
           }}</v-card-title>
           <v-card-subtitle class="pa-1 subtitle-2 grey--text">
             {{ infos.videoDetails.author }}
           </v-card-subtitle>
+        </v-card> -->
+         <v-card class="d-flex" flat tile>
+          <v-card-title class="pa-0" v-snip="{ lines: 2 }">{{
+            infos.videoDetails.title
+          }}</v-card-title>
         </v-card>
+        <v-list-item two-line class="pa-0">
+          <v-list-item-avatar>
+            <NuxtLink
+              class="nuxt-link-exact-active"
+              :to="{ name: 'channel-id', params: { id: infos.videoDetails.channelId } }"
+            >
+              <v-avatar size="56">
+                <img :src="infos.videoDetails.thumbnail.thumbnails[infos.videoDetails.thumbnail.thumbnails.length-1].url" />
+              </v-avatar>
+            </NuxtLink>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>{{ infos.videoDetails.author }}</v-list-item-title>
+            <v-list-item-subtitle v-if="infos.videoDetails.viewCount"
+              >{{ getPlayCounts(infos.videoDetails.viewCount) + " views - "  + convertTime(infos.videoDetails.lengthSeconds)}}
+            </v-list-item-subtitle>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-chip v-if="infos.videoDetails.isLiveContent === true" dark small color="red">LIVE</v-chip>
+          </v-list-item-action>
+        </v-list-item>
       </v-col>
+    
       <v-col cols="12">
         <v-card-actions class="pa-0 d-flex justify-end">
           <v-btn
@@ -76,7 +103,9 @@
               single-select
             >
               <template v-slot:item.contentLength="{ item }">
-                <v-card-text class="pa-0">{{ formatNumbers(item.contentLength) }}</v-card-text>
+                <v-card-text class="pa-0">{{
+                  formatNumbers(item.contentLength)
+                }}</v-card-text>
               </template></v-data-table
             >
           </v-tab-item>
@@ -89,8 +118,10 @@
 <script>
 import { mapGetters } from "vuex";
 import utils from "../utils/utils";
+import MediaCardRelated from "./Cards/MediaCardRelated.vue";
 
 export default {
+  components: { MediaCardRelated },
   props: {},
   data() {
     return {
@@ -231,6 +262,15 @@ export default {
     },
     formatNumbers(nb) {
       return utils.bytesToSize(nb);
+    },
+        getPlayCounts(nb) {
+      return utils.formatNumbers(nb);
+    },
+    convertTime(time) {
+      return utils.convertTime(time);
+    },
+    formatDate(date) {
+      return utils.formatDate(date);
     },
   },
 };

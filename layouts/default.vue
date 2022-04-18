@@ -26,7 +26,7 @@
               solo-inverted
               return-object
               @update:list-index="updateListIndex"
-              :menu-props="{ closeOnContentClick: true }"
+              :menu-props="{ closeOnContentClick: true, closeOnClick: true }"
             >
               <template v-slot:item="{ item }">
                 <v-list-item-title v-html="item.text"></v-list-item-title>
@@ -81,10 +81,10 @@
                 <v-icon>mdi-close</v-icon>
               </v-btn>
             </v-toolbar>
-            <div class="text-center pa-1" v-if="loading">
+            <div class="text-center pa-0" v-if="loading">
               <v-progress-linear
                 indeterminate
-                color="primary"
+                color="secondary"
               ></v-progress-linear>
             </div>
             <download-dialog v-else></download-dialog>
@@ -124,13 +124,7 @@
       </v-snackbar>
     </v-main>
     <v-footer app fixed color="transparent" class="pa-0" v-if="getBottomSheet">
-      <v-col
-        cols="12"
-        class="
-         
-          pa-0
-        "
-      >
+      <v-col cols="12" class="pa-0">
         <AudioPlayer></AudioPlayer>
       </v-col>
     </v-footer>
@@ -338,7 +332,7 @@ export default {
             videoDetails: response.videoDetails,
             formats: response.streamingData.adaptiveFormats,
           });
-          console.log(response);
+          console.log(response.videoDetails);
         })
         .catch((err) => {
           console.log(err);
