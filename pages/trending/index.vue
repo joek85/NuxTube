@@ -1,27 +1,30 @@
 <template>
-  <v-row>
-    <v-col cols="4" v-for="video in results" :key="video.videoId">
-      <media-card-related
-      :videoId="video.videoId"
-            :title="video.title"
-            :thumbnail="video.videoThumbnails[0]"
-            :channelId="video.authorId"
-            :authorName="video.author"
-            :playCounts="video.playCounts"
-            :published="video.publishedText"
-            :duration="video.lengthSeconds"
-            
-      ></media-card-related>
-    </v-col>
-  </v-row>
+  <v-container>
+    <v-row>
+      <v-col md="4" v-for="video in results" :key="video.videoId">
+        <media-card-related
+          :videoId="video.videoId"
+          :title="video.title"
+          :thumbnail="video.thumbnail"
+          :channelId="video.author.channelId"
+          :authorThumbnail="video.author.thumbnail"
+          :authorName="video.author.name"
+          :playCounts="video.views"
+          :published="video.published"
+          :duration="video.duration"
+          :hasMenu="true"
+        ></media-card-related>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import MediaCardRelated from '../../components/Cards/MediaCardRelated.vue';
+import MediaCardRelated from "../../components/Cards/MediaCardRelated.vue";
 export default {
-    head() {
+  head() {
     return {
-      title: 'Trending',
+      title: "Trending",
     };
   },
   components: {
@@ -34,7 +37,6 @@ export default {
         page: "music",
       },
     });
-    console.log(results);
     return { results };
   },
 };

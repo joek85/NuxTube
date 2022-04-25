@@ -20,7 +20,7 @@
             title
           }}</v-card-title>
           <v-card class="ml-auto" flat tile>
-            <v-menu v-if="noMenu === false" bottom left>
+            <v-menu v-if="hasMenu === true" bottom left>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn icon v-bind="attrs" v-on="on">
                   <v-icon>mdi-dots-vertical</v-icon>
@@ -80,7 +80,7 @@ export default {
     published: "",
     duration: 0,
     isLive: false,
-    noMenu: false,
+    hasMenu: false,
   },
   data() {
     return {

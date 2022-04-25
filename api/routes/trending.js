@@ -1,23 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const ytrend = require("yt-trending-scraper");
+import ytaudio from 'yt-audio';
 
 router.get('/', (req, res) => {
-  let location = req.query['location']
-  let page = req.query['page']
-  const parameters = {
-    geoLocation: location,
-    parseCreatorOnRise: false,
-    page: page
-  };
-  ytrend.scrape_trending_page(parameters).then((data) =>{
-    //console.log('hi')
-    // console.log(data)
-    res.json(data)
-  }).catch((error)=>{
-    console.log(error)
-    res.json(error)
-  });
+  ytaudio.getTrendingPage().then(response => {
+    res.json(response)
+  }).catch(err => {
+    res.json(err)
+  })
 });
 
 module.exports = router;
