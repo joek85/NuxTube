@@ -31,7 +31,7 @@ sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_
 - Trending Page
 ## WIP
 - Create Playlists
-- 
+
 
 ### Search
 ![](screenshots/Search.png)
