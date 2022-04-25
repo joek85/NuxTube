@@ -26,7 +26,7 @@
               solo-inverted
               return-object
               @update:list-index="updateListIndex"
-              :menu-props="{ closeOnContentClick: true, closeOnClick: true }"
+              :menu-props="{ closeOnContentClick: true }"
             >
               <template v-slot:item="{ item }">
                 <v-list-item-title v-html="item.text"></v-list-item-title>
@@ -87,7 +87,12 @@
                 color="secondary"
               ></v-progress-linear>
             </div>
-            <download-dialog v-else></download-dialog>
+            <component
+              v-else
+              :is="getComponentType(componentType)"
+              :data="componentsData"
+            />
+            <!-- <download-dialog ></download-dialog> -->
           </v-card>
         </template>
       </v-dialog>
@@ -137,13 +142,16 @@ import VideoPlayer from "../components/VideoPlayer.vue";
 import SuggestionService from "../services/service";
 import DownloadDialog from "../components/DownloadDialog.vue";
 import DownloadsComponent from "../components/Downloads/DownloadsNotifications.vue";
+import PlaylistDialog from "../components/PlaylistDialog.vue";
 import { mapState, mapGetters } from "vuex";
+
 export default {
   components: {
     AudioPlayer,
     VideoPlayer,
     DownloadDialog,
     DownloadsComponent,
+    PlaylistDialog,
   },
   mounted() {
     window.addEventListener("resize", this.resizeEventHandler);
@@ -155,12 +163,23 @@ export default {
       this.snackbar = true;
     });
     this.$root.$on("Dialog", (param) => {
-      this.dialog = true;
-      if (this.downloadId != param.id) {
-        this.downloadId = param.id;
-        this.getDownloadInfos(param.id);
+      this.componentType = param.type;
+      switch (param.type) {
+        case "download":
+          if (this.downloadId != param.id) {
+            this.downloadId = param.id;
+            this.getDownloadInfos(param.id);
+          }
+          break;
+        case "playlist":
+          this.componentsData = param;
+          break;
       }
+      this.dialog = true;
     });
+    this.$root.$on("CloseDialog", (param) => {
+      this.dialog = false;
+    })
   },
   fetchOnServer: false,
   data() {
@@ -207,7 +226,9 @@ export default {
       snackbarText: "",
       loading: false,
       downloadInfos: "",
-      btnThemeIcon: "mdi-white-balance-sunny",
+      btnThemeIcon: "mdi-weather-night",
+      componentType: "",
+      componentsData: "",
     };
   },
   watch: {
@@ -235,15 +256,22 @@ export default {
           // this.isOpen = false;
         });
     },
-    dialog(val) {},
   },
   methods: {
     toggleTheme() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
       if (this.$vuetify.theme.dark) {
-        this.btnThemeIcon = "mdi-weather-night";
-      } else {
         this.btnThemeIcon = "mdi-white-balance-sunny";
+      } else {
+        this.btnThemeIcon = "mdi-weather-night";
+      }
+    },
+    getComponentType(type) {
+      switch (type) {
+        case "download":
+          return "DownloadDialog";
+        case "playlist":
+          return "PlaylistDialog";
       }
     },
     updateListIndex(i) {
@@ -429,7 +457,7 @@ export default {
 }
 .video__content {
   border-radius: 4px;
-  margin: 24px;
+  margin: 4px;
   overflow-y: auto;
   pointer-events: auto;
   transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);

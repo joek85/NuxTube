@@ -11,10 +11,13 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
     "axios": "latest",
+    "body-parser": "^1.20.0",
     "core-js": "^3.9.1",
     "express": "^4.17.1",
+    "fs": "0.0.1-security",
     "moment": "^2.29.1",
     "mysql": "^2.18.1",
+    "net": "^1.0.2",
     "node-fetch": "^2.6.6",
     "nuxt": "^2.15.3",
     "nuxt-socket-io": "^2.0.3",

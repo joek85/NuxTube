@@ -193,7 +193,13 @@ export default {
     }),
   },
   watchQuery: true,
-  mounted() {},
+  mounted() {
+    if (this.$route.query.playlistId) {
+      this.$store.commit("setIsPlaylist", true);
+    } else {
+      this.$store.commit("setIsPlaylist", false);
+    }
+  },
   data() {
     return {
       overlay: false,
@@ -260,7 +266,7 @@ export default {
       this.$store.commit("showBottomSheet", false);
     },
     openDownloadDialog() {
-      this.$root.$emit("Dialog", { id: this.$route.query.id });
+      this.$root.$emit("Dialog", { id: this.$route.query.id, type: 'download'});
     },
     setToggleView() {
       this.toggle_view = !this.toggle_view;

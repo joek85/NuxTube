@@ -27,38 +27,29 @@
           }}</v-card-title>
         </v-card>
         <v-list-item two-line class="pa-0">
-          <v-list-item-avatar>
-            <NuxtLink
-              class="nuxt-link-exact-active"
-              :to="{
-                name: 'channel-id',
-                params: { id: infos.videoDetails.channelId },
-              }"
-            >
-              <v-avatar size="56">
-                <img
-                  :src="
-                    infos.videoDetails.thumbnail.thumbnails[
-                      infos.videoDetails.thumbnail.thumbnails.length - 1
-                    ].url
-                  "
-                />
-              </v-avatar>
-            </NuxtLink>
-          </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title>{{
-              infos.videoDetails.author
-            }}</v-list-item-title>
-            <v-list-item-subtitle v-if="infos.videoDetails.viewCount"
-              >{{
-                getPlayCounts(infos.videoDetails.viewCount) +
-                " views - " +
-                convertTime(infos.videoDetails.lengthSeconds)
-              }}
-            </v-list-item-subtitle>
+            <v-list-item-title
+              ><NuxtLink
+                class="nuxt-link-exact-active"
+                :to="{
+                  name: 'channel-id',
+                  params: { id: infos.videoDetails.channelId },
+                }"
+              >
+                {{ infos.videoDetails.author }}
+              </NuxtLink></v-list-item-title
+            >
           </v-list-item-content>
           <v-list-item-action>
+            <v-list-item-action-text
+              class="subtitle-2"
+              v-text="
+                getPlayCounts(infos.videoDetails.viewCount) +
+                ` views - ` +
+                convertTime(infos.videoDetails.lengthSeconds)
+              "
+            >
+            </v-list-item-action-text>
             <v-chip
               v-if="infos.videoDetails.isLiveContent === true"
               dark
@@ -212,7 +203,7 @@ export default {
       infos: "getDownloadInfos",
     }),
     isSelected() {
-      console.log(this.selected);
+      // console.log(this.selected);
       return this.selected.length ? false : true;
     },
     splitInfos() {

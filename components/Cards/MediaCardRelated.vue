@@ -1,9 +1,9 @@
 <template>
-  <v-card class="pa-2 grow" flat>
+  <v-card class="pa-2" flat>
     <v-row>
       <v-col cols="12" xl="4">
         <NuxtLink :to="{ name: 'player', query: { id: videoId } }">
-          <v-img class="" aspect-ratio="1.7" :src="thumbnail.url">
+          <v-img class="" aspect-ratio="1.7" :src="thumbnail.url.split('?')[0]">
             <template v-slot:placeholder>
               <v-row class="fill-height">
                 <v-col cols="12">
@@ -86,7 +86,7 @@ export default {
     return {
       items: [
         { title: "Download", icon: "mdi-cloud-download" },
-        { title: "Add to favorite", icon: "mdi-star" },
+        { title: "Add to favourite", icon: "mdi-star" },
         { title: "Hide", icon: "mdi-eye-off" },
         { title: "Block", icon: "mdi-cancel" },
       ],
@@ -102,7 +102,7 @@ export default {
     menuClick(index) {
       switch (index) {
         case 0:
-          this.$root.$emit("Dialog", { id: this.videoId });
+          this.$root.$emit("Dialog", { id: this.videoId, type: 'download'});
           break;
         case 2:
           this.$root.$emit("hideVideo", this.videoId);
@@ -121,11 +121,5 @@ export default {
 }
 .grow:hover {
   transform: scale(1.05);
-}
-.trunc {
-  max-width: 50vw;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 </style>

@@ -23,7 +23,7 @@
             </v-card-subtitle>
           </div>
           <div class="d-flex align-end pa-0">
-            <v-btn icon>
+            <v-btn icon @click="addPlaylist()">
               <v-icon>mdi-playlist-plus</v-icon>
             </v-btn>
           </div>
@@ -104,6 +104,9 @@ export default {
           index: index,
         },
       });
+    },
+    addPlaylist() {
+      this.$root.$emit("Dialog", {playlistId: this.playlistId, playlist: this.results, type: "playlist" });
     },
   },
   mounted() {
