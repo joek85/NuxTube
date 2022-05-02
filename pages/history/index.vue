@@ -150,7 +150,13 @@ export default {
   },
   methods: {
     getDate(date) {
-      if (date) return utils.formatDate(date);
+      if (date)
+        return new Date(date).toLocaleDateString(undefined, {
+          weekday: "short",
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
     },
     getHistory(date) {
       this.disabled = true;
