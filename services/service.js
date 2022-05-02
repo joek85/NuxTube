@@ -11,9 +11,9 @@ export default {
       params: {date: date}
     })
   },
-  async removeHistoryItem (videoId) {
+  async removeHistoryItem (ids) {
     return await axios.get('/api/history/remove', {
-      params: {videoId: videoId}
+      params: {ids: ids}
     })
   }
 }

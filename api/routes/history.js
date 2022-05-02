@@ -26,10 +26,10 @@ router.get('/dates', async (req, res) => {
 });
 
 router.get('/remove', async (req, res) => {
-  let videoId = req.query['videoId'];
-  let sql = 'DELETE FROM history WHERE videoId=?';
+  let ids = req.query['ids'];
+  let sql = 'DELETE FROM history WHERE videoId IN (?)';
   try {
-    let result = await query(sql, [videoId]);
+    let result = await query(sql, [ids]);
     res.json(result)
   } catch (err) {
     res.json(err)

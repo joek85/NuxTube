@@ -31,7 +31,7 @@
                   v-for="(item, i) in items"
                   :key="i"
                   link
-                  @click.prevent="menuClick(i)"
+                  @click.prevent="menuClick(item.title)"
                 >
                   <v-icon small class="pa-2 pl-0">{{ item.icon }}</v-icon>
                   <v-list-item-title> {{ item.title }}</v-list-item-title>
@@ -81,15 +81,20 @@ export default {
     duration: 0,
     isLive: false,
     hasMenu: false,
+    isHistory: false,
   },
   data() {
     return {
-      items: [
-        { title: "Download", icon: "mdi-cloud-download" },
-        { title: "Add to favourite", icon: "mdi-star" },
-        { title: "Hide", icon: "mdi-eye-off" },
-        { title: "Block", icon: "mdi-cancel" },
-      ],
+      items:
+        this.isHistory == true
+          ? [{ title: "Remove", icon: "mdi-trash-can" }]
+          : [
+              { title: "Download", icon: "mdi-cloud-download" },
+              { title: "Add to favourite", icon: "mdi-star" },
+              { title: "Hide", icon: "mdi-eye-off" },
+              { title: "Block Video", icon: "mdi-cancel" },
+              { title: "Block Channel", icon: "mdi-cancel" },
+            ],
     };
   },
   methods: {
@@ -99,16 +104,22 @@ export default {
     convertTime(time) {
       return utils.convertTime(time);
     },
-    menuClick(index) {
-      switch (index) {
-        case 0:
-          this.$root.$emit("Dialog", { id: this.videoId, type: 'download'});
+    menuClick(title) {
+      switch (title) {
+        case "Download":
+          this.$root.$emit("Dialog", { id: this.videoId, type: "download" });
           break;
-        case 2:
+        case "Hide":
           this.$root.$emit("hideVideo", this.videoId);
           break;
-        case 3:
+        case "Block Video":
           this.$root.$emit("blockVideo", this.videoId);
+          break;
+        case "Block Channel":
+          this.$root.$emit("blockChannel", this.channelId);
+          break;
+        case "Remove":
+          this.$root.$emit("histoy_remove", this.videoId);
           break;
       }
     },

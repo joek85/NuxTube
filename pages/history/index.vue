@@ -11,38 +11,58 @@
                 label="Search..."
                 single-line
                 hide-details
+                clearable
               ></v-text-field>
             </v-col>
           </v-card-title>
-          <v-data-iterator
-            :headers="headers"
+          <v-data-table
+            v-model="selected"
             :items="gethistoryItems"
-            hide-default-header
             :search="search"
+            :headers="tableHeaders"
+            show-select
+            item-key="title"
           >
-            <template v-slot:default="props">
-              <v-row class="pa-3">
-                <v-col
-                  class="pa-1"
-                  cols="6"
-                  v-for="item in props.items"
-                  :key="item.videoId"
-                >
-                  <media-card-related
-                    :videoId="item.videoId"
-                    :title="item.title"
-                    :thumbnail="{ url: item.thumbnail }"
-                    :channelId="item.author_id"
-                    :authorThumbnail="{ url: item.author_thumbnail }"
-                    :authorName="item.author_name"
-                    :duration="convertTime(item.duration)"
-                    :published="formatDate(item.published)"
-                    :playCounts="getPlayCounts(item.views)"
-                  ></media-card-related>
+            <template v-if="selected.length > 0" v-slot:top>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn text color="primary" @click="removeItem()">Remove</v-btn>
+              </v-card-actions>
+            </template>
+            <template v-slot:header.data-table-select="{ on, props }">
+              <v-simple-checkbox
+                color="primary"
+                v-bind="props"
+                v-on="on"
+              ></v-simple-checkbox>
+            </template>
+            <template v-slot:body="{ items, isSelected, select }">
+              <v-row>
+                <v-col cols="12" v-for="item in items" :key="item.videoId">
+                  <div class="d-flex">
+                    <v-simple-checkbox
+                      class="ml-3"
+                      color="primary"
+                      :value="isSelected(item)"
+                      @input="select(item, $event)"
+                    ></v-simple-checkbox>
+                    <media-card-related
+                      class="flex-grow-1"
+                      :videoId="item.videoId"
+                      :title="item.title"
+                      :thumbnail="{ url: item.thumbnail }"
+                      :channelId="item.author_id"
+                      :authorThumbnail="{ url: item.author_thumbnail }"
+                      :authorName="item.author_name"
+                      :duration="convertTime(item.duration)"
+                      :published="formatDate(item.published)"
+                      :playCounts="getPlayCounts(item.views)"
+                    ></media-card-related>
+                  </div>
                 </v-col>
               </v-row>
             </template>
-          </v-data-iterator>
+          </v-data-table>
         </v-card>
       </v-col>
       <v-col order="1" order-sm="2" cols="12" sm="4">
@@ -94,6 +114,13 @@ export default {
       disabled: false,
       search: "",
       listIndex: null,
+      tableHeaders: [
+        {
+          value: "title",
+          align: "right",
+          width: "100",
+        },
+      ],
       headers: [
         {
           text: "Dessert",
@@ -101,10 +128,14 @@ export default {
         },
       ],
       historyItems: [],
-      menuItems: [{ title: "Remove", icon: "mdi-delete" }],
+      selected: [],
     };
   },
-  mounted() {},
+  mounted() {
+    this.$root.$on("histoy_remove", (param) => {
+      this.removeHistoryItem(param);
+    });
+  },
   async asyncData({ params, $axios, store }) {
     let results = await $axios.$get("/api/history/dates");
     return { results };
@@ -133,13 +164,20 @@ export default {
           console.log(err);
         });
     },
-    removeHistoryItem(id) {
+    removeHistoryItem(ids) {
       service
-        .removeHistoryItem(id)
+        .removeHistoryItem(ids)
         .then((response) => {
           this.$root.$emit("SnackBar", {
             color: "success",
             text: "Video removed!",
+          });
+          this.selected = [];
+          ids.forEach((id) => {
+            let index = this.historyItems.findIndex((item) => {
+              return item.videoId == id;
+            });
+            this.historyItems.splice(index, 1);
           });
         })
         .catch((err) => {
@@ -158,9 +196,16 @@ export default {
     menuClick(id) {
       this.removeHistoryItem(id);
     },
+    removeItem() {
+      let ids = this.selected.map((item) => {
+        return item.videoId;
+      });
+
+      this.removeHistoryItem(ids);
+    },
   },
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 </style>

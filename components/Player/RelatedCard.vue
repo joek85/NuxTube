@@ -1,5 +1,10 @@
 <template>
   <v-card class="transparent" flat>
+    <v-card-actions class="pa-0">
+      <v-spacer></v-spacer>
+      <v-switch class="mr-4" v-if="autoPlay" inset label="Random"></v-switch>
+      <v-switch v-model="autoPlay" inset label="Auto Play"></v-switch>
+    </v-card-actions>
     <v-container>
       <v-row>
         <v-col
@@ -69,6 +74,7 @@ export default {
       ctp: "",
       relatedVideos: [],
       fetched: false,
+      autoPlay: false,
     };
   },
   async fetch() {
@@ -122,19 +128,17 @@ export default {
           },
         })
         .then((res) => {
-          this.hideVideo(videoId)
+          this.hideVideo(videoId);
         })
         .catch((err) => {
           console.log(err);
         });
     },
     hideVideo(videoId) {
-      
-          let index = this.relatedVideos.findIndex((item) => {
-            return item.id == videoId
-          })
-          this.relatedVideos.splice(index, 1)
-        
+      let index = this.relatedVideos.findIndex((item) => {
+        return item.id == videoId;
+      });
+      this.relatedVideos.splice(index, 1);
     },
   },
   computed: {
@@ -147,7 +151,7 @@ export default {
     this.$root.$on("blockVideo", (videoId) => {
       this.blockVideo(videoId);
     });
-        this.$root.$on("hideVideo", (videoId) => {
+    this.$root.$on("hideVideo", (videoId) => {
       this.hideVideo(videoId);
     });
   },
