@@ -39,7 +39,7 @@
                     id: item.videoId,
                   },
                 }"
-                :key="index"
+                :key="index + 1"
               >
                 <v-list-item-content>
                   <v-list-item-title v-html="item.title"></v-list-item-title>

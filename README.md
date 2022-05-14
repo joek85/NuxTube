@@ -27,6 +27,7 @@ sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_
 - History
 - Parse related videos with continuations
 - Audio and Video Downloads
+- Edit downloaded audio files and export to wav or mp3
 - Block or remove specific video
 - Trending Page
 ## WIP
@@ -38,10 +39,25 @@ sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_
 
 ### Player
 ![](screenshots/Player.png)
-
-![](screenshots/Player-Responsive.png)
-
 ![](screenshots/Player-Videoplayer.png)
+
+### Editor
+![](screenshots/Editor.png)
+
+### Export
+![](screenshots/Export.png)
+
+### Player Downloads
+![](screenshots/Player-Download.png)
+
+### Downloads
+![](screenshots/Downloads.png)
+
+### History
+![](screenshots/History.png)
+
+### Trending
+![](screenshots/Trending.png)
 
 ### Player Playlist
 ![](screenshots/PlayerPlaylist.png)

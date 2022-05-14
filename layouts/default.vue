@@ -46,13 +46,13 @@
         :close-on-content-click="false"
       >
         <template v-slot:activator="{ on, attrs }">
-          <v-badge hidden color="secondary" dot offset-x="20" offset-y="20">
+          <!-- <v-badge color="secondary" dot offset-x="20" offset-y="20"> -->
             <v-btn class="text-center" icon v-bind="attrs" v-on="on">
               <v-icon>mdi-bell</v-icon>
             </v-btn>
-          </v-badge>
+          <!-- </v-badge> -->
         </template>
-        <downloads-component></downloads-component>
+        <notifications-component/>
       </v-menu>
       <v-btn icon @click="toggleTheme()">
         <v-icon>{{ btnThemeIcon }}</v-icon>
@@ -141,7 +141,7 @@ import AudioPlayer from "../components/AudioPlayer.vue";
 import VideoPlayer from "../components/VideoPlayer.vue";
 import SuggestionService from "../services/service";
 import DownloadDialog from "../components/DownloadDialog.vue";
-import DownloadsComponent from "../components/Downloads/DownloadsNotifications.vue";
+import NotificationsComponent from "../components/Downloads/DownloadsNotifications.vue";
 import PlaylistDialog from "../components/PlaylistDialog.vue";
 import { mapState, mapGetters } from "vuex";
 
@@ -150,7 +150,7 @@ export default {
     AudioPlayer,
     VideoPlayer,
     DownloadDialog,
-    DownloadsComponent,
+    NotificationsComponent,
     PlaylistDialog,
   },
   mounted() {
@@ -179,7 +179,7 @@ export default {
     });
     this.$root.$on("CloseDialog", (param) => {
       this.dialog = false;
-    })
+    });
   },
   fetchOnServer: false,
   data() {
@@ -207,6 +207,11 @@ export default {
           icon: "mdi-cloud-download",
           title: "Downloads",
           to: "/downloads",
+        },
+        {
+          icon: "mdi-waveform",
+          title: "Editor",
+          to: "/editor",
         },
       ],
       miniVariant: false,
@@ -360,7 +365,6 @@ export default {
             videoDetails: response.videoDetails,
             formats: response.streamingData.adaptiveFormats,
           });
-          console.log(response.videoDetails);
         })
         .catch((err) => {
           console.log(err);

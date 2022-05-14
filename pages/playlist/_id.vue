@@ -41,7 +41,7 @@
           <v-list three-line>
             <template v-for="(item, index) in results.videos">
               <v-list-item
-                :key="index"
+                :key="index + 1"
                 :to="{
                   name: 'player',
                   query: {
@@ -74,7 +74,7 @@
                   ></v-list-item-action-text>
                 </v-list-item-action>
               </v-list-item>
-              <v-divider :key="index"></v-divider>
+              <v-divider :key="index + 1"></v-divider>
             </template>
           </v-list>
         </v-card>

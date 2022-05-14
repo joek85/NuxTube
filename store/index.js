@@ -9,11 +9,18 @@ export const state = () => ({
   toggle_view: 0,
   isPlaylist: false,
   PlaylistIndex: 0,
-  PlaylistInfo: {id: '', PlaylistLength: 0},
-  SearchContinuation: {clickTrackingParams: '', token: ''},
+  PlaylistInfo: { id: '', PlaylistLength: 0 },
+  SearchContinuation: { clickTrackingParams: '', token: '' },
   ChapterSelectedItem: 0,
   ChapterDurations: [],
-  DownloadInfos: {}
+  DownloadInfos: {},
+  isDownloading: false,
+  downloads: [],
+  rendering: {
+    started: false,
+    ended: false,
+    progress: 0
+  }
 });
 
 export const mutations = {
@@ -61,6 +68,36 @@ export const mutations = {
   },
   setDownloadInfos(state, infos) {
     state.DownloadInfos = infos
+  },
+  SOCKET_download_start(state, { starttime, uid }) {
+    state.isDownloading = true
+    state.downloads.push({
+      stateTime: starttime,
+      uid: uid,
+      progress: {},
+      infos: state.DownloadInfos
+    })
+  },
+  SOCKET_download_end(state) {
+    state.isDownloading = false
+  },
+  SOCKET_download_error(state, error) {
+    state.isDownloading = false
+  },
+  SOCKET_download_progress(state, progress) {
+    let obj = state.downloads.find(x => x.uid === progress.uid);
+    let index = state.downloads.indexOf(obj);
+    state.downloads[index].progress = progress
+  },
+  SOCKET_rendering_start(state) {
+    state.rendering.started = true
+  },
+  SOCKET_rendering_progress(state, progress) {
+    state.rendering.progress = progress
+  },
+  SOCKET_rendering_end(state) {
+    state.rendering.ended = true
+    state.rendering.started = false
   }
 };
 
@@ -109,6 +146,15 @@ export const getters = {
   },
   getDownloadInfos(state) {
     return state.DownloadInfos
+  },
+  getisDownloading(state) {
+    return state.isDownloading
+  },
+  getDownloads(state) {
+    return state.downloads
+  },
+  getRendering(state) {
+    return state.rendering
   }
 };
 
@@ -118,5 +164,5 @@ export const actions = {
   },
   storeToggle_view({ commit }, toggle) {
     commit('setToggle_view', toggle)
-  }
+  },
 };

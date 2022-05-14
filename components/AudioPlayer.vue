@@ -40,7 +40,7 @@
             width="196"
           ></v-card> -->
 
-        <v-list-item-action class="ma-0">
+        <v-list-item-action class="ma-0 mr-2">
           <v-list-item-action-text>
             <v-card-title class="subtitle-1 pa-0 d-flex flex-column">{{
               getAudioDuration
@@ -152,7 +152,6 @@ export default {
     this.$root.$on("seek", (param) => {
       this.Seek(param.time);
     });
-
     this.setupAudio();
     this.audio.src = this.AudioPlayerData.url;
     this.videoId = this.AudioPlayerData.id;

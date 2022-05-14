@@ -1,5 +1,5 @@
 <template>
-  <v-card flat>
+  <v-card flat max-width="600">
     <v-list>
       <v-list-item>
         <v-list-item-content>
@@ -11,28 +11,54 @@
     <v-divider></v-divider>
 
     <v-list v-if="downloads.length">
-      <v-list-item-group>
-        <template v-for="(d, i) in downloads">
-          <v-list-item :key="i">
-            <v-list-item-icon>
-              <v-icon>{{ getMediaType(d.mediaType) }}</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>{{ d.title }}</v-list-item-title>
-              <v-list-item-subtitle class="">{{
-                d.subTitle
-              }}</v-list-item-subtitle>
-              <v-progress-linear v-model="d.progress"></v-progress-linear>
-            </v-list-item-content>
-            <v-list-item-action>
-              <v-list-item-action-text
-                v-text="d.progress + '%'"
-              ></v-list-item-action-text>
-            </v-list-item-action>
-          </v-list-item>
-          <v-divider :key="i + 1"></v-divider>
-        </template>
-      </v-list-item-group>
+      <template v-for="{ infos, progress } in downloads">
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-img
+              class=""
+              aspect-ratio="1.7"
+              :src="
+                infos.videoDetails.thumbnail.thumbnails[
+                  infos.videoDetails.thumbnail.thumbnails.length - 1
+                ].url.split('?')[0]
+              "
+            >
+              <template v-slot:placeholder>
+                <v-row class="fill-height">
+                  <v-col cols="12">
+                    <v-skeleton-loader type="image"></v-skeleton-loader>
+                  </v-col>
+                </v-row>
+              </template>
+            </v-img>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>{{
+              infos.videoDetails.title
+            }}</v-list-item-title>
+            <v-list-item-subtitle class="">{{
+              infos.videoDetails.author
+            }}</v-list-item-subtitle>
+            <v-list-item-subtitle class="">{{
+              progress.total + " MB"
+            }}</v-list-item-subtitle>
+            <v-progress-linear v-model="progress.progress"></v-progress-linear>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-list-item-action-text
+              v-text="
+                progress.downloadedMinutes +
+                '/' +
+                progress.estimatedDownloadTime
+              "
+            ></v-list-item-action-text>
+            <v-list-item-action-text
+              v-text="progress.progress + '%'"
+            ></v-list-item-action-text>
+          </v-list-item-action>
+        </v-list-item>
+        <v-divider></v-divider>
+      </template>
     </v-list>
     <v-card-subtitle class="text-center" v-else
       >No notifications.</v-card-subtitle
@@ -47,6 +73,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   watch: {
     "$route.name"(name) {
@@ -60,18 +88,14 @@ export default {
   data() {
     return {
       path: false,
-      downloads: [
-        // {
-        //   title: "title",
-        //   mediaType: 2,
-        //   subTitle: "sub",
-        //   progress: 10,
-        //   size: 150,
-        // },
-      ],
     };
   },
   computed: {
+    ...mapGetters({
+      infos: "getDownloadInfos",
+      downloading: "getisDownloading",
+      downloads: "getDownloads",
+    }),
     getPath() {
       return this.path;
     },

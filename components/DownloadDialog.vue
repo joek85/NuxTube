@@ -67,7 +67,6 @@
             class="pa-1"
             color="primary"
             text
-            :disabled="downloading"
             @click="
               downloadImage(
                 infos.videoDetails.thumbnail.thumbnails[
@@ -82,7 +81,7 @@
             class="pa-1"
             color="primary"
             text
-            :disabled="isSelected"
+            :disabled="isSelected && !downloading"
             @click="downloadMedia()"
           >
             Download
@@ -203,7 +202,6 @@ export default {
       infos: "getDownloadInfos",
     }),
     isSelected() {
-      // console.log(this.selected);
       return this.selected.length ? false : true;
     },
     splitInfos() {
@@ -223,6 +221,7 @@ export default {
       this.$axios
         .$get("/api/download/image", {
           params: {
+            uid: utils.uid(),
             url: url,
             title: this.infos.videoDetails.title,
             folder: "/home/joe/Pictures/media",
@@ -245,16 +244,25 @@ export default {
         });
     },
     downloadMedia() {
+      this.downloading = true;
       this.$axios
         .$get("/api/download/media", {
           params: {
+            uid: utils.uid(),
             id: this.infos.videoDetails.videoId,
             title: this.infos.videoDetails.title,
             itag: this.selected[0].itag,
+            fileExtension: this.selected[0].mimeType
+              .split("/")[1]
+              .split(";")[0],
           },
         })
-        .then(() => {})
-        .catch((err) => {});
+        .then(() => {
+          this.downloading = false;
+        })
+        .catch((err) => {
+          this.downloading = false;
+        });
     },
     getTableHeaders(index) {
       switch (index) {

@@ -29,38 +29,39 @@
                 <v-btn text color="primary" @click="removeItem()">Remove</v-btn>
               </v-card-actions>
             </template>
-            <template v-slot:header.data-table-select="{ on, props }">
+            <!-- <template v-slot:header.data-table-select="{ on, props }">
               <v-simple-checkbox
                 color="primary"
                 v-bind="props"
                 v-on="on"
               ></v-simple-checkbox>
-            </template>
+            </template> -->
             <template v-slot:body="{ items, isSelected, select }">
-              <v-row>
-                <v-col cols="12" v-for="item in items" :key="item.videoId">
-                  <div class="d-flex">
-                    <v-simple-checkbox
-                      class="ml-3"
-                      color="primary"
-                      :value="isSelected(item)"
-                      @input="select(item, $event)"
-                    ></v-simple-checkbox>
-                    <media-card-related
-                      class="flex-grow-1"
-                      :videoId="item.videoId"
-                      :title="item.title"
-                      :thumbnail="{ url: item.thumbnail }"
-                      :channelId="item.author_id"
-                      :authorThumbnail="{ url: item.author_thumbnail }"
-                      :authorName="item.author_name"
-                      :duration="convertTime(item.duration)"
-                      :published="formatDate(item.published)"
-                      :playCounts="getPlayCounts(item.views)"
-                    ></media-card-related>
-                  </div>
-                </v-col>
-              </v-row>
+              <div
+                v-for="item in items"
+                :key="item.videoId"
+                class="d-flex"
+                style="overflow-y: clip; overflow-x: clip"
+              >
+                <v-simple-checkbox
+                  class="ml-3"
+                  color="primary"
+                  :value="isSelected(item)"
+                  @input="select(item, $event)"
+                ></v-simple-checkbox>
+                <media-card-related
+                  class="flex-grow-1"
+                  :videoId="item.videoId"
+                  :title="item.title"
+                  :thumbnail="{ url: item.thumbnail }"
+                  :channelId="item.author_id"
+                  :authorThumbnail="{ url: item.author_thumbnail }"
+                  :authorName="item.author_name"
+                  :duration="convertTime(item.duration)"
+                  :published="formatDate(item.published)"
+                  :playCounts="getPlayCounts(item.views)"
+                ></media-card-related>
+              </div>
             </template>
           </v-data-table>
         </v-card>
@@ -117,7 +118,7 @@ export default {
       tableHeaders: [
         {
           value: "title",
-          align: "right",
+
           width: "100",
         },
       ],

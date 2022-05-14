@@ -5,50 +5,6 @@
         <v-card class="mb-4 pa-2" flat>
           <v-row>
             <v-col cols="12" :xl="ToggleView ? 12 : 3">
-              <!-- <v-hover>
-                <template v-slot:default="{ hover }">
-                  <v-card flat>
-                    <v-img
-                      aspect-ratio="1.7"
-                      :src="results[0].thumbnail.url.split('?')[0]"
-                    >
-                    </v-img>
-                    <v-fade-transition>
-                      <v-overlay
-                        class="imgOverlay"
-                        absolute
-                        v-if="hover"
-                        color="#121212"
-                      >
-                        <v-btn
-                          @click.stop="showVideoDialog"
-                          icon
-                          fab
-                          dark
-                          color="primary"
-                          x-large
-                        >
-                          <v-icon x-large color="white"
-                            >mdi-video-outline</v-icon
-                          >
-                        </v-btn>
-                        <v-btn
-                          icon
-                          fab
-                          dark
-                          color="primary"
-                          x-large
-                          @click="openDownloadDialog()"
-                        >
-                          <v-icon x-large color="white"
-                            >mdi-cloud-download-outline</v-icon
-                          >
-                        </v-btn>
-                      </v-overlay>
-                    </v-fade-transition>
-                  </v-card>
-                </template>
-              </v-hover> -->
               <v-card flat>
                 <v-img
                   aspect-ratio="1.7"
@@ -266,7 +222,10 @@ export default {
       this.$store.commit("showBottomSheet", false);
     },
     openDownloadDialog() {
-      this.$root.$emit("Dialog", { id: this.$route.query.id, type: 'download'});
+      this.$root.$emit("Dialog", {
+        id: this.$route.query.id,
+        type: "download",
+      });
     },
     setToggleView() {
       this.toggle_view = !this.toggle_view;

@@ -1,16 +1,15 @@
 import moment from 'moment'
-import os from 'os'
 export default {
-  formatNumbers (number) {
+  formatNumbers(number) {
     return format(number)
   },
-  convertTime (time) {
+  convertTime(time) {
     return converttime(time)
   },
-  formatDate (time) {
+  formatDate(time) {
     return moment(time).fromNow()
   },
-  getLocalPath () {
+  getLocalPath() {
     return require('path').resolve(__dirname, '..')
   },
   bytesToSize(bytes) {
@@ -18,7 +17,10 @@ export default {
     if (bytes == 0) return '0 Byte';
     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
     return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
- }
+  },
+  uid() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  }
 }
 
 let pow = Math.pow;
@@ -26,16 +28,16 @@ let floor = Math.floor;
 let abs = Math.abs;
 let log = Math.log;
 
-function round (n, precision) {
+function round(n, precision) {
   let prec = Math.pow(10, precision);
   return Math.round(n * prec) / prec
 }
-function format (n) {
+function format(n) {
   let base = floor(log(abs(n)) / log(1000));
   let suffix = 'KMB'[base - 1];
   return suffix ? round(n / pow(1000, base), 0) + suffix : '' + n
 }
-function converttime (duration) {
+function converttime(duration) {
   // Hours, minutes and seconds
   let hrs = ~~(duration / 3600);
   let mins = ~~((duration % 3600) / 60);
@@ -52,7 +54,7 @@ function converttime (duration) {
   ret += '' + secs;
   return ret
 }
-function timemoment (t) {
+function timemoment(t) {
   // console.log(t)
   return moment(t).utcOffset("+02:00").calendar(null, {
     sameDay: '[Today]',

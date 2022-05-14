@@ -31,7 +31,8 @@ export default {
     '~/plugins/vue-youtube.js',
     {src:'~/plugins/vue-plyr.js', mode: 'client'},
     '~/plugins/vue-linkify.js',
-    '~/plugins/vue-snip.js'
+    '~/plugins/vue-snip.js',
+    '~/plugins/socket.client.js',
   ],
   loading: {
     color: '#673ab7',
@@ -50,24 +51,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
-    'nuxt-socket-io',
   ],
-  io: {
-    // module options
-    sockets: [{
-      name: 'main',
-      url: 'http://localhost:3000',
-      default: true,
-      vuex: {
-        mutations: [{ 
-          // When "progress" is received, 
-          // commit mutation "examples/SET_PROGRESS
-          progress: 'downloads/SET_PROGRESS' 
-        },
-        ],
-      },
-    }]
-  },
   serverMiddleware: {
     '/api': '~/api/index.js'
   },
@@ -153,6 +137,11 @@ export default {
             path: '',
             component: 'pages/downloads/index.vue',
             name: 'downloads',
+          },
+          {
+            path: '',
+            component: 'pages/editor/index.vue',
+            name: 'editor',
           },
         ]
       },
