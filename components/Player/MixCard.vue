@@ -90,8 +90,8 @@ export default {
     },
   },
   mounted() {
-    this.selected = Number(this.index);
-    this.$store.commit("setMixIndex", this.index);
+    this.selected = Number(this.index ? this.index : 0);
+    this.$store.commit("setMixIndex", this.index ? this.index : 0);
     this.$root.$on("SkipMix", (index) => {
       this.$router.push({
         name: "player",
