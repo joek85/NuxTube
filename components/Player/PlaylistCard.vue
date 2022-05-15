@@ -112,7 +112,7 @@ export default {
   mounted() {
     this.selected = Number(this.index);
     this.$store.commit("setPlaylistIndex", this.index);
-    this.$root.$on("Skip", (index) => {
+    this.$root.$on("SkipPlaylist", (index) => {
       this.$router.push({
         name: "player",
         query: {

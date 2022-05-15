@@ -111,7 +111,11 @@
         <description-card :descriptions="results[0].description" />
       </v-col>
       <v-col order="2" cols="12" md="4" sm="4">
-        <mix-card v-if="$route.query.list" :listId="$route.query.list">
+        <mix-card
+          v-if="$route.query.list"
+          :listId="$route.query.list"
+          :index="$route.query.index"
+        >
         </mix-card>
         <playlist-card
           v-if="$route.query.playlistId"
@@ -159,12 +163,18 @@ export default {
     } else {
       this.$store.commit("setIsPlaylist", false);
     }
+    if (this.$route.query.list) {
+      this.$store.commit("setIsMix", true);
+    } else {
+      this.$store.commit("setIsMix", false);
+    }
   },
   data() {
     return {
       overlay: false,
       toggle_view: 0,
       isPlaylist: false,
+      isMix: false,
     };
   },
   head() {
@@ -184,12 +194,17 @@ export default {
       } else {
         this.$store.commit("setIsPlaylist", false);
       }
+      if (query.list) {
+        this.$store.commit("setIsMix", true);
+      } else {
+        this.$store.commit("setIsMix", false);
+      }
     },
   },
   async asyncData({ query, $axios, store }) {
-    if (query.playlistId) {
-      store.commit("setIsPlaylist", true);
-    }
+    // if (query.playlistId) {
+    //   store.commit("setIsPlaylist", true);
+    // }
     let results = await $axios.$get("/api/player", {
       params: {
         id: query.id,

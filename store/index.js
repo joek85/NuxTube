@@ -20,7 +20,10 @@ export const state = () => ({
     started: false,
     ended: false,
     progress: 0
-  }
+  },
+  MixInfo: { listId: '', MixLength: 0 },
+  MixIndex: 0,
+  isMix: false,
 });
 
 export const mutations = {
@@ -98,7 +101,16 @@ export const mutations = {
   SOCKET_rendering_end(state) {
     state.rendering.ended = true
     state.rendering.started = false
-  }
+  },
+  setMixInfo(state, info) {
+    state.MixInfo = info
+  },
+  setMixIndex(state, index) {
+    state.MixIndex = index
+  },
+  setIsMix(state, isMix) {
+    state.isMix = isMix
+  },
 };
 
 export const getters = {
@@ -155,7 +167,16 @@ export const getters = {
   },
   getRendering(state) {
     return state.rendering
-  }
+  },
+  getIsMix(state) {
+    return state.isMix
+  },
+  getMixInfo(state) {
+    return state.MixInfo
+  },
+  getMixIndex(state) {
+    return state.MixIndex
+  },
 };
 
 export const actions = {

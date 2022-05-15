@@ -74,7 +74,7 @@
 
 <script>
 export default {
-  props: ["listId"],
+  props: { listId: "", index: 0 },
   data() {
     return {
       results: [],
@@ -83,11 +83,35 @@ export default {
     };
   },
   fetchOnServer: false,
+  watch: {
+    index(val) {
+      this.selected = val;
+      this.$store.commit("setMixIndex", val);
+    },
+  },
+  mounted() {
+    this.selected = Number(this.index);
+    this.$store.commit("setMixIndex", this.index);
+    this.$root.$on("SkipMix", (index) => {
+      this.$router.push({
+        name: "player",
+        query: {
+          id: this.results.videos[index].videoId,
+          list: this.listId,
+          index: index,
+        },
+      });
+    });
+  },
   async fetch() {
     this.results = await this.$axios.$get("/api/player/mix", {
       params: {
         listId: this.listId,
       },
+    });
+    this.$store.commit("setMixInfo", {
+      listId: this.listId,
+      MixLength: this.results.videos.length,
     });
   },
   methods: {
@@ -97,6 +121,7 @@ export default {
         query: {
           id: id,
           list: this.listId,
+          index: index,
         },
       });
     },

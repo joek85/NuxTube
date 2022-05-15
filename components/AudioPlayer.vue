@@ -50,7 +50,7 @@
               <v-icon v-else>mdi-repeat</v-icon>
             </v-btn>
             <v-btn
-              v-if="IsPlaylist"
+              v-if="IsPlaylist || IsMix"
               icon
               @click="SkipBackward"
               :disabled="isBackwardDiabled"
@@ -70,7 +70,7 @@
             </v-btn>
 
             <v-btn
-              v-if="IsPlaylist"
+              v-if="IsPlaylist || IsMix"
               icon
               @click="SkipForward"
               :disabled="isForwardDisabled"
@@ -96,6 +96,9 @@ export default {
       PlaylistIndex: "getPlaylistIndex",
       ChapterDurations: "getChapterDurations",
       selected: "getChapterSelectedItem",
+      IsMix: "getIsMix",
+      MixInfo: "getMixInfo",
+      MixIndex: "getMixIndex",
     }),
     onbtnPlayChange() {
       return this.btns[0].btnPlay;
@@ -120,10 +123,18 @@ export default {
       return this.isRepeat;
     },
     isBackwardDiabled() {
-      return this.PlaylistIndex <= 0;
+      if (this.IsPlaylist) {
+        return this.PlaylistIndex <= 0;
+      } else if (this.IsMix) {
+        return this.MixIndex <= 0;
+      }
     },
     isForwardDisabled() {
-      return this.PlaylistIndex >= this.PlaylistInfo.PlaylistLength - 1;
+      if (this.IsPlaylist) {
+        return this.PlaylistIndex >= this.PlaylistInfo.PlaylistLength - 1;
+      } else if (this.IsMix) {
+        return this.MixIndex >= this.MixInfo.MixLength - 1;
+      }
     },
   },
   data() {
@@ -290,7 +301,7 @@ export default {
       if (this.getRepeat) {
         this.play();
       } else {
-        if (this.IsPlaylist) this.SkipForward();
+        if (this.IsPlaylist || this.IsMix) this.SkipForward();
       }
     },
     onwaitingdata() {
@@ -341,16 +352,28 @@ export default {
       if (this.audio) this.audio.currentTime = time;
     },
     SkipBackward() {
-      if (Number(this.PlaylistIndex) - 1 >= 0) {
-        this.$root.$emit("Skip", Number(this.PlaylistIndex) - 1);
+      if (this.IsPlaylist) {
+        if (Number(this.PlaylistIndex) - 1 >= 0) {
+          this.$root.$emit("SkipPlaylist", Number(this.PlaylistIndex) - 1);
+        }
+      } else if (this.IsMix) {
+        if (Number(this.MixIndex) - 1 >= 0) {
+          this.$root.$emit("SkipMix", Number(this.MixIndex) - 1);
+        }
       }
     },
     SkipForward() {
-      if (
-        Number(this.PlaylistIndex) + 1 <=
-        this.PlaylistInfo.PlaylistLength - 1
-      ) {
-        this.$root.$emit("Skip", Number(this.PlaylistIndex) + 1);
+      if (this.IsPlaylist) {
+        if (
+          Number(this.PlaylistIndex) + 1 <=
+          this.PlaylistInfo.PlaylistLength - 1
+        ) {
+          this.$root.$emit("SkipPlaylist", Number(this.PlaylistIndex) + 1);
+        }
+      } else if (this.IsMix) {
+        if (Number(this.MixIndex) + 1 <= this.MixInfo.MixLength - 1) {
+          this.$root.$emit("SkipMix", Number(this.MixIndex) + 1);
+        }
       }
     },
   },
