@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
   let videoId = req.query['id'];
 
   try {
-    let response = await ytaudio.getPlayerdata(videoId);
+    let response = await ytaudio.getPlayerData(videoId);
     res.json(response)
   } catch (err) {
     res.json(err)
