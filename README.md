@@ -30,6 +30,7 @@ sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_
 - Edit downloaded audio files and export to wav or mp3
 - Block or remove specific video
 - Trending Page
+- YouTube Mix
 ## WIP
 - Create Playlists
 

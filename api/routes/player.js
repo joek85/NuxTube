@@ -48,6 +48,18 @@ router.get('/related', async (req, res) => {
   }
 });
 
+router.get('/mix', async (req, res) => {
+  let listId = req.query['listId'];
+
+  try {
+    let response = await ytaudio.getPlayerMix(listId)
+
+    res.json(response)
+  } catch (error) {
+    res.json(error)
+  }
+});
+
 router.get('/block', async (req, res) => {
   let videoId = req.query['videoId'];
   try {
@@ -76,6 +88,8 @@ async function parseRelated(related) {
       items.push({
         id: related[i].id, title: related[i].title, subtitle: related[i].subtitle, thumbnail: related[i].thumbnail, published: related[i].published, count: related[i].count, type: related[i].type
       })
+    } else if (related[i].type === 'mix') {
+      items.push(related[i])
     }
   }
   return items

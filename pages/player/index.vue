@@ -111,6 +111,8 @@
         <description-card :descriptions="results[0].description" />
       </v-col>
       <v-col order="2" cols="12" md="4" sm="4">
+        <mix-card v-if="$route.query.list" :listId="$route.query.list">
+        </mix-card>
         <playlist-card
           v-if="$route.query.playlistId"
           :playlistId="$route.query.playlistId"
@@ -131,7 +133,8 @@ import utils from "../../utils/utils";
 import RelatedCard from "../../components/Player/RelatedCard.vue";
 import DescriptionCard from "../../components/Player/DescriptionCard.vue";
 import PlaylistCard from "../../components/Player/PlaylistCard.vue";
-import ChaptersCard from "../../components/Cards/ChaptersCard.vue";
+import ChaptersCard from "../../components/Player/ChaptersCard.vue";
+import MixCard from "../../components/Player/MixCard.vue";
 import { mapGetters } from "vuex";
 export default {
   components: {
@@ -139,6 +142,7 @@ export default {
     DescriptionCard,
     PlaylistCard,
     ChaptersCard,
+    MixCard,
   },
   computed: {
     ...mapGetters({

@@ -36,6 +36,8 @@
             :thumbnail="related.thumbnail"
             :videoCounts="related.count"
           ></playlist-card>
+          <mix-card v-else-if="related.type === 'mix'" :data="related">
+          </mix-card>
         </v-col>
         <v-col cols="12">
           <div class="text-center pa-1" v-if="$fetchState.pending">
@@ -52,10 +54,12 @@
 <script>
 import MediaCard from "../Cards/MediaCardRelated.vue";
 import PlaylistCard from "../Cards/PlaylistCard.vue";
+import MixCard from "../Cards/MixRelatedCard.vue";
 export default {
   components: {
     MediaCard,
     PlaylistCard,
+    MixCard,
   },
   props: {
     id: "",
@@ -118,6 +122,8 @@ export default {
           return "MediaCard";
         case "playlist":
           return "PlaylistCard";
+        case "mix":
+          return "MixCard";
       }
     },
     blockVideo(videoId) {
