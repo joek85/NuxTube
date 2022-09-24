@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col order="1" cols="12" md="8" sm="8">
+      <v-col order="1" cols="12" md="8" sm="8" :xl="toggle_view ? 7 : 8">
         <v-card class="mb-4 pa-2" flat>
           <v-row>
             <v-col cols="12" :xl="ToggleView ? 12 : 3">
@@ -110,7 +110,7 @@
         </v-card>
         <description-card :descriptions="results[0].description" />
       </v-col>
-      <v-col order="2" cols="12" md="4" sm="4">
+      <v-col order="2" cols="12" md="4" sm="4" :xl="toggle_view ? 5 : 4">
         <mix-card
           v-if="$route.query.list"
           :listId="$route.query.list"

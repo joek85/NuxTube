@@ -22,6 +22,7 @@
             :headers="tableHeaders"
             show-select
             item-key="title"
+            :items-per-page=-1
           >
             <template v-if="selected.length > 0" v-slot:top>
               <v-card-actions>
