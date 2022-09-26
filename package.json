@@ -32,7 +32,7 @@
     "wavesurfer.js": "^6.1.0",
     "yt-channel-info": "^2.2.0",
     "yt-trending-scraper": "^2.0.1",
-    "ytdl-core": "file:/home/joe/Documents/Development/node-ytdl-core-master",
+    "ytdl-core": "file:../../../Development/ytdl/node-ytdl-core",
     "ytpl": "^2.2.3",
     "ytsr": "^3.5.0"
   },

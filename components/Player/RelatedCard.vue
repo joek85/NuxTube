@@ -40,7 +40,7 @@
           </mix-card>
         </v-col>
         <v-col cols="12">
-          <div class="text-center pa-1" v-if="$fetchState.pending">
+          <div class="text-center pa-1" v-if="!fetched">
             <v-progress-circular
               indeterminate
               color="primary"
@@ -62,45 +62,46 @@ export default {
     MixCard,
   },
   props: {
-    id: "",
+    id: '',
+    related: [],
   },
   watch: {
     id() {
       this.continuation = "";
       this.ctp = "";
       this.relatedVideos = [];
-      this.$fetch();
+      this.relatedVideos = this.$props.related.relatedVideos;
+      //this.$fetch();
     },
   },
   data() {
     return {
-      continuation: "",
-      ctp: "",
-      relatedVideos: [],
-      fetched: false,
+      continuation: this.$props.related.continuation,
+      relatedVideos: this.$props.related.relatedVideos,
+      fetched: true,
       autoPlay: false,
     };
   },
-  async fetch() {
+  fetchOnServer: false,
+  methods: {
+    async fetchMoreRelatedVideos() {
     this.fetched = false;
     const related = await this.$axios.$get("/api/player/related", {
       params: {
         id: this.id,
         continuation: this.continuation,
-        ctp: this.ctp,
+        //ctp: this.ctp,
       },
     });
     this.continuation = related.continuation;
-    this.relatedVideos.push(...related.relatedVideos);
+    this.related.relatedVideos.push(...related.relatedVideos);
     this.fetched = true;
   },
-  fetchOnServer: false,
-  methods: {
     loadMore(continuation) {
       if (continuation) {
         this.continuation = continuation.Token;
         this.ctp = continuation.ctp;
-        this.$fetch();
+        this.fetchMoreRelatedVideos();
       }
     },
     handleScroll() {

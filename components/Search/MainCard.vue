@@ -156,7 +156,6 @@ export default {
         continuation: this.continuation,
       },
     });
-    console.log(response)
     if (!this.continuation) {
       this.results.primaryResults.push(...response.primaryResults);
       this.results.secondaryResults = response.secondaryResults;
@@ -171,11 +170,9 @@ export default {
   },
   fetchOnServer: false,
   mounted() {
-    console.log("mounted");
     window.addEventListener("scroll", this.handleScroll);
   },
   destroyed() {
-    console.log("destroyed");
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {

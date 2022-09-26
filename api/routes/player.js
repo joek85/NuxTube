@@ -1,46 +1,46 @@
 import { Router } from 'express';
 const router = Router();
 import ytaudio from 'yt-audio';
-import { getInfo, filterFormats, chooseFormat } from 'ytdl-core';
+import { getInfo, filterFormats, chooseFormat, addFormatMeta, decipherFormats, sortFormats } from 'ytdl-core';
 
 
 router.get('/', async (req, res) => {
   let id = req.query['id'];
   let date = req.query['date'];
-  // ytaudio.getPlayerdata(id).then(videodetails => {
-  //   let out = [{id: id, title: videodetails.title, authorThumbnail: videodetails.authorThumbnail , subtitle: videodetails.author, thumbnail: videodetails.thumbnails[videodetails.thumbnails.length-1],
-  //     duration: videodetails.lengthSeconds, play_counts: videodetails.viewCount, published_at: videodetails.publishDate,
-  //     tags: videodetails.tags, channel_id: videodetails.channelId, description: videodetails.description,
-  //     formats: {url: videodetails.audioFormats}, related: [], isLive: videodetails.isLive, author: videodetails.author}];
-  //   database_insert_item_history(id, out[0].title, out[0].author, out[0].channel_id, out[0].thumbnail.url, out[0].duration, out[0].play_counts, out[0].published_at, date);
-  //   res.json(out)
-  // }).catch(err => {
-  //   res.json(err)
-  // })
-  getInfo(id).then(info => {
-    let audioformats = filterFormats(info.formats, 'audioonly');
-    let af = chooseFormat(audioformats, 'highestaudio');
-    let out = [{
-      id: id, title: info.videoDetails.title, authorThumbnail: info.videoDetails.author.thumbnails[0].url, subtitle: info.videoDetails.author, thumbnail: info.videoDetails.thumbnails[info.videoDetails.thumbnails.length - 1],
-      duration: info.videoDetails.lengthSeconds, play_counts: info.videoDetails.viewCount, published_at: info.videoDetails.publishDate,
-      tags: info.videoDetails.keywords, channel_id: info.videoDetails.channelId, description: info.videoDetails.description,
-      formats: { url: af.url }, isLive: info.videoDetails.isLive, author: info.videoDetails.author.name, subscribers: info.videoDetails.author.subscriber_count, chapters: info.videoDetails.chapters
-    }];
 
-    database_insert_item_history(id, out[0].title, out[0].author, out[0].channel_id, out[0].thumbnail.url, out[0].duration, out[0].play_counts, out[0].published_at, out[0].authorThumbnail, date);
+  try {
+    let data = await ytaudio.getPlayerData(id);
+
+    let formats = data.videoDetails.formats.adaptiveFormats.map(addFormatMeta);
+    let audioformats = filterFormats(formats, 'audioonly');
+
+    let af = chooseFormat(audioformats, 'highestaudio');
+    let df = await decipherFormats([af], 'https://www.youtube.com/s/player/abfb84fe/player_ias.vflset/en_US/base.js', null);
+
+    let ob = Object.values(Object.assign({}, df));
+    let related = await parseRelated(data.relatedVideos.videos)
+    let out = {
+      id: id, title: data.videoDetails.title, thumbnail: data.videoDetails.thumbnails.url,
+      duration: data.videoDetails.lengthSeconds, play_counts: data.videoDetails.viewCount, published_at: data.videoDetails.publishDate,
+      tags: data.videoDetails.tags, channel_id: data.videoDetails.channelId, description: data.videoDetails.description,
+      formats: ob, related: { relatedVideos: related, continuation: data.relatedVideos.continuation }, isLive: data.videoDetails.isLive, owner: data.owner, chapters: data.chapters
+    };
+    database_insert_item_history(id, out.title, out.owner.owner.title, out.channel_id, out.thumbnail, out.duration, out.play_counts, out.published_at, out.owner.owner.thumbnails.url, date);
 
     res.json(out)
-  }).catch(err => {
+  } catch (err) {
     console.log(err)
-  })
+    res.json(err)
+  }
+
 });
 
 router.get('/related', async (req, res) => {
   let id = req.query['id'];
   let continuation = req.query['continuation'];
-  let tracking = req.query['ctp'];
+  //let tracking = req.query['ctp'];
   try {
-    let response = await ytaudio.getRelatedVideos(id, continuation, tracking)
+    let response = await ytaudio.getRelatedVideos(id, continuation)
     let related = await parseRelated(response.videos)
     res.json({ relatedVideos: related, continuation: response.continuation })
   } catch (error) {
@@ -73,7 +73,6 @@ router.get('/block', async (req, res) => {
 async function parseRelated(related) {
   let items = [];
   let videos = related.map(v => v.id)
-
   let blocked_videos = await get_blocked_videos(videos)
   blocked_videos = blocked_videos.map(row => row.videoId)
   related = related.filter(item => !blocked_videos.includes(item.id))
@@ -98,7 +97,13 @@ async function parseRelated(related) {
 async function database_insert_item_history(videoId, title, author_name, author_id, thumbnail, duration, views, published, author_thumbnail, date) {
   let data = { videoId: videoId, title: title, author_name: author_name, author_id: author_id, thumbnail: thumbnail, duration: duration, views: views, published: published, author_thumbnail: author_thumbnail, date: date };
   let sql = 'INSERT INTO history SET ?';
-  await query(sql, [data])
+
+  try {
+    await query(sql, [data])
+  } catch (error) {
+    console.log(error)
+  }
+
 }
 async function block_video(videoId) {
   let sql = 'INSERT INTO blocked SET ?';

@@ -45,11 +45,10 @@
           data.description
         }}</v-card-title>
         <v-chip
-          v-if="data.badges === 'LIVE NOW'"
+          v-if="data.badges.length"
           small
-          color="primary"
+          :color="getBadgeColor(data.badges)"
           class="mt-2"
-          outlined
           >{{ data.badges }}</v-chip
         >
       </v-col>
@@ -62,6 +61,16 @@ export default {
   props: {
     data: "",
   },
+  methods: {
+    getBadgeColor(badge) {
+      switch (badge) {
+        case 'LIVE':
+          return 'primary'      
+        default:
+          return ''
+      }
+    }
+  }
 };
 </script>
 

@@ -2,9 +2,17 @@
   <v-card flat color="transparent" v-if="data">
     <v-card flat class="d-flex align-center">
       <v-card-title>
-        <v-avatar size="64">
-          <img :src="data.header.avatar.url" />
-        </v-avatar>
+        <NuxtLink
+          class="nuxt-link-exact-active"
+          :to="{
+            name: 'channel-id',
+            params: { id: data.header.id },
+          }"
+        >
+          <v-avatar size="64">
+            <img :src="data.header.avatar.url" />
+          </v-avatar>
+        </NuxtLink>
       </v-card-title>
       <div>
         <v-card-title class="ml-2 pa-0">{{ data.header.title }}</v-card-title>
@@ -73,11 +81,7 @@
               class="subheading"
               :to="{ name: 'playlist-id', params: { id: item.playlistId } }"
             >
-              <v-img
-                :src="item.thumbnail.url"
-                aspect-ratio="1.7"
-                height=""
-              >
+              <v-img :src="item.thumbnail.url" aspect-ratio="1.7" height="">
                 <template v-slot:placeholder>
                   <v-row class="fill-height pa-0">
                     <v-col cols="12">

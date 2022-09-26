@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels class="mb-2" flat>
+  <v-expansion-panels class="mb-2" flat v-model="panel">
     <v-expansion-panel>
       <v-expansion-panel-header class="text-uppercase font-weight-bold">
         Chapters
@@ -9,11 +9,11 @@
           <v-list-item-group v-model="selected">
             <template v-for="(item, index) in chapters">
               <v-list-item
-                :key="item.start_time"
-                @click="GoToChapter(item.start_time)"
+                :key="item.timeDescription"
+                @click="GoToChapter(item.startTimeSeconds)"
               >
                 <v-list-item-icon v-if="$vuetify.breakpoint.xlOnly">
-                  <v-img width="96" height="56" :src="thumbnail">
+                  <v-img width="96" height="56" :src="item.thumbnail.url">
                     <template v-slot:placeholder>
                       <v-row class="fill-height">
                         <v-col cols="12">
@@ -26,7 +26,7 @@
                 <v-list-item-content>
                   <v-list-item-title v-html="item.title"></v-list-item-title>
                   <v-list-item-subtitle class="font-weight-bold pt-2">
-                    <a v-html="convertTime(item.start_time)"></a>
+                    <a v-html="item.timeDescription"></a>
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -45,7 +45,6 @@ import { mapMutations, mapGetters } from "vuex";
 export default {
   props: {
     chapters: [],
-    thumbnail: "",
   },
   mounted() {
     this.$store.commit(
@@ -57,7 +56,8 @@ export default {
   },
   data() {
     return {
-      selected: 0
+      selected: 0,
+      panel: 0,
     };
   },
   computed: {

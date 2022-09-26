@@ -1,38 +1,38 @@
 <template>
-  <v-container>
+  <v-container style="maxwidth: 1680px">
     <v-row>
-      <v-col order="1" cols="12" md="8" sm="8" :xl="toggle_view ? 7 : 8">
+      <v-col order="1" cols="12" md="8" sm="8" :xl="8">
         <v-card class="mb-4 pa-2" flat>
           <v-row>
             <v-col cols="12" :xl="ToggleView ? 12 : 3">
               <v-card flat>
-                <v-img
-                  aspect-ratio="1.7"
-                  :src="results[0].thumbnail.url.split('?')[0]"
-                >
-                </v-img>
+                <v-img aspect-ratio="1.7" :src="results.thumbnail"> </v-img>
               </v-card>
             </v-col>
             <v-col
               cols="12"
               :xl="toggle_view ? 12 : 9"
-              class="d-flex flex-column justify-space-between d-sm-inline"
+              class="d-flex flex-column justify-space-between d-sm-inline pa-0"
             >
-              <v-card-title class="text-h5 font-weight-bold pa-0">{{
-                results[0].title
+              <v-card-title class="text-h5 font-weight-bold">{{
+                results.title
               }}</v-card-title>
-
-              <v-list-item two-line class="pa-0">
+              <v-card-subtitle class="pb-0">
+                {{getPlayCounts(results.play_counts) + ' - ' +
+                formatDate(results.published_at) + ' - ' +
+                convertTime(results.duration)}}
+              </v-card-subtitle>
+              <v-list-item two-line class="">
                 <v-list-item-avatar>
                   <NuxtLink
                     class="nuxt-link-exact-active"
                     :to="{
                       name: 'channel-id',
-                      params: { id: results[0].channel_id },
+                      params: { id: results.channel_id },
                     }"
                   >
                     <v-avatar size="48">
-                      <img :src="results[0].authorThumbnail" />
+                      <img :src="results.owner.owner.thumbnails.url" />
                     </v-avatar>
                   </NuxtLink>
                 </v-list-item-avatar>
@@ -42,39 +42,22 @@
                       class="nuxt-link-exact-active"
                       :to="{
                         name: 'channel-id',
-                        params: { id: results[0].channel_id },
+                        params: { id: results.channel_id },
                       }"
                     >
-                      {{ results[0].author }}
+                      {{ results.owner.owner.title }}
                     </NuxtLink></v-list-item-title
                   >
-                  <v-list-item-subtitle v-if="results[0].subscribers"
-                    >{{
-                      formatNumbers(results[0].subscribers)
-                    }}
-                    Subscribers</v-list-item-subtitle
-                  >
+                  <v-list-item-subtitle
+                    v-if="results.owner.owner.subscriberCount"
+                    >{{ results.owner.owner.subscriberCount }}
+                  </v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action>
-                  <v-list-item-action-text
-                    class="subtitle-2"
-                    v-text="
-                      getPlayCounts(results[0].play_counts) +
-                      ' - ' +
-                      formatDate(results[0].published_at) +
-                      ' - ' +
-                      convertTime(results[0].duration)
-                    "
-                  ></v-list-item-action-text>
-
-                  <v-chip v-if="results[0].isLive" color="red" dark small
+                  <v-chip v-if="results.isLive" color="red" dark small
                     >LIVE</v-chip
                   >
-                </v-list-item-action>
-              </v-list-item>
-              <v-list-item class="pa-0">
-                <v-spacer></v-spacer>
-                <v-list-item-action class="ma-0">
+                  
                   <v-list-item-action-text>
                     <v-btn icon fab @click.stop="showVideoDialog">
                       <v-icon color="primary">mdi-video-outline</v-icon>
@@ -92,12 +75,12 @@
                   </v-list-item-action-text>
                 </v-list-item-action>
               </v-list-item>
-              <v-col cols="12" class="pa-0">
-                <v-chip-group class="pa-0" active-class="primary--text" column>
+              <v-col cols="12" class="">
+                <v-chip-group class="" active-class="primary--text" column>
                   <v-chip
                     outlined
                     color="primary"
-                    v-for="tag in results[0].tags"
+                    v-for="tag in results.tags"
                     :key="tag"
                     :to="{ name: 'search-query', query: { q: tag } }"
                   >
@@ -108,9 +91,9 @@
             </v-col>
           </v-row>
         </v-card>
-        <description-card :descriptions="results[0].description" />
+        <description-card :descriptions="results.description" />
       </v-col>
-      <v-col order="2" cols="12" md="4" sm="4" :xl="toggle_view ? 5 : 4">
+      <v-col order="2" cols="12" md="4" sm="4" :xl="4">
         <mix-card
           v-if="$route.query.list"
           :listId="$route.query.list"
@@ -123,11 +106,10 @@
           :index="$route.query.index"
         ></playlist-card>
         <chapters-card
-          v-if="results[0].chapters.length"
-          :chapters="results[0].chapters"
-          :thumbnail="results[0].thumbnail.url"
+          v-if="results.chapters.length"
+          :chapters="results.chapters"
         ></chapters-card>
-        <related-card :id="results[0].id"></related-card>
+        <related-card :id="results.id" :related="results.related"></related-card>
       </v-col>
     </v-row>
   </v-container>
@@ -179,7 +161,7 @@ export default {
   },
   head() {
     return {
-      title: this.results[0].title,
+      title: this.results.title,
     };
   },
   watch: {
@@ -211,16 +193,18 @@ export default {
         date: new Date().toISOString().substring(0, 10),
       },
     });
+    // console.log(results.formats)
     store.commit("setAudioPlayerData", {
-      title: results[0].title,
-      subtitle: results[0].author,
-      thumbnail: results[0].thumbnail.url,
-      url: results[0].formats.url,
+      title: results.title,
+      subtitle: results.owner.owner.title,
+      thumbnail: results.thumbnail,
+      url: results.formats[0].url,
       id: query.id,
     });
     if (!store.getters.getVideoDialog) {
       store.commit("showBottomSheet", true);
     }
+    //console.log(results.related)
     return { results };
   },
   methods: {
