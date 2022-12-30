@@ -1,8 +1,14 @@
 <template>
   <v-card class="transparent" flat>
-    <v-card-actions class="pa-0">
+    <v-card-actions class="pa-0" v-if="getRelatedVideos.length">
       <v-spacer></v-spacer>
-      <v-switch class="mr-4" v-if="autoPlay" inset label="Random"></v-switch>
+      <v-switch
+        class="mr-4"
+        v-model="randomPlay"
+        v-if="autoPlay"
+        inset
+        label="Random"
+      ></v-switch>
       <v-switch v-model="autoPlay" inset label="Auto Play"></v-switch>
     </v-card-actions>
     <v-container>
@@ -27,6 +33,7 @@
             :isLive="related.isLive"
             :hasMenu="true"
           ></media-card>
+         
           <playlist-card
             v-else-if="related.type === 'playlist'"
             :playlistId="related.id"
@@ -60,9 +67,10 @@ export default {
     MediaCard,
     PlaylistCard,
     MixCard,
+
   },
   props: {
-    id: '',
+    id: "",
     related: [],
   },
   watch: {
@@ -80,23 +88,25 @@ export default {
       relatedVideos: this.$props.related.relatedVideos,
       fetched: true,
       autoPlay: false,
+      randomPlay: false,
+      mediaCardStyle: "youtube",
     };
   },
   fetchOnServer: false,
   methods: {
     async fetchMoreRelatedVideos() {
-    this.fetched = false;
-    const related = await this.$axios.$get("/api/player/related", {
-      params: {
-        id: this.id,
-        continuation: this.continuation,
-        //ctp: this.ctp,
-      },
-    });
-    this.continuation = related.continuation;
-    this.related.relatedVideos.push(...related.relatedVideos);
-    this.fetched = true;
-  },
+      this.fetched = false;
+      const related = await this.$axios.$get("/api/player/related", {
+        params: {
+          id: this.id,
+          continuation: this.continuation,
+          //ctp: this.ctp,
+        },
+      });
+      this.continuation = related.continuation;
+      this.related.relatedVideos.push(...related.relatedVideos);
+      this.fetched = true;
+    },
     loadMore(continuation) {
       if (continuation) {
         this.continuation = continuation.Token;
@@ -125,6 +135,14 @@ export default {
           return "PlaylistCard";
         case "mix":
           return "MixCard";
+      }
+    },
+    getMediaCardStyle() {
+      switch (this.mediaCardStyle) {
+        case "default":
+          return "MediaCard";
+        case "youtube":
+          return "MediaCard";
       }
     },
     blockVideo(videoId) {
@@ -160,6 +178,25 @@ export default {
     });
     this.$root.$on("hideVideo", (videoId) => {
       this.hideVideo(videoId);
+    });
+    this.$root.$on("audioEnded", () => {
+      if (this.autoPlay) {
+        let videoId;
+        if (this.randomPlay) {
+          let ids = this.relatedVideos.map((v) => {
+            return v.id;
+          });
+          videoId = ids[Math.floor(Math.random() * ids.length)];
+        } else {
+          videoId = this.relatedVideos[0].id;
+        }
+        this.$router.push({
+          name: "player",
+          query: {
+            id: videoId,
+          },
+        });
+      }
     });
   },
   destroyed() {

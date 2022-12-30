@@ -1,8 +1,15 @@
 import { Router } from 'express';
 const router = Router();
 import ytaudio from 'yt-audio';
-import { getInfo, filterFormats, chooseFormat, addFormatMeta, decipherFormats, sortFormats } from 'ytdl-core';
+import fs from 'fs';
+import path from 'path';
+import { filterFormats, chooseFormat, addFormatMeta, decipherFormats } from 'ytdl-core';
+import { ytlive, startStreaming, stopStreaming } from 'yt-live';
 
+const folder = path.join(__dirname, '../../static/media');
+if (!fs.existsSync(folder)) {
+  fs.mkdirSync(folder, { recursive: true });
+}
 
 router.get('/', async (req, res) => {
   let id = req.query['id'];
@@ -15,7 +22,7 @@ router.get('/', async (req, res) => {
     let audioformats = filterFormats(formats, 'audioonly');
 
     let af = chooseFormat(audioformats, 'highestaudio');
-    let df = await decipherFormats([af], 'https://www.youtube.com/s/player/abfb84fe/player_ias.vflset/en_US/base.js', null);
+    let df = await decipherFormats([af], id);
 
     let ob = Object.values(Object.assign({}, df));
     let related = await parseRelated(data.relatedVideos.videos)
@@ -25,6 +32,7 @@ router.get('/', async (req, res) => {
       tags: data.videoDetails.tags, channel_id: data.videoDetails.channelId, description: data.videoDetails.description,
       formats: ob, related: { relatedVideos: related, continuation: data.relatedVideos.continuation }, isLive: data.videoDetails.isLive, owner: data.owner, chapters: data.chapters
     };
+    //console.log(ob)
     database_insert_item_history(id, out.title, out.owner.owner.title, out.channel_id, out.thumbnail, out.duration, out.play_counts, out.published_at, out.owner.owner.thumbnails.url, date);
 
     res.json(out)
@@ -69,7 +77,20 @@ router.get('/block', async (req, res) => {
     res.json(error)
   }
 });
-
+router.get('/live', async (req, res) => {
+  let videoId = req.query['videoId'];
+  //console.log(videoId)
+  const streamFile = path.resolve(folder + '/stream.m4a');
+  
+  try {
+    let live = ytlive().pipe(fs.createWriteStream(streamFile))
+    startStreaming(live, videoId);//
+    //res.json('ok')
+    res.json('/media/stream.m4a')
+  } catch (error) {
+    res.json(error)
+  }
+})
 async function parseRelated(related) {
   let items = [];
   let videos = related.map(v => v.id)

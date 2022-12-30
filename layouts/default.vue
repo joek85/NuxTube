@@ -363,7 +363,8 @@ export default {
           this.loading = false;
           this.$store.commit("setDownloadInfos", {
             videoDetails: response.videoDetails,
-            formats: response.streamingData.adaptiveFormats,
+            formats: response.videoDetails.formats.adaptiveFormats,
+            owner: response.owner.owner
           });
         })
         .catch((err) => {

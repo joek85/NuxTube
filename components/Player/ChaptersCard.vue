@@ -13,7 +13,7 @@
                 @click="GoToChapter(item.startTimeSeconds)"
               >
                 <v-list-item-icon v-if="$vuetify.breakpoint.xlOnly">
-                  <v-img width="96" height="56" :src="item.thumbnail.url">
+                  <v-img width="96" height="56" :src="item.thumbnail.url" style="border-radius:10%">
                     <template v-slot:placeholder>
                       <v-row class="fill-height">
                         <v-col cols="12">

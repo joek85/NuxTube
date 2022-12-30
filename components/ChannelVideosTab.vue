@@ -12,6 +12,7 @@
         :duration="video.duration"
         :published="video.published"
         :playCounts="video.views"
+        :sizeMode="`channel`"
       ></media-card>
     </v-col>
     <v-col cols="12">
@@ -26,7 +27,7 @@
   </v-row>
 </template>
 <script>
-import MediaCard from "../components/Cards/ChannelCardVideo.vue";
+import MediaCard from "../components/Cards/MediaCardRelated.vue";
 export default {
   components: {
     MediaCard,

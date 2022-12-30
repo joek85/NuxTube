@@ -8,7 +8,7 @@
             query: { id: data.videoId, list: data.playlistId },
           }"
         >
-          <v-img :src="data.thumbnail.url" aspect-ratio="1.7">
+          <v-img :src="data.thumbnail.url" aspect-ratio="1.7" style="border-radius:5%">
             <template v-slot:placeholder>
               <v-row class="fill-height pa-0">
                 <v-col cols="12">

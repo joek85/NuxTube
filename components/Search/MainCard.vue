@@ -86,6 +86,7 @@
         </v-card>
       </v-col>
     </v-row>
+
     <v-col cols="12">
       <div class="text-center pa-1" v-if="$fetchState.pending">
         <v-progress-circular
@@ -94,6 +95,33 @@
         ></v-progress-circular>
       </div>
     </v-col>
+      <!-- </v-col> -->
+      <!-- <v-col cols="12">
+        <v-sheet flat rounded="xl" v-if="!$fetchState.pending">
+          <v-sheet class="pa-2 primary" dark rounded="t-xl">
+            <v-card-title class="pa-0 pl-2"
+              >Searching for: {{ query.q }}</v-card-title
+            >
+            <v-card-title class="pa-0 pl-2 subtitle-1">{{
+              "Showing " + results.estimatedResults + " results"
+            }}</v-card-title>
+          </v-sheet>
+          <div class="pa-4">
+            <v-chip-group active-class="primary--text" column>
+              <v-chip
+                outlined
+                color="primary"
+                v-for="refinement in results.refinements"
+                :key="refinement"
+                :to="{ name: 'search-query', query: { q: refinement } }"
+              >
+                {{ refinement }}
+              </v-chip>
+            </v-chip-group>
+          </div>
+        </v-sheet>
+      </v-col> -->
+    <!-- </v-row> -->
   </v-card>
 </template>
 <script>
@@ -102,7 +130,7 @@ import ShelfCard from "../../components/Search/ShelfCard.vue";
 import ChannelCard from "../../components/Search/ChannelCard.vue";
 import ArtistCard from "../../components/Search/ArtistCard.vue";
 import QueryCard from "../../components/Search/QueryCard.vue";
-import PlaylistCard from "../../components/Search/SearchPlaylistCard.vue"
+import PlaylistCard from "../../components/Search/SearchPlaylistCard.vue";
 import { mapGetters } from "vuex";
 
 export default {
@@ -112,7 +140,7 @@ export default {
     ChannelCard,
     ShelfCard,
     QueryCard,
-    PlaylistCard
+    PlaylistCard,
   },
   props: { query: "" },
   computed: {

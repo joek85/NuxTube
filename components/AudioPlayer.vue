@@ -22,7 +22,12 @@
             class="subheading"
             :to="{ name: 'player', query: { id: videoId } }"
           >
-            <v-img aspect-ratio="1.7" :src="AudioPlayerData.thumbnail"> </v-img>
+            <v-img
+              aspect-ratio="1.7"
+              :src="AudioPlayerData.thumbnail"
+              style="border-radius: 10%"
+            >
+            </v-img>
           </NuxtLink>
         </v-sheet>
         <v-list-item-content>
@@ -164,7 +169,11 @@ export default {
       this.Seek(param.time);
     });
     this.setupAudio();
-    this.audio.src = this.AudioPlayerData.url;
+    if (this.AudioPlayerData.isLive) {
+      this.fetchLiveAudio(this.AudioPlayerData.url);
+    } else {
+      this.audio.src = this.AudioPlayerData.url;
+    }
     this.videoId = this.AudioPlayerData.id;
   },
   destroyed() {
@@ -175,13 +184,29 @@ export default {
   watch: {
     AudioPlayerData(val) {
       if (val.id !== this.videoId) {
-        this.audio.src = val.url;
-        this.loading = true;
-        this.videoId = val.id;
+        if (val.isLive) {
+          this.videoId = val.id;
+          this.fetchLiveAudio(val.url);
+        } else {
+          this.audio.src = val.url;
+          this.loading = true;
+          this.videoId = val.id;
+        }
       }
     },
   },
+  fetchOnServer: false,
   methods: {
+    async fetchLiveAudio(url) {
+      this.loading = true;
+      const audioUrl = await this.$axios.$get("/api/player/live", {
+        params: {
+          videoId: url
+        },
+      });
+      //console.log(audioUrl)
+      this.audio.src = audioUrl;
+    },
     setupAudio() {
       this.audio = new Audio();
       this.audio.autoplay = true;
@@ -300,8 +325,10 @@ export default {
       this.sliderValue = 0;
       if (this.getRepeat) {
         this.play();
+      } else if (this.IsPlaylist || this.IsMix) {
+        this.SkipForward();
       } else {
-        if (this.IsPlaylist || this.IsMix) this.SkipForward();
+        this.$root.$emit("audioEnded", {});
       }
     },
     onwaitingdata() {

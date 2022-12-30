@@ -32,6 +32,7 @@
       <v-col cols="12">
         <NuxtLink :to="{ name: 'player', query: { id: data.videoId } }">
           <v-img
+          style="border-radius:5%"
             class=""
             aspect-ratio="1.7"
             :src="data.thumbnails.url.split('?')[0]"

@@ -1,9 +1,14 @@
 <template>
-  <v-card class="pa-2" flat>
+  <v-card class="pa-2" flat rounded="lg">
     <v-row>
-      <v-col cols="12" xl="4">
+      <v-col cols="12" :xl="getImageSize(this.sizeMode)">
         <NuxtLink :to="{ name: 'player', query: { id: videoId } }">
-          <v-img class="" aspect-ratio="1.7" :src="thumbnail.url.split('?')[0]">
+          <v-img
+            class=""
+            aspect-ratio="1.7"
+            :src="thumbnail.url.split('?')[0]"
+            style="border-radius: 5%"
+          >
             <template v-slot:placeholder>
               <v-row class="fill-height">
                 <v-col cols="12">
@@ -14,13 +19,13 @@
           </v-img>
         </NuxtLink>
       </v-col>
-      <v-col cols="12" xl="8">
+      <v-col cols="12" :xl="getColSize(this.sizeMode)">
         <v-card class="d-flex" flat tile>
           <v-card-title class="pa-0 subtitle-1" v-snip="{ lines: 2 }">{{
             title
           }}</v-card-title>
-          <v-card class="ml-auto" flat tile>
-            <v-menu v-if="hasMenu === true" bottom left>
+          <v-card class="ml-auto transparent pa-0" flat tile>
+            <v-menu v-if="hasMenu === true" bottom left rounded="lg">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn icon v-bind="attrs" v-on="on">
                   <v-icon>mdi-dots-vertical</v-icon>
@@ -41,7 +46,7 @@
           </v-card>
         </v-card>
         <v-list-item two-line class="pa-0">
-          <v-list-item-avatar v-if="authorThumbnail">
+          <v-list-item-avatar v-if="authorThumbnail" class="mr-1">
             <NuxtLink
               class="nuxt-link-exact-active"
               :to="{ name: 'channel-id', params: { id: channelId } }"
@@ -82,6 +87,7 @@ export default {
     isLive: false,
     hasMenu: false,
     isHistory: false,
+    sizeMode: { default: "normal" },
   },
   data() {
     return {
@@ -97,6 +103,7 @@ export default {
             ],
     };
   },
+  watch: {},
   methods: {
     getPlayCounts(nb) {
       return utils.formatNumbers(nb);
@@ -123,7 +130,24 @@ export default {
           break;
       }
     },
+    getImageSize(type) {
+      switch (type) {
+        case "normal":
+          return 4;
+        case "channel":
+          return 12;
+      }
+    },
+    getColSize(type) {
+      switch (type) {
+        case "normal":
+          return 8;
+        case "channel":
+          return 12;
+      }
+    },
   },
+  computed: {},
 };
 </script>
 <style lang="scss">

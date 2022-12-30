@@ -4,7 +4,7 @@
       <v-img class="imgStyle" :src="results.header.banner.url"></v-img>
     </v-card>
     <v-container>
-      <v-card class="mb-2" flat>
+      <v-card class="mb-2" flat rounded="lg">
         <v-card-title v-if="results.header">
           <v-avatar size="88">
             <img :src="results.header.avatar.url" />
@@ -70,7 +70,7 @@ export default {
         channelId: params.id,
       },
     });
-    console.log(results);
+   // console.log(results.header);
     return { results };
   },
   methods: {

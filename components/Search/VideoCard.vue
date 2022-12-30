@@ -1,12 +1,12 @@
 <template>
-  <v-card flat class="pa-2 grow">
+  <v-card flat class="pa-2 grow" rounded="lg">
     <v-row>
-      <v-col cols="12" sm="3" md="4">
+      <v-col cols="12" md="4">
         <NuxtLink
           class="subheading"
           :to="{ name: 'player', query: { id: data.videoId } }"
         >
-          <v-img aspect-ratio="1.7" :src="data.thumbnail.url">
+          <v-img aspect-ratio="1.7" :src="data.thumbnail.url" style="border-radius:5%">
             <template v-slot:placeholder>
               <v-row class="fill-height pa-0">
                 <v-col cols="12">
@@ -23,7 +23,7 @@
         md="8"
         class="d-flex flex-column justify-space-between d-sm-inline"
       >
-        <v-card-title class="pa-0">{{ data.title }}</v-card-title>
+        <v-card-title class=" font-weight-regular pa-0">{{ data.title }}</v-card-title>
         <v-card-title class="pa-0 subtitle-2 grey--text"
           >{{ data.views }} - {{ data.published }} -
           {{ data.duration }}</v-card-title

@@ -4,12 +4,8 @@
       <v-col cols="12" md="4">
         <v-img
           class=""
-          aspect-ratio="1.7"
-          :src="
-            infos.videoDetails.thumbnail.thumbnails[
-              infos.videoDetails.thumbnail.thumbnails.length - 1
-            ].url.split('?')[0]
-          "
+          aspect-ratio="1.7" style="border-radius:5%"
+          :src="infos.videoDetails.thumbnails.url.split('?')[0]"
         >
           <template v-slot:placeholder>
             <v-row class="fill-height">
@@ -29,16 +25,26 @@
         <v-list-item two-line class="pa-0">
           <v-list-item-content>
             <v-list-item-title
-              ><NuxtLink
+              >
+              <NuxtLink
+              class="nuxt-link-exact-active mr-2"
+              :to="{ name: 'channel-id', params: { id: infos.videoDetails.channelId } }"
+            >
+              <v-avatar size="36">
+                <img :src="infos.owner.thumbnails.url" />
+              </v-avatar>
+            </NuxtLink>
+              <NuxtLink
                 class="nuxt-link-exact-active"
                 :to="{
                   name: 'channel-id',
                   params: { id: infos.videoDetails.channelId },
                 }"
               >
-                {{ infos.videoDetails.author }}
+                {{ infos.owner.title }}
               </NuxtLink></v-list-item-title
             >
+            <v-list-item-title class="ml-12">{{ infos.owner.subscriberCount }}</v-list-item-title>
           </v-list-item-content>
           <v-list-item-action>
             <v-list-item-action-text
@@ -46,7 +52,9 @@
               v-text="
                 getPlayCounts(infos.videoDetails.viewCount) +
                 ` views - ` +
-                convertTime(infos.videoDetails.lengthSeconds)
+                convertTime(infos.videoDetails.lengthSeconds) +
+                ` - ` +
+                formatDate(infos.videoDetails.publishDate)
               "
             >
             </v-list-item-action-text>
@@ -67,13 +75,7 @@
             class="pa-1"
             color="primary"
             text
-            @click="
-              downloadImage(
-                infos.videoDetails.thumbnail.thumbnails[
-                  infos.videoDetails.thumbnail.thumbnails.length - 1
-                ].url.split('?')[0]
-              )
-            "
+            @click="downloadImage(infos.videoDetails.thumbnails.url)"
           >
             Download Image
           </v-btn>

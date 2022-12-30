@@ -2,8 +2,8 @@
   <v-container>
     <v-row>
       <v-col sm="12" md="4">
-        <v-card flat>
-          <v-img class="" aspect-ratio="1.7" :src="results.sidebar.thumbnails.url">
+        <v-card flat rounded="xl">
+          <v-img class="" aspect-ratio="1.7" :src="results.sidebar.thumbnails.url" >
             <template v-slot:placeholder>
               <v-row class="fill-height">
                 <v-col cols="12">
@@ -52,7 +52,7 @@
                 }"
               >
                 <v-list-item-icon>
-                  <v-img width="160" height="80" :src="item.thumbnails.url">
+                  <v-img width="160" height="80" :src="item.thumbnails.url.split('?')[0]" style="border-radius:5%">
                     <template v-slot:placeholder>
                       <v-row class="fill-height">
                         <v-col cols="12">

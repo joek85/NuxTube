@@ -1,8 +1,8 @@
 <template>
-  <v-container style="maxwidth: 1680px">
+  <v-container>
     <v-row>
       <v-col order="1" cols="12" md="8" sm="8" :xl="8">
-        <v-card class="mb-4 pa-2" flat>
+        <v-card class="mb-4 pa-2" flat rounded="lg">
           <v-row>
             <v-col cols="12" :xl="ToggleView ? 12 : 3">
               <v-card flat>
@@ -18,9 +18,13 @@
                 results.title
               }}</v-card-title>
               <v-card-subtitle class="pb-0">
-                {{getPlayCounts(results.play_counts) + ' - ' +
-                formatDate(results.published_at) + ' - ' +
-                convertTime(results.duration)}}
+                {{
+                  getPlayCounts(results.play_counts) +
+                  " - " +
+                  formatDate(results.published_at) +
+                  " - " +
+                  convertTime(results.duration)
+                }}
               </v-card-subtitle>
               <v-list-item two-line class="">
                 <v-list-item-avatar>
@@ -57,7 +61,7 @@
                   <v-chip v-if="results.isLive" color="red" dark small
                     >LIVE</v-chip
                   >
-                  
+
                   <v-list-item-action-text>
                     <v-btn icon fab @click.stop="showVideoDialog">
                       <v-icon color="primary">mdi-video-outline</v-icon>
@@ -109,7 +113,10 @@
           v-if="results.chapters.length"
           :chapters="results.chapters"
         ></chapters-card>
-        <related-card :id="results.id" :related="results.related"></related-card>
+        <related-card
+          :id="results.id"
+          :related="results.related"
+        ></related-card>
       </v-col>
     </v-row>
   </v-container>
@@ -184,29 +191,27 @@ export default {
     },
   },
   async asyncData({ query, $axios, store }) {
-    // if (query.playlistId) {
-    //   store.commit("setIsPlaylist", true);
-    // }
     let results = await $axios.$get("/api/player", {
       params: {
         id: query.id,
         date: new Date().toISOString().substring(0, 10),
       },
     });
-    // console.log(results.formats)
     store.commit("setAudioPlayerData", {
       title: results.title,
       subtitle: results.owner.owner.title,
       thumbnail: results.thumbnail,
       url: results.formats[0].url,
+      isLive: results.isLive,
       id: query.id,
     });
     if (!store.getters.getVideoDialog) {
       store.commit("showBottomSheet", true);
     }
-    //console.log(results.related)
+
     return { results };
   },
+
   methods: {
     getPlayCounts(nb) {
       return utils.formatNumbers(nb);
@@ -237,7 +242,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style >
 .imgOverlay {
   overflow-y: unset;
 }

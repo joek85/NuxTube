@@ -3,9 +3,10 @@ import { createPool } from 'mysql';
 const path = require('path');
 const app = express();
 const cors = require('cors');
+const request = require('request');
 const server = require('http').createServer(app, {
   cors: {
-    origin: "http://localhost:3001",
+    origin: "*",
     methods: ["GET", "POST"],
     credentials: false,
     //allowEIO3: true
@@ -30,20 +31,19 @@ import channel from './routes/channel.js';
 import trending from './routes/trending.js';
 import history from './routes/history.js';
 import download from './routes/download.js';
-import renderffmpeg from './routes/renderffmpeg';
 
 global.pool = createPool({
   connectionLimit: 10,
   host: 'localhost',
   user: 'root',
-  password: 'pass',
+  password: '[pass]',
   database: 'nuxtube',
   charset: 'utf8mb4'
 });
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../../static')));
+app.use('/static', express.static(path.join(__dirname, '../../static')));
 
 app.use('/Search', search);
 app.use('/player', player);
@@ -52,7 +52,24 @@ app.use('/channel', channel);
 app.use('/trending', trending);
 app.use('/history', history);
 app.use('/download', download);
-app.use('/renderffmpeg', renderffmpeg);
+app.get('/getUrl', (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
+  res.header("Access-Control-Allow-Headers", req.header('access-control-request-headers'));
+
+  var targetURL = req.query['targetUrl'];
+req.pipe(targetURL).pipe(res)
+
+  // let response = request({url:targetURL})
+
+  // response
+  // .on('response', function(response) {
+  //   console.log(response.statusCode) // 200
+  //   console.log(response.headers['content-type']) // 'image/png'
+  //   res.send(response)
+  // })
+  //.pipe(res);
+})
 
 app.use(cors)
 app.set('socketio', io);

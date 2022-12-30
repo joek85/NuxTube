@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col order="2" order-sm="1" cols="12" sm="8">
-        <v-card flat>
+        <v-card flat rounded="lg">
           <v-card-title class="d-flex justify-center">
             <v-col cols="12" md="12" xl="6">
               <v-text-field
@@ -68,7 +68,7 @@
         </v-card>
       </v-col>
       <v-col order="1" order-sm="2" cols="12" sm="4">
-        <v-card flat class="mt-3">
+        <v-card flat class="mt-3" rounded="lg">
           <v-row class="pa-2">
             <v-subheader>DATE</v-subheader>
             <v-spacer></v-spacer>

@@ -10,6 +10,7 @@
             <v-col cols="12">
               <NuxtLink class="subheading " :to="{name: 'search-query', query: {q: refinement.query}}">
                 <v-img
+                style="border-radius:5%"
                   aspect-ratio="1.7"
                   :src="refinement.thumbnail.url">
                   <template v-slot:placeholder>

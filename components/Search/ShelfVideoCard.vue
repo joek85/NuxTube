@@ -4,6 +4,7 @@
       <v-col cols="12">
         <NuxtLink class="subheading " :to="{name: 'player', query: {id: data.videoId}}">
           <v-img
+          style="border-radius:5%"
             aspect-ratio="1.7"
             :src="data.thumbnail.url">
             <template v-slot:placeholder>
