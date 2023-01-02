@@ -1,7 +1,6 @@
 <template >
-  <v-card flat >
-    <v-col class="d-flex justify-center flex-column pa-0">
-      <vue-plyr :key="videoId" :style="{'height': getHeight}">
+  <v-card flat>
+    <!-- <vue-plyr :key="videoId" :style="{'height': getHeight}">
         <div class="plyr__video-embed">
           <iframe
             style="border: transparent"
@@ -11,57 +10,110 @@
             allow="autoplay"
           ></iframe>
         </div>
-      </vue-plyr>
-    </v-col>
+      </vue-plyr> -->
+    <vue-plyr ref="plyr">
+      <video controls crossorigin playsinline></video>
+    </vue-plyr>
   </v-card>
 </template>
 
 <script>
+export default {
+  components: {},
+  props: { data: null, isVideo: false },
+  data() {
+    return {
+      height: "",
+      params:
+        "?amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1",
+      player: null,
+      details: null,
+    };
+  },
+  mounted() {
+    this.$root.$on("seek", (param) => {
+      this.player.currentTime = param.time;
+    });
+    // if (this.getFullScreen) {
+    //   document.documentElement.classList.add('overflow-y-hidden')
+    // }
+    this.player = this.$refs.plyr.player;
+    // this.$refs.plyr.player.on("ready", () => console.log("event fired"));
 
-  export default {
-    components: {
-
-    },
-    props: {videoId:''},
-    data() {
-      return {
-        height:'',
-        params: '?amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1'
-      }
-    },
-    mounted(){
-      if (this.getFullScreen) {
-        document.documentElement.classList.add('overflow-y-hidden')
-      }
-    },
-    destroyed () {
-      console.log('video destoyed')
-
-    },
-    methods: {
-
-    },
-    computed: {
-      getFullScreen() {
-        return this.$store.getters.getVideoFullScreen
-      },
-      getVideoId () {
-        return this.$store.getters.getAudioPlayerData.id
-      },
-      getHeight () {
-        return this.getFullScreen ? this.$store.getters.getWindowSize - 64 + 'px' : '100%';
-      },
-      getIframeHeight () {
-        return this.getFullScreen ? this.$store.getters.getWindowSize + 'px' : ''
-      }
+    if (this.isVideo == true) {
+      this.playYoutube();
+    } else {
+      this.playAudio();
     }
-  }
+  },
+  watch: {
+    data() {
+      this.player.source = null;
+      if (this.isVideo == true) {
+        this.playYoutube();
+      } else {
+        this.playAudio();
+      }
+    },
+    isVideo(b) {
+      this.player.source = null;
+      if (b == true) {
+        this.playYoutube();
+      } else {
+        this.playAudio();
+      }
+    },
+  },
+  destroyed() {
+    this.player.destroy();
+  },
+  methods: {
+    playYoutube() {
+      this.player.source = {
+        type: "video",
+        sources: [
+          {
+            src: this.getData.id,
+            provider: "youtube",
+          },
+        ],
+        poster: this.getData.thumbnail,
+      };
+    },
+    playAudio() {
+      this.player.source = {
+        type: "video",
+        sources: [
+          {
+            src: "http://localhost:8080/" + this.getData.url,
+          },
+        ],
+        poster: this.getData.thumbnail,
+      };
+    },
+  },
+  computed: {
+    getData() {
+      return this.data;
+    },
+    getFullScreen() {
+      return this.$store.getters.getVideoFullScreen;
+    },
+    getHeight() {
+      return this.getFullScreen
+        ? this.$store.getters.getWindowSize - 64 + "px"
+        : "100%";
+    },
+    getIframeHeight() {
+      return this.getFullScreen ? this.$store.getters.getWindowSize + "px" : "";
+    },
+  },
+};
 </script>
-<style scoped>
-  .plyr {
-    height: inherit;
-    --plyr-color-main: red;
-  }
-
+<style >
+.plyr {
+  height: inherit;
+  --plyr-color-main: red;
+}
 </style>
 

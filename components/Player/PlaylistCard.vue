@@ -36,8 +36,8 @@
                 :key="item.videoId"
                 @click="itemClick(item.videoId, index)"
               >
-                <v-list-item-icon v-if="$vuetify.breakpoint.xlOnly">
-                  <v-img width="96" height="56" :src="item.thumbnails.url" style="border-radius:5%">
+                <v-list-item-icon v-if="$vuetify.breakpoint.xlOnly" class="mr-2">
+                  <v-img width="96" height="56" :src="item.thumbnails.url" style="border-radius:10%">
                     <template v-slot:placeholder>
                       <v-row class="fill-height">
                         <v-col cols="12">

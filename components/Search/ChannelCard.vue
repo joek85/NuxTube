@@ -31,6 +31,11 @@ export default {
   props: {
     data: "",
   },
+  methods: {
+    geturl(url) {
+      return "http://localhost:8080/" + url;
+    },
+  }
 };
 </script>
 

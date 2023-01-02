@@ -11,7 +11,6 @@
       ></v-switch>
       <v-switch v-model="autoPlay" inset label="Auto Play"></v-switch>
     </v-card-actions>
-    <v-container>
       <v-row>
         <v-col
           cols="12"
@@ -55,7 +54,6 @@
           </div>
         </v-col>
       </v-row>
-    </v-container>
   </v-card>
 </template>
 <script>
