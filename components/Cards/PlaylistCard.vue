@@ -1,6 +1,6 @@
 <template>
-  <v-card class="pa-1 transparent" flat>
-    <v-row no-gutters class="pa-2">
+  <v-card class="pa-1 pb-0 transparent" flat>
+    <v-row no-gutters class="pa-2 pb-0">
       <v-col cols="5" sm="3" md="5" lg="5">
         <NuxtLink
           :to="{ name: 'playlist-id', params: { id: playlistId } }"
@@ -20,7 +20,7 @@
               <v-col
                 cols="6"
                 class=""
-                style="background-color: rgb(0, 0, 0, 0.5)"
+                style="background-color: rgb(0, 0, 0, 0.8)"
               >
                 <v-card class="transparent" flat>
                   <v-card-subtitle

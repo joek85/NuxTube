@@ -70,8 +70,8 @@
     </v-row>
   </v-card> -->
 
-  <v-card class="pa-1 transparent" flat>
-    <v-row no-gutters class="pa-2">
+  <v-card class="pa-1 pb-0 transparent" flat>
+    <v-row no-gutters class="pa-2 pb-0">
       <v-col cols="5" sm="3" md="5" lg="5">
         <NuxtLink :to="{ name: 'player', query: { id: videoId } }">
           <v-img

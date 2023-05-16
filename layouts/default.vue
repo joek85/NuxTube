@@ -47,12 +47,12 @@
       >
         <template v-slot:activator="{ on, attrs }">
           <!-- <v-badge color="secondary" dot offset-x="20" offset-y="20"> -->
-            <v-btn class="text-center" icon v-bind="attrs" v-on="on">
-              <v-icon>mdi-bell</v-icon>
-            </v-btn>
+          <v-btn class="text-center" icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-bell</v-icon>
+          </v-btn>
           <!-- </v-badge> -->
         </template>
-        <notifications-component/>
+        <notifications-component />
       </v-menu>
       <v-btn icon @click="toggleTheme()">
         <v-icon>{{ btnThemeIcon }}</v-icon>
@@ -102,7 +102,7 @@
           v-show="getShowVideoDialog"
           :class="{ fullscreen: getFullscreen, video__content: !getFullscreen }"
         >
-          <v-card style="height: inherit">
+          <v-card style="height: inherit" class="transparent">
             <v-toolbar dark dense class="primary">
               <v-spacer></v-spacer>
               <v-btn icon dark @click="toggleFullScreen">
@@ -112,7 +112,9 @@
                 <v-icon>mdi-close</v-icon>
               </v-btn>
             </v-toolbar>
-            <video-player :videoId="getVideoId"></video-player>
+            <!-- <video-player :videoId="getVideoId"></video-player> -->
+            <main-card-vue></main-card-vue>
+            <!-- <component :is="getplayer()"></component> -->
           </v-card>
         </div>
       </div>
@@ -143,6 +145,7 @@ import SuggestionService from "../services/service";
 import DownloadDialog from "../components/DownloadDialog.vue";
 import NotificationsComponent from "../components/Downloads/DownloadsNotifications.vue";
 import PlaylistDialog from "../components/PlaylistDialog.vue";
+import MainCardVue from "../components/Player/MainCard.vue";
 import { mapState, mapGetters } from "vuex";
 
 export default {
@@ -152,6 +155,7 @@ export default {
     DownloadDialog,
     NotificationsComponent,
     PlaylistDialog,
+    MainCardVue,
   },
   mounted() {
     window.addEventListener("resize", this.resizeEventHandler);
@@ -180,6 +184,7 @@ export default {
     this.$root.$on("CloseDialog", (param) => {
       this.dialog = false;
     });
+    this.getplayer();
   },
   fetchOnServer: false,
   data() {
@@ -231,7 +236,6 @@ export default {
       snackbarText: "",
       loading: false,
       downloadInfos: "",
-      btnThemeIcon: "mdi-weather-night",
       componentType: "",
       componentsData: "",
     };
@@ -265,11 +269,6 @@ export default {
   methods: {
     toggleTheme() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-      if (this.$vuetify.theme.dark) {
-        this.btnThemeIcon = "mdi-white-balance-sunny";
-      } else {
-        this.btnThemeIcon = "mdi-weather-night";
-      }
     },
     getComponentType(type) {
       switch (type) {
@@ -364,12 +363,26 @@ export default {
           this.$store.commit("setDownloadInfos", {
             videoDetails: response.videoDetails,
             formats: response.videoDetails.formats.adaptiveFormats,
-            owner: response.owner.owner
+            owner: response.owner.owner,
           });
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+    getplayer() {
+      //console.log(this.$refs)
+      // return this.$refs.imageplayer;
+    },
+    findRefByName(refName) {
+      let obj = this;
+      while (obj) {
+        if (obj.$refs[refName]) {
+          return obj.$refs[refName];
+        }
+        obj = obj.$parent;
+      }
+      return undefined;
     },
   },
   created() {},
@@ -400,6 +413,13 @@ export default {
     },
     theme() {
       return this.$vuetify.theme.dark ? "dark" : "light";
+    },
+    btnThemeIcon() {
+      if (this.$vuetify.theme.dark) {
+        return "mdi-white-balance-sunny";
+      } else {
+        return "mdi-weather-night";
+      }
     },
   },
 };
@@ -466,7 +486,8 @@ export default {
   overflow-y: auto;
   pointer-events: auto;
   transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  width: 25%;
+  width: 15%;
+
   z-index: inherit;
   box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
     0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);

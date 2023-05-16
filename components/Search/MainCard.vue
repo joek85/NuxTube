@@ -72,7 +72,10 @@
                 :data="result.items"
                 class="mb-3"
               />
-              <playlist-card class="mb-2" v-if="result.type === 'playlist'" :key="index"
+              <playlist-card
+                class="mb-2"
+                v-if="result.type === 'playlist'"
+                :key="index"
                 :thumbnail="result.items.thumbnails"
                 :playlistId="result.items.playlistId"
                 :channelId="result.items.channelId"
@@ -95,8 +98,8 @@
         ></v-progress-circular>
       </div>
     </v-col>
-      <!-- </v-col> -->
-      <!-- <v-col cols="12">
+    <!-- </v-col> -->
+    <!-- <v-col cols="12">
         <v-sheet flat rounded="xl" v-if="!$fetchState.pending">
           <v-sheet class="pa-2 primary" dark rounded="t-xl">
             <v-card-title class="pa-0 pl-2"
