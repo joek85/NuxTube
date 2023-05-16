@@ -190,17 +190,6 @@ export default {
       } else {
         this.$store.commit("setIsMix", false);
       }
-      console.log(this.id);
-      console.log(query.id);
-      // if (this.id != query.id) {
-      //   this.continuation = "";
-      //   this.relatedVideos = [];
-      //   // this.id = query.id
-      //   // this.$store.commit("setRelated", {
-      //   //   continuation: "",
-      //   //   relatedVideos: [],
-      //   // });
-      // }
     },
   },
   async asyncData({ query, $axios, store }) {
@@ -242,7 +231,6 @@ export default {
       }
     },
     async fetchMoreRelatedVideos() {
-      //console.log(this.results.related)
       this.fetched = false;
       const related = await this.$axios.$get("/api/player/related", {
         params: {
@@ -251,7 +239,6 @@ export default {
           //ctp: this.ctp,
         },
       });
-      console.log(related);
       if (related.relatedVideos) {
         this.results.related.continuation = related.continuation;
         this.results.related.relatedVideos.push(...related.relatedVideos);
