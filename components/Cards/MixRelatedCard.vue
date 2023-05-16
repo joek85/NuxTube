@@ -1,6 +1,6 @@
 <template>
-  <v-card class="pa-1 transparent" flat>
-    <v-row no-gutters class="pa-2">
+  <v-card class="pa-1 pb-0 transparent" flat>
+    <v-row no-gutters class="pa-2 pb-0">
       <v-col class="" cols="5" sm="3" md="5" lg="5">
         <NuxtLink
           :to="{
@@ -15,7 +15,7 @@
             :aspect-ratio="16 / 9"
             style="border-radius: 5%"
           >
-          <v-card-subtitle style="background-color:rgb(0, 0, 0, 0.5);" class="pa-0 d-flex justify-center dark">
+          <v-card-subtitle style="background-color:rgb(0, 0, 0, 0.8);" class="pa-0 d-flex justify-center dark">
             <v-icon dark class="pa-0">mdi-antenna</v-icon>
           </v-card-subtitle>
             <template v-slot:placeholder>

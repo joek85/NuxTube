@@ -51,7 +51,7 @@ global.pool = createPool({
   connectionLimit: 10,
   host: 'localhost',
   user: 'root',
-  password: 'pass',
+  password: 'pizza',
   database: 'nuxtube',
   charset: 'utf8mb4'
 });

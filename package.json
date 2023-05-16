@@ -25,6 +25,7 @@
     "nuxt-socket-io": "^2.0.3",
     "request": "^2.88.2",
     "socket.io": "^4.5.0",
+    "v-shared-element": "^3.1.0",
     "vue-linkify": "^1.0.1",
     "vue-plyr": "^7.0.0",
     "vue-snip": "^2.0.0",

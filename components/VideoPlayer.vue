@@ -20,7 +20,7 @@
 <script>
 export default {
   components: {},
-  props: { data: null, isVideo: false },
+  props: { data: null},
   data() {
     return {
       height: "",
@@ -31,6 +31,8 @@ export default {
     };
   },
   mounted() {
+    this.$store.commit("showBottomSheet", false);
+
     this.$root.$on("seek", (param) => {
       this.player.currentTime = param.time;
     });
@@ -38,30 +40,42 @@ export default {
     //   document.documentElement.classList.add('overflow-y-hidden')
     // }
     this.player = this.$refs.plyr.player;
-    // this.$refs.plyr.player.on("ready", () => console.log("event fired"));
+    this.player.on("ready", () => {
+     // console.log("ready fired")
+    });
+    this.player.on("loadstart", () => {
+     // console.log("loadstart fired")
+    });
+    this.player.on("loadeddata", () => {
+     // console.log("loadeddata fired")
+    });
+    this.player.on("canplay", () => {
+     // console.log("canplay fired")
+      this.player.play()
+    });
 
-    if (this.isVideo == true) {
+    // if (this.isVideo == true) {
       this.playYoutube();
-    } else {
-      this.playAudio();
-    }
+    // } else {
+    //   this.playAudio();
+    // }
   },
   watch: {
     data() {
       this.player.source = null;
-      if (this.isVideo == true) {
+      //if (this.isVideo == true) {
         this.playYoutube();
-      } else {
-        this.playAudio();
-      }
+      // } else {
+      //   this.playAudio();
+      // }
     },
     isVideo(b) {
       this.player.source = null;
-      if (b == true) {
+      //if (b == true) {
         this.playYoutube();
-      } else {
-        this.playAudio();
-      }
+      // } else {
+      //   this.playAudio();
+      // }
     },
   },
   destroyed() {

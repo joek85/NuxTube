@@ -1,6 +1,6 @@
 <template>
   <v-card class="transparent" flat>
-    <v-card-actions class="pa-0" v-if="getRelatedVideos.length">
+    <v-card-actions class="pa-0" v-if="getRelatedVideos.relatedVideos.length">
       <v-spacer></v-spacer>
       <v-switch
         class="mr-4"
@@ -11,49 +11,41 @@
       ></v-switch>
       <v-switch v-model="autoPlay" inset label="Auto Play"></v-switch>
     </v-card-actions>
-      <v-row>
-        <v-col
-          cols="12"
-          class="pa-0 pb-2"
-          v-for="related in getRelatedVideos"
-          :key="related.id"
-        >
-          <media-card
-            v-if="related.type === 'video'"
-            :videoId="related.id"
-            :title="related.title"
-            :thumbnail="related.thumbnail"
-            :channelId="related.channelId"
-            :authorThumbnail="related.authorThumbnail"
-            :authorName="related.authorName"
-            :playCounts="related.playCounts"
-            :published="related.published"
-            :duration="related.duration"
-            :isLive="related.isLive"
-            :hasMenu="true"
-          ></media-card>
-         
-          <playlist-card
-            v-else-if="related.type === 'playlist'"
-            :playlistId="related.id"
-            :title="related.title"
-            :subtitle="related.subtitle"
-            :published="related.published"
-            :thumbnail="related.thumbnail"
-            :videoCounts="related.count"
-          ></playlist-card>
-          <mix-card v-else-if="related.type === 'mix'" :data="related">
-          </mix-card>
-        </v-col>
-        <v-col cols="12">
-          <div class="text-center pa-1" v-if="!fetched">
-            <v-progress-circular
-              indeterminate
-              color="primary"
-            ></v-progress-circular>
-          </div>
-        </v-col>
-      </v-row>
+    <v-row>
+      <v-col
+        cols="12"
+        class="pa-0 pb-2"
+        v-for="related in getRelatedVideos.relatedVideos"
+        :key="related.id"
+      >
+        <media-card
+          v-if="related.type === 'video'"
+          :videoId="related.id"
+          :title="related.title"
+          :thumbnail="related.thumbnail"
+          :channelId="related.channelId"
+          :authorThumbnail="related.authorThumbnail"
+          :authorName="related.authorName"
+          :playCounts="related.playCounts"
+          :published="related.published"
+          :duration="related.duration"
+          :isLive="related.isLive"
+          :hasMenu="true"
+        ></media-card>
+
+        <playlist-card
+          v-else-if="related.type === 'playlist'"
+          :playlistId="related.id"
+          :title="related.title"
+          :subtitle="related.subtitle"
+          :published="related.published"
+          :thumbnail="related.thumbnail"
+          :videoCounts="related.count"
+        ></playlist-card>
+        <mix-card v-else-if="related.type === 'mix'" :data="related">
+        </mix-card>
+      </v-col>
+    </v-row>
   </v-card>
 </template>
 <script>
@@ -65,26 +57,14 @@ export default {
     MediaCard,
     PlaylistCard,
     MixCard,
-
   },
   props: {
     id: "",
-    related: [],
+    related: {},
   },
-  watch: {
-    id() {
-      this.continuation = "";
-      this.ctp = "";
-      this.relatedVideos = [];
-      this.relatedVideos = this.$props.related.relatedVideos;
-      //this.$fetch();
-    },
-  },
+  watch: {},
   data() {
     return {
-      continuation: this.$props.related.continuation,
-      relatedVideos: this.$props.related.relatedVideos,
-      fetched: true,
       autoPlay: false,
       randomPlay: false,
       mediaCardStyle: "youtube",
@@ -92,39 +72,6 @@ export default {
   },
   fetchOnServer: false,
   methods: {
-    async fetchMoreRelatedVideos() {
-      this.fetched = false;
-      const related = await this.$axios.$get("/api/player/related", {
-        params: {
-          id: this.id,
-          continuation: this.continuation,
-          //ctp: this.ctp,
-        },
-      });
-      this.continuation = related.continuation;
-      this.related.relatedVideos.push(...related.relatedVideos);
-      this.fetched = true;
-    },
-    loadMore(continuation) {
-      if (continuation) {
-        this.continuation = continuation.Token;
-        this.ctp = continuation.ctp;
-        this.fetchMoreRelatedVideos();
-      }
-    },
-    handleScroll() {
-      let bottomOfWindow =
-        Math.max(
-          window.pageYOffset,
-          document.documentElement.scrollTop,
-          document.body.scrollTop
-        ) +
-          window.innerHeight ===
-        document.documentElement.offsetHeight;
-      if (bottomOfWindow && this.fetched) {
-        setTimeout(this.loadMore(this.continuation), 1000);
-      }
-    },
     getCardType(type) {
       switch (type) {
         case "video":
@@ -166,11 +113,10 @@ export default {
   },
   computed: {
     getRelatedVideos() {
-      return this.relatedVideos;
+      return this.related;
     },
   },
   mounted() {
-    window.addEventListener("scroll", this.handleScroll);
     this.$root.$on("blockVideo", (videoId) => {
       this.blockVideo(videoId);
     });
@@ -197,8 +143,6 @@ export default {
       }
     });
   },
-  destroyed() {
-    window.removeEventListener("scroll", this.handleScroll);
-  },
+  destroyed() {},
 };
 </script>

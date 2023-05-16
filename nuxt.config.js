@@ -53,6 +53,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
+    'v-shared-element/nuxt'
   ],
   serverMiddleware: {
     '/api': '~/api/index.js'
@@ -61,7 +62,7 @@ export default {
   vuetify: {
     // customVariables: ['~/assets/css/variables.scss'],
     theme: {
-      dark: false,
+      dark: true,
       themes: {
         dark: {
           primary: '#f44336',

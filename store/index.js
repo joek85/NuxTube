@@ -24,6 +24,7 @@ export const state = () => ({
   MixInfo: { listId: '', MixLength: 0 },
   MixIndex: 0,
   isMix: false,
+  isVideo: false,
 });
 
 export const mutations = {
@@ -111,6 +112,9 @@ export const mutations = {
   setIsMix(state, isMix) {
     state.isMix = isMix
   },
+  setIsVideo(state, isVideo) {
+    state.isVideo = isVideo
+  }
 };
 
 export const getters = {
@@ -177,6 +181,9 @@ export const getters = {
   getMixIndex(state) {
     return state.MixIndex
   },
+  getIsVideo(state) {
+    return state.isVideo
+  }
 };
 
 export const actions = {
