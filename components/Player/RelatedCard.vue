@@ -127,12 +127,12 @@ export default {
       if (this.autoPlay) {
         let videoId;
         if (this.randomPlay) {
-          let ids = this.relatedVideos.map((v) => {
+          let ids = this.getRelatedVideos.relatedVideos.map((v) => {
             return v.id;
           });
           videoId = ids[Math.floor(Math.random() * ids.length)];
         } else {
-          videoId = this.relatedVideos[0].id;
+          videoId = this.getRelatedVideos.relatedVideos[0].id;
         }
         this.$router.push({
           name: "player",
