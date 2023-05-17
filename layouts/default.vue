@@ -1,41 +1,47 @@
 <template>
-  <v-app :style="{ background: $vuetify.theme.themes[theme].background }">
-    <v-app-bar app dark clipped-left color="primary" class="">
+  <v-app>
+    <v-app-bar app flat class="">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title @click="$router.push('/')" style="cursor: pointer">{{
         title
       }}</v-toolbar-title>
-      <v-row class="d-flex justify-center">
-        <v-col cols="12" class="">
-          <v-form @submit="doSearch">
-            <v-autocomplete
-              v-model="model"
-              :items="searchItems"
-              :search-input.sync="search"
-              @change="searchlistClick"
-              append-icon=""
-              color="accent"
-              label="Search..."
-              class="mx-4"
-              loader-height="12"
-              clearable
-              flat
-              no-filter
-              hide-no-data
-              hide-details
-              solo-inverted
-              return-object
-              @update:list-index="updateListIndex"
-              :menu-props="{ closeOnContentClick: true }"
-            >
-              <template v-slot:item="{ item }">
-                <v-list-item-title v-html="item.text"></v-list-item-title>
-                <v-divider></v-divider>
-              </template>
-            </v-autocomplete>
-          </v-form>
-        </v-col>
-      </v-row>
+      <v-spacer></v-spacer>
+      <v-col cols="6">
+        <v-form @submit="doSearch">
+          <v-autocomplete
+            class=""
+            v-model="model"
+            :items="searchItems"
+            :search-input.sync="search"
+            @change="searchlistClick"
+            append-icon="mdi-magnify"
+            :loading="isLoading"
+            label="Search..."
+            :color="`${theme == 'dark' ? 'white' : 'grey'}`"
+            clearable
+            flat
+            rounded
+            no-filter
+            hide-no-data
+            hide-details
+            solo
+            return-object
+            @update:list-index="updateListIndex"
+            :menu-props="{ closeOnContentClick: true }"
+          >
+            <template v-slot:item="{ item }">
+              <v-row no-gutters>
+                <v-icon>mdi-magnify</v-icon>
+                <v-card-subtitle>{{ item.text }} </v-card-subtitle>
+                <v-col cols="12">
+                  <v-divider></v-divider>
+                </v-col>
+              </v-row>
+            </template>
+          </v-autocomplete>
+        </v-form>
+      </v-col>
+
       <v-spacer></v-spacer>
       <v-menu
         v-model="menu"
@@ -43,14 +49,13 @@
         offset-y
         transition="slide-y-transition"
         bottom
+        rounded="lg"
         :close-on-content-click="false"
       >
         <template v-slot:activator="{ on, attrs }">
-          <!-- <v-badge color="secondary" dot offset-x="20" offset-y="20"> -->
           <v-btn class="text-center" icon v-bind="attrs" v-on="on">
             <v-icon>mdi-bell</v-icon>
           </v-btn>
-          <!-- </v-badge> -->
         </template>
         <notifications-component />
       </v-menu>
@@ -58,7 +63,8 @@
         <v-icon>{{ btnThemeIcon }}</v-icon>
       </v-btn>
     </v-app-bar>
-    <v-navigation-drawer v-model="drawer" app clipped temporary hide-overlay>
+
+    <v-navigation-drawer app v-model="drawer" clipped temporary hide-overlay>
       <v-list>
         <v-list-item v-for="(item, i) in items" :key="i" :to="item.to">
           <v-list-item-action>
@@ -70,6 +76,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+
     <v-main>
       <nuxt />
       <v-dialog class="pa-0" v-model="dialog">
@@ -130,6 +137,7 @@
         {{ snackbarText }}
       </v-snackbar>
     </v-main>
+
     <v-footer app fixed color="transparent" class="pa-0" v-if="getBottomSheet">
       <v-col cols="12" class="pa-0">
         <AudioPlayer></AudioPlayer>
@@ -250,7 +258,7 @@ export default {
       // Items have already been requested
       // if (this.isLoading) return;
       this.searchQuery = val;
-      // this.isLoading = true;
+      this.isLoading = true;
 
       // Lazily load input items
       SuggestionService.searchSuggestion(val)
